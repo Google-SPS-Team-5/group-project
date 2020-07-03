@@ -1,0 +1,15 @@
+.row {
+    height: 600px;
+}
+
+.column {
+  float: left;
+  width: 31.7%;
+  padding: 10px;
+  text-align: center;
+}
+
+.price {
+  color: grey;
+  font-size: 22px;
+}
