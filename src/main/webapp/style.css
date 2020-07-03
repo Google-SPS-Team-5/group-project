@@ -1,5 +1,5 @@
 .row {
-    height: 600px;
+    height: 700px;
 }
 
 .column {
@@ -12,4 +12,12 @@
 .price {
   color: grey;
   font-size: 22px;
+}
+
+#map {
+  border: thin solid black;
+  height: 500px;
+  width: 500px;
+  top: 50%;
+  left: 35%
 }

@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Page Title</title>
-    <link rel="stylesheet" href="style.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDbqn_ZFgoyKA_oDqFDC1vJyBq7Z3m0SgM"></script>
     <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body onload="initMap();">
 
 <h1>My First Heading</h1>
 <p>My first paragraph.</p>
@@ -66,5 +68,6 @@
         </div>
     </div>
 </div>
+<div id="map"></div>
 </body>
 </html>
