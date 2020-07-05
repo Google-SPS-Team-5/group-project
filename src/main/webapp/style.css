@@ -1,0 +1,32 @@
+.row {
+  max-width: 100%;
+  display: grid;
+  grid-gap: 1rem;
+}
+
+@media (min-width: 600px) {
+  .row { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 900px) {
+  .row { grid-template-columns: repeat(3, 1fr); }
+}
+
+.column {
+  width: 100%;
+  padding: 10px;
+  text-align: center;
+}
+
+.price {
+  color: grey;
+  font-size: 22px;
+}
+
+#map {
+  border: thin solid black;
+  height: 500px;
+  width: 500px;
+  top: 50%;
+  left: 35%
+}
