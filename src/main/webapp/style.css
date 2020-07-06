@@ -30,14 +30,14 @@ html, body {
 }
 
 .product-listing-card {
-  background-color: #ffe9e9;
+  background-color: #dddddd;
   width: 100%;
   text-align: center;
   border-radius: 20px;
 }
 
 .price {
-  color: grey;
+  color: #2c2c2c;
   font-size: 22px;
 }
 
