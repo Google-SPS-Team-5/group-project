@@ -1,36 +1,46 @@
 .business-description {
     display : grid;
     height : 200px;
-    grid-template-columns : 80%;
-    justify-content: center;
-    align-content: center;
-    background-color : grey;
-    padding : 20px;
+    grid-template-columns : 30% 50%;
+    justify-content : center;
+    align-content : center;
+    padding : 10px;
+}
+
+header {
+    font-size : 22px;
+}
+
+mark {
+    padding : 5px;
+    border-radius: 4px;
+    font-size : 18px;
+    background-color: lightgrey;
 }
 
 .business-description > div {
-    background-color: white;
-    text-align: center;
-    padding: 10px;
-    font-size: 30px;
-    height: 160px;
+    background-color: grey;
+    text-align : center;
+    padding : 10px;
+    font-size : 30px;
+    height : 160px;    
+    position : relative;
 }
 
 .business-writeup {
     display : grid;
     height : 330px;
-    grid-template-columns : 35% 65%;
-    background-color : black;
-    grid-gap: 10px;
-    padding : 20px;
+    grid-template-columns : 35% 64%;
+    grid-gap: 1vw;
+    padding : 10px;
 }
 
 .business-writeup > div {
-    background-color: white;
-    text-align: center;
-    padding: 10px;
-    font-size: 30px;
-    height: 310px;
+    background-color: lightgrey;
+    text-align : center;
+    padding : 10px;
+    font-size : 18px;
+    height : 310px;
 }
 
 .image-gallery {
@@ -38,21 +48,22 @@
     height : 250px;
     grid-template-columns : 100%;
     background-color : grey;
-    padding : 0px;
+    margin : 10px;
+    font-size : 30px;
+    text-align : center;
 }
 
 .reviews {
     display : grid;
     height : 330px;
     grid-template-columns : 100%;
-    background-color : black;
-    padding : 20px;
+    padding : 10px;
 }
 
 .reviews > div {
-    background-color: white;
-    text-align: center;
-    padding: 10px;
-    font-size: 30px;
-    height: 310px;
+    background-color: lightgrey;
+    text-align : center;
+    padding : 10px;
+    font-size : 30px;
+    height : 310px;
 }
