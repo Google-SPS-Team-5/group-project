@@ -36,27 +36,29 @@ html, body {
   border-radius: 20px;
 }
 
+.product-listing-card img {
+  transition: transform 0.5s, filter 1s cubic-bezier(0, 0, 0.2, 1);
+  transform: scale(1.2);
+
+}
+
+.product-listing-card:hover img {
+  transform: scale(1);
+}
+
 .price {
   color: #2c2c2c;
   font-size: 22px;
 }
 
 .product-listing-image {
+  border-radius: 20px 20px 0px 0px;
   overflow: hidden;
   padding: 0;
 }
 
 .product-listing-image img {
   width: 100%;
-}
-
-.product-listing-card img {
-  transition: transform 0.5s, filter 1s cubic-bezier(0, 0, 0.2, 1);
-  transform: scale(1.2);
-}
-
-.product-listing-card:hover img {
-  transform: scale(1);
 }
 
 .fa.fa-cart-arrow-down {
