@@ -5,8 +5,12 @@ document.write('\
     <a href="about.html" class="nav-link"><strong>About us</a>\
     <div id="search-container">\
         <form action="/placeholder.js">\
-            <input type="text" placeholder="Search for food or snacks">\
-            <button type="submit"><i class="fa fa-search"></i></button>\
+            <div id="nav-bar-search-container">\
+              <input type="text" placeholder="Search for food or snacks">\
+              <button type="submit"\
+                <i class="fa fa-search"></i>\
+              </button>\
+            </div>\
         </form>\
     </div>\
 </div>'
