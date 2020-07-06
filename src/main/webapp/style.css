@@ -112,8 +112,8 @@ h2 {
 
 #search-container input[type=text] {
   border: none;
-  border-radius: 8px;
-  padding: 5px 10px 5px 10px;
+  border-radius: 8px 0px 0px 8px;
+  padding: 5px 10px 4px 10px;
 }
 
 #search-container button {
@@ -125,4 +125,5 @@ h2 {
 
 .fa.fa-search{
   font-size: 22px;
+  border-radius: 0px 8px 8px 0px;
 }
