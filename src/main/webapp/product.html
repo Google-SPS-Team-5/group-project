@@ -1,61 +1,182 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Product Listing</title>
-        <link rel = "stylesheet" href = "style.css">
-    </head>
-    <body>
-        <div class = "business-description">
-            <div>
-                <img src = "images/stitchIcon.png" style = "height:140px; padding:10px;">
-            </div>
-            <div style ="text-align:right;">
-                <p style = "text-align: left; margin-block-start: 30px; margin-block-end: 10px;">NAME OF BUSINESS</p>
-                <div style = "text-align: left;">
-                    <mark>Dessert</mark>
-                    <mark>Brownies</mark>
-                    <mark>Cookies</mark>
-                </div>
-                <div style = "position:absolute; bottom:10px; right:10px;">
-                    <img src = "images/colouredStar.png" style = "height:25px; padding:0px;">
-                    <img src = "images/colouredStar.png" style = "height:25px; padding:0px;">
-                    <img src = "images/colouredStar.png" style = "height:25px; padding:0px;">
-                    <img src = "images/uncolouredStar.png" style = "height:25px; padding:0px;">
-                    <img src = "images/uncolouredStar.png" style = "height:25px; padding:0px;">
-                </div>
-            </div>
+  <head>
+    <title>Product Listing</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="assets/css/lightbox.css" />
+    <script src="assets/js/lightbox.js"></script>
+  </head>
+  <body>
+    <div class="business-description">
+      <div>
+        <img src="images/stitchIcon.png" style="height:140px; padding:10px;" />
+      </div>
+      <div style="text-align:right;">
+        <p
+          style="text-align: left; margin-block-start: 30px; margin-block-end: 10px;"
+        >
+          NAME OF BUSINESS
+        </p>
+        <div style="text-align: left;">
+          <mark>Dessert</mark>
+          <mark>Brownies</mark>
+          <mark>Cookies</mark>
         </div>
-        <div class = "business-writeup">
-            <div>
-                <header>ABOUT</header>
-                <p>
-                    Delivery Details:<br />
-                    <br />
-                    Minimum Order(for delivery): $15<br />
-                    Islandwide Delivery: $10<br />
-                </p>
-                <p>
-                    Contact Details:
-                    <br />
-                    <img src = "images/gmailIcon.png" style = "height: 20px; padding: 0px;">
-                    <img src = "images/gmailIcon.png" style = "height: 20px; padding: 0px;">
-                    <img src = "images/gmailIcon.png" style = "height: 20px; padding: 0px;">
-                </p>
-            </div>
-            <div>
-                <header>MENU</header>
-                <p>
-                    Business Writeup<br />
-                </p>
-            </div>
+        <div style="position:absolute; bottom:10px; right:10px;">
+          <img
+            src="images/the-oven-bakes/the-oven-bakes-1.PNG"
+            style="height:25px; padding:0px;"
+          />
+          <img
+            src="images/the-oven-bakes/the-oven-bakes-2.PNG"
+            style="height:25px; padding:0px;"
+          />
+          <img
+            src="images/the-oven-bakes/the-oven-bakes-3.PNG"
+            style="height:25px; padding:0px;"
+          />
+          <img
+            src="images/the-oven-bakes/the-oven-bakes-4.PNG"
+            style="height:25px; padding:0px;"
+          />
+          <img
+            src="images/the-oven-bakes/the-oven-bakes-5.PNG"
+            style="height:25px; padding:0px;"
+          />
         </div>
-        <div class = "image-gallery">
-            <header>IMAGE GALLERY</header>
+      </div>
+    </div>
+    <div class="image-gallery">
+      <div class="loghtbox-row">
+        <div class="lightbox-column">
+          <img
+            src="images/the-oven-bakes/the-oven-bakes-1.PNG"
+            style="width:100%"
+            onclick="openModal();currentSlide(1)"
+            class="hover-shadow cursor"
+          />
         </div>
-        <div class = "reviews">
-            <div>
-                <header>REVIEWS</header>
-            </div>
+        <div class="lightbox-column">
+          <img
+            src="images/the-oven-bakes/the-oven-bakes-2.PNG"
+            style="width:100%"
+            onclick="openModal();currentSlide(2)"
+            class="hover-shadow cursor"
+          />
         </div>
-    </body>
+        <div class="lightbox-column">
+          <img
+            src="images/the-oven-bakes/the-oven-bakes-3.PNG"
+            style="width:100%"
+            onclick="openModal();currentSlide(3)"
+            class="hover-shadow cursor"
+          />
+        </div>
+        <div class="lightbox-column">
+          <img
+            src="images/the-oven-bakes/the-oven-bakes-4.PNG"
+            style="width:100%"
+            onclick="openModal();currentSlide(4)"
+            class="hover-shadow cursor"
+          />
+        </div>
+      </div>
+
+      <div id="myModal" class="modal">
+        <span class="close cursor" onclick="closeModal()">&times;</span>
+        <div class="modal-content">
+          <div class="mySlides">
+            <div class="numbertext">1 / 4</div>
+            <img src="images/the-oven-bakes/the-oven-bakes-1.PNG" style="width:100%" />
+          </div>
+
+          <div class="mySlides">
+            <div class="numbertext">2 / 4</div>
+            <img src="images/the-oven-bakes/the-oven-bakes-2.PNG" style="width:100%" />
+          </div>
+
+          <div class="mySlides">
+            <div class="numbertext">3 / 4</div>
+            <img src="images/the-oven-bakes/the-oven-bakes-3.PNG" style="width:100%" />
+          </div>
+
+          <div class="mySlides">
+            <div class="numbertext">4 / 4</div>
+            <img src="images/the-oven-bakes/the-oven-bakes-4.PNG" style="width:100%" />
+          </div>
+
+          <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+          <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+          <div class="caption-container">
+            <p id="caption"></p>
+          </div>
+
+          <div class="lightbox-column">
+            <img
+              class="demo cursor"
+              src="img_nature_wide.jpg"
+              style="width:100%"
+              onclick="currentSlide(1)"
+              alt="Nature and sunrise"
+            />
+          </div>
+          <div class="lightbox-column">
+            <img
+              class="demo cursor"
+              src="img_snow_wide.jpg"
+              style="width:100%"
+              onclick="currentSlide(2)"
+              alt="Snow"
+            />
+          </div>
+          <div class="lightbox-column">
+            <img
+              class="demo cursor"
+              src="img_mountains_wide.jpg"
+              style="width:100%"
+              onclick="currentSlide(3)"
+              alt="Mountains and fjords"
+            />
+          </div>
+          <div class="lightbox-column">
+            <img
+              class="demo cursor"
+              src="img_lights_wide.jpg"
+              style="width:100%"
+              onclick="currentSlide(4)"
+              alt="Northern Lights"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="business-writeup">
+      <div>
+        <header>ABOUT</header>
+        <p>
+          Delivery Details:<br />
+          <br />
+          Minimum Order(for delivery): $15<br />
+          Islandwide Delivery: $10<br />
+        </p>
+        <p>
+          Contact Details:
+          <br />
+          <img src="images/gmailIcon.png" style="height: 20px; padding: 0px;" />
+          <img src="images/gmailIcon.png" style="height: 20px; padding: 0px;" />
+          <img src="images/gmailIcon.png" style="height: 20px; padding: 0px;" />
+        </p>
+      </div>
+      <div>
+        <header>MENU</header>
+        <p>Business Writeup<br /></p>
+      </div>
+    </div>
+    <div class="reviews">
+      <div>
+        <header>REVIEWS</header>
+      </div>
+    </div>
+  </body>
 </html>

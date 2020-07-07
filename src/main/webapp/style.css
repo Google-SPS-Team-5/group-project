@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 .business-description {
     display : grid;
     height : 200px;
@@ -68,7 +67,6 @@ mark {
     font-size : 30px;
     height : 310px;
 }
-=======
 .row {
   max-width: 100%;
   display: grid;
@@ -136,4 +134,3 @@ mark {
   border: none;
   cursor: pointer;
 }
->>>>>>> develop
