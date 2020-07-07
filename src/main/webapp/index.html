@@ -1,12 +1,76 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Page Title</title>
+    <meta charset="UTF-8">
+    <title>Page Title</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDbqn_ZFgoyKA_oDqFDC1vJyBq7Z3m0SgM"></script>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-<body>
+<body onload="initMap();">
 
-<h1>My First Heading</h1>
-<p>My first paragraph.</p>
+<script src="navbar.js"></script>
 
+<div id="featured-listing">
+    <h2>Featured</h2>
+    <p>WIP section</p>
+</div>
+
+<div id="product-listings">
+    <h2>List of available home businesses</h2>
+    <div class="row">
+        <div class="column">
+            <img src="https://sethlui.com/wp-content/uploads/2015/03/candlenut-peranakan-singapore-1580.jpg" alt="Peranakan Candlenut" style="width:100%">
+            <h3>Candlenut</h3>
+            <p class="price">$24.99</p>
+            <p>Candlenut is a Peranakan icon of sorts! It has brought a refined take on Pernakan classics. You will love it!</p>
+            <p class="delivery">Delivery cost not included</p>
+            <p><button>Add to Cart</button></p>
+        </div>
+        <div class="column">
+            <img src="https://sethlui.com/wp-content/uploads/2018/12/Soon-Soon-Huat-Curry-Puff-9-800x533.jpg" alt="Curry Puffs" style="width:100%">
+            <h3>Home Made Curry Puffs</h3>
+            <p class="price">$7.99 for 6</p>
+            <p>Each batch of curry puffs are made meticulously using freshly kneaded dough filled with diced curried chicken and potato chunks. Get yours today</p>
+            <p class="delivery">Delivery cost not included</p>
+            <p><button>Add to Cart</button></p>
+        </div>
+        <div class="column">
+            <img src="https://sethlui.com/wp-content/uploads/2015/12/crepe-cake-celebrate.jpg" alt="Crepe Cakes" style="width:100%">
+            <h3>Home Made Crepe Cakes</h3>
+            <p class="price">$5.99</p>
+            <p>25 layers of thin crepe layered with creamy pastry cream made from Madagascan vanilla, you’ll be so spoiled.</p>
+            <p class="delivery">Delivery cost not included</p>
+            <p><button>Add to Cart</button></p>
+        </div>
+        <div class="column">
+            <img src="https://sethlui.com/wp-content/uploads/2020/03/Ah-Hua-Teochew-Fishball-Noodles-31.jpg" alt="Fishball Noodles" style="width:100%">
+            <h3>Fishball Noodles</h3>
+            <p class="price">$4.99</p>
+            <p>A play on textures and flavours using handmade noodles and fishballs. You will love it!</p>
+            <p class="delivery">Delivery cost not included</p>
+            <p><button>Add to Cart</button></p>
+        </div>
+        <div class="column">
+            <img src="https://sethlui.com/wp-content/uploads/2020/04/Tiong-Bahru-Galicier-Pastry-3.jpg" alt="Pastries" style="width:100%">
+            <h3>Home Made Pastries</h3>
+            <p class="price">$10.99 for a set of 6</p>
+            <p>We offer a wide variety of old-school pastries, cakes, and cookies that are all freshly made. Get yours today</p>
+            <p class="delivery">Delivery cost not included</p>
+            <p><button>Add to Cart</button></p>
+        </div>
+        <div class="column">
+            <img src="https://sethlui.com/wp-content/uploads/2019/12/Mamas-Boy-Bakes-14.jpg" alt="Mozzarella Bombshells" style="width:100%">
+            <h3>Home Made Mozzarella Bombshells</h3>
+            <p class="price">$6.99 for 4</p>
+            <p>The Mozzarella Bombshells are filled with a scrumptious mixture of gooey mozzarella and spinach (excellent companion to the mac and cheese).</p>
+            <p class="delivery">Delivery cost not included</p>
+            <p><button>Add to Cart</button></p>
+        </div>
+    </div>
+</div>
+<div id="map"></div>
 </body>
 </html>
