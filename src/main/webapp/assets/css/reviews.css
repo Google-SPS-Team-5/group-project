@@ -1,14 +1,8 @@
 .reviews {
-  display: grid;
-  height: 330px;
-  grid-template-columns: 100%;
-  padding: 10px;
-}
-
-.reviews > div {
-  padding: 10px;
+  background-color: #fafafa;
+  padding: 2rem;
+  margin: 1rem;
   font-size: 18px;
-  height: 310px;
 }
 
 /* Mobile */
@@ -34,8 +28,12 @@
     }
   }
 
+.review-form {
+  margin: 2rem;
+}
 .review-card {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  background-color: white;
   border-radius: 4px;
   transition: 0.3s;
   width: 100%;

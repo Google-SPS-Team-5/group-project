@@ -1,7 +1,7 @@
 .business-description {
   height: 200px;
   background-color: #fafafa;
-  margin: 10px;
+  margin: 1rem;
 }
 
 .business-description .layout {
@@ -24,20 +24,15 @@
   color: #fce205;
 }
 
-header {
-  font-size: 22px;
-}
-
 mark {
-  padding: 5px;
-  border-radius: 4px;
+  padding: 0.7rem;
+  border-radius: 20px;
   font-size: 18px;
   background-color: lightgrey;
 }
 
 .business-writeup {
   display: grid;
-  height: 330px;
   grid-template-columns: 65% 34%;
   grid-gap: 1vw;
   padding: 10px;
@@ -46,7 +41,7 @@ mark {
 .business-writeup > div {
   background-color: #fafafa;
   text-align: left;
-  padding: 10px;
+  padding: 2rem;
   font-size: 18px;
   height: 310px;
 }
@@ -55,7 +50,7 @@ mark {
   display: grid;
   height: 250px;
   grid-template-columns: 100%;
-  margin: 10px;
+  margin: 1rem;
   font-size: 30px;
   text-align: center;
 }
