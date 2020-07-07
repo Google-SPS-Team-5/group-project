@@ -13,12 +13,12 @@
 }
 
 .business-description > div {
-    text-align: center;
-    padding: 10px;
-    font-size: 30px;
-    height: 160px;
-    position: relative;
-  }
+  text-align: center;
+  padding: 10px;
+  font-size: 30px;
+  height: 160px;
+  position: relative;
+}
 
 .yellow-star {
   color: #fce205;
@@ -35,19 +35,17 @@ mark {
   background-color: lightgrey;
 }
 
-
-
 .business-writeup {
   display: grid;
   height: 330px;
-  grid-template-columns: 35% 64%;
+  grid-template-columns: 65% 34%;
   grid-gap: 1vw;
   padding: 10px;
 }
 
 .business-writeup > div {
-  background-color: lightgrey;
-  text-align: center;
+  background-color: #fafafa;
+  text-align: left;
   padding: 10px;
   font-size: 18px;
   height: 310px;
@@ -57,23 +55,8 @@ mark {
   display: grid;
   height: 250px;
   grid-template-columns: 100%;
-  background-color: grey;
   margin: 10px;
   font-size: 30px;
   text-align: center;
 }
 
-.reviews {
-  display: grid;
-  height: 330px;
-  grid-template-columns: 100%;
-  padding: 10px;
-}
-
-.reviews > div {
-  background-color: lightgrey;
-  text-align: center;
-  padding: 10px;
-  font-size: 30px;
-  height: 310px;
-}

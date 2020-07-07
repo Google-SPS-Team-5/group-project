@@ -4,6 +4,7 @@
     <title>Product Listing</title>
     <link rel="stylesheet" href="assets/css/product-page.css" />
     <link rel="stylesheet" href="assets/css/lightbox.css" />
+    <link rel="stylesheet" href="assets/css/reviews.css" />
     <script type="text/javascript" src="assets/js/lightbox.js"></script>
     <script
       src="https://kit.fontawesome.com/bf05d78857.js"
@@ -12,30 +13,32 @@
   </head>
   <body>
     <div class="business-description">
-        <div class="layout">
-
-      <div>
-        <img src="images/the-oven-bakes/the-oven-bakes-logo.PNG" style="height:140px; padding:10px;" />
-      </div>
-      <div style="text-align:right;">
-        <p
-          style="text-align: left; margin-block-start: 30px; margin-block-end: 10px;"
-        >
-          The Oven Bakes
-        </p>
-        <div style="text-align: left;">
-          <mark>Dessert</mark>
-          <mark>Brownies</mark>
-          <mark>Cookies</mark>
+      <div class="layout">
+        <div>
+          <img
+            src="images/the-oven-bakes/the-oven-bakes-logo.PNG"
+            style="height:140px; padding:10px;"
+          />
         </div>
-        <div style="position:absolute; bottom:10px; right:10px;">
-          <i class="fas fa-star yellow-star"></i
-          ><i class="fas fa-star yellow-star"></i
-          ><i class="fas fa-star yellow-star"></i
-          ><i class="fas fa-star yellow-star"></i
-          ><i class="fas fa-star yellow-star"></i>
+        <div style="text-align:right;">
+          <p
+            style="text-align: left; margin-block-start: 30px; margin-block-end: 10px;"
+          >
+            The Oven Bakes
+          </p>
+          <div style="text-align: left;">
+            <mark>Dessert</mark>
+            <mark>Brownies</mark>
+            <mark>Cookies</mark>
+          </div>
+          <div style="position:absolute; bottom:10px; right:10px;">
+            <i class="fas fa-star yellow-star"></i
+            ><i class="fas fa-star yellow-star"></i
+            ><i class="fas fa-star yellow-star"></i
+            ><i class="fas fa-star yellow-star"></i
+            ><i class="fas fa-star yellow-star"></i>
+          </div>
         </div>
-      </div>
       </div>
     </div>
     <div class="image-gallery">
@@ -73,13 +76,13 @@
           />
         </div>
         <div class="lightbox-column">
-            <img
-              src="images/the-oven-bakes/the-oven-bakes-5.PNG"
-              style="height: 250px; width:100%"
-              onclick="openModal();currentSlide(5)"
-              class="hover-shadow cursor"
-            />
-          </div>
+          <img
+            src="images/the-oven-bakes/the-oven-bakes-5.PNG"
+            style="height: 250px; width:100%"
+            onclick="openModal();currentSlide(5)"
+            class="hover-shadow cursor"
+          />
+        </div>
       </div>
 
       <div id="myModal" class="modal">
@@ -182,29 +185,167 @@
     </div>
     <div class="business-writeup">
       <div>
-        <header>ABOUT</header>
-        <p>
-          Delivery Details:<br />
-          <br />
-          Minimum Order(for delivery): $15<br />
-          Islandwide Delivery: $10<br />
-        </p>
-        <p>
-          Contact Details:
-          <br />
-          <img src="images/gmailIcon.png" style="height: 20px; padding: 0px;" />
-          <img src="images/gmailIcon.png" style="height: 20px; padding: 0px;" />
-          <img src="images/gmailIcon.png" style="height: 20px; padding: 0px;" />
-        </p>
-      </div>
-      <div>
         <header>MENU</header>
         <p>Business Writeup<br /></p>
       </div>
+      <div>
+        <header>ABOUT</header>
+        <p>
+          Minimum Order(for delivery): $15
+        </p>
+        <p>Islandwide Delivery: $10</p>
+        <p>
+          Contact Details:
+        </p>
+        <p>
+          <i class="fab fa-instagram" style="margin-right: 0.5rem"></i
+          ><a href="https://www.instagram.com/theovenbakes/" target="_blank"
+            >@theovenbakes</a
+          >
+        </p>
+      </div>
     </div>
     <div class="reviews">
-      <div>
-        <header>REVIEWS</header>
+      <div class="review-grid">
+        <div class="review-card">
+          <div class="review-card-container">
+            <div class="name-and-date">
+              <p>Valerie Ng</p>
+              <div class="rating">
+                <i class="fas fa-star yellow-star"></i
+                ><i class="fas fa-star yellow-star"></i
+                ><i class="fas fa-star yellow-star"></i
+                ><i class="fas fa-star yellow-star"></i
+                ><i class="fas fa-star yellow-star"></i>
+              </div>
+              <p>2:55pm 12/06/2020</p>
+            </div>
+            <p>
+              There are many variations of passages of Lorem Ipsum available,
+              but the majority have suffered alteration in some form, by
+              injected humour, or randomised words which don't look even
+              slightly believable.
+            </p>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="review-card-container">
+            <div class="name-and-date">
+              <p>Valerie Ng</p>
+              <div class="rating">
+                <i class="fas fa-star yellow-star"></i
+                ><i class="fas fa-star yellow-star"></i
+                ><i class="fas fa-star yellow-star"></i
+                ><i class="fas fa-star yellow-star"></i
+                ><i class="fas fa-star yellow-star"></i>
+              </div>
+              <p>2:55pm 12/06/2020</p>
+            </div>
+            <p>
+              I love the sea salt brownies! My first time having sea salt on a
+              dessert and I was mind blown!
+            </p>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="review-card-container">
+            <div class="name-and-date">
+              <p>Valerie Ng</p>
+              <div class="rating">
+                <i class="fas fa-star yellow-star"></i
+                ><i class="fas fa-star yellow-star"></i
+                ><i class="fas fa-star yellow-star"></i
+                ><i class="fas fa-star yellow-star"></i
+                ><i class="fas fa-star yellow-star"></i>
+              </div>
+              <p>2:55pm 12/06/2020</p>
+            </div>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            </p>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="review-card-container">
+            <div class="name-and-date">
+              <p>Valerie Ng</p>
+              <div class="rating">
+                <i class="fas fa-star yellow-star"></i
+                ><i class="fas fa-star yellow-star"></i
+                ><i class="fas fa-star yellow-star"></i
+                ><i class="fas fa-star yellow-star"></i
+                ><i class="fas fa-star yellow-star"></i>
+              </div>
+              <p>2:55pm 12/06/2020</p>
+            </div>
+            <p>
+              Quam nulla porttitor massa id neque aliquam. Ultrices mi tempus
+              imperdiet nulla malesuada. Eros in cursus turpis massa tincidunt
+              dui ut ornare lectus.
+            </p>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="review-card-container">
+            <div class="name-and-date">
+              <p>Valerie Ng</p>
+              <div class="rating">
+                <i class="fas fa-star yellow-star"></i
+                ><i class="fas fa-star yellow-star"></i
+                ><i class="fas fa-star yellow-star"></i
+                ><i class="fas fa-star yellow-star"></i
+                ><i class="fas fa-star yellow-star"></i>
+              </div>
+              <p>2:55pm 12/06/2020</p>
+            </div>
+            <p>
+              Sed ut perspiciatis unde omnis iste natus error sit voluptatem
+              accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
+              quae ab illo inventore veritatis et quasi architecto beatae vitae
+              dicta sunt explicabo.
+            </p>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="review-card-container">
+            <div class="name-and-date">
+              <p>Valerie Ng</p>
+              <div class="rating">
+                <i class="fas fa-star yellow-star"></i
+                ><i class="fas fa-star yellow-star"></i
+                ><i class="fas fa-star yellow-star"></i
+                ><i class="fas fa-star yellow-star"></i
+                ><i class="fas fa-star yellow-star"></i>
+              </div>
+              <p>2:55pm 12/06/2020</p>
+            </div>
+            <p>
+              Ut enim ad minima veniam, quis nostrum exercitationem ullam
+              corporis suscipit laboriosam, nisi ut aliquid ex ea commodi
+              consequatur?
+            </p>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="review-card-container">
+            <div class="name-and-date">
+              <p>Valerie Ng</p>
+              <div class="rating">
+                <i class="fas fa-star yellow-star"></i
+                ><i class="fas fa-star yellow-star"></i
+                ><i class="fas fa-star yellow-star"></i
+                ><i class="fas fa-star yellow-star"></i
+                ><i class="fas fa-star yellow-star"></i>
+              </div>
+              <p>2:55pm 12/06/2020</p>
+            </div>
+            <p>
+              I love the sea salt brownies! My first time having sea salt on a
+              dessert and I was mind blown!
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </body>
