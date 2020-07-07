@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Product Listing</title>
+    <link rel="stylesheet" href="assets/css/product-page.css" />
+    <link rel="stylesheet" href="assets/css/lightbox.css" />
+    <script type="text/javascript" src="assets/js/lightbox.js"></script>
+    <script
+      src="https://kit.fontawesome.com/bf05d78857.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <div class="business-description">
+        <div class="layout">
+
+      <div>
+        <img src="images/the-oven-bakes/the-oven-bakes-logo.PNG" style="height:140px; padding:10px;" />
+      </div>
+      <div style="text-align:right;">
+        <p
+          style="text-align: left; margin-block-start: 30px; margin-block-end: 10px;"
+        >
+          The Oven Bakes
+        </p>
+        <div style="text-align: left;">
+          <mark>Dessert</mark>
+          <mark>Brownies</mark>
+          <mark>Cookies</mark>
+        </div>
+        <div style="position:absolute; bottom:10px; right:10px;">
+          <i class="fas fa-star yellow-star"></i
+          ><i class="fas fa-star yellow-star"></i
+          ><i class="fas fa-star yellow-star"></i
+          ><i class="fas fa-star yellow-star"></i
+          ><i class="fas fa-star yellow-star"></i>
+        </div>
+      </div>
+      </div>
+    </div>
+    <div class="image-gallery">
+      <div class="lightbox-row">
+        <div class="lightbox-column">
+          <img
+            src="images/the-oven-bakes/the-oven-bakes-2.PNG"
+            style="height: 250px; width:100%"
+            onclick="openModal();currentSlide(1)"
+            class="hover-shadow cursor"
+          />
+        </div>
+        <div class="lightbox-column">
+          <img
+            src="images/the-oven-bakes/the-oven-bakes-3.PNG"
+            style="height: 250px; width:100%"
+            onclick="openModal();currentSlide(2)"
+            class="hover-shadow cursor"
+          />
+        </div>
+        <div class="lightbox-column">
+          <img
+            src="images/the-oven-bakes/the-oven-bakes-1.PNG"
+            style="height: 250px; width:100%"
+            onclick="openModal();currentSlide(3)"
+            class="hover-shadow cursor"
+          />
+        </div>
+        <div class="lightbox-column">
+          <img
+            src="images/the-oven-bakes/the-oven-bakes-4.PNG"
+            style="height: 250px; width:100%"
+            onclick="openModal();currentSlide(4)"
+            class="hover-shadow cursor"
+          />
+        </div>
+        <div class="lightbox-column">
+            <img
+              src="images/the-oven-bakes/the-oven-bakes-5.PNG"
+              style="height: 250px; width:100%"
+              onclick="openModal();currentSlide(5)"
+              class="hover-shadow cursor"
+            />
+          </div>
+      </div>
+
+      <div id="myModal" class="modal">
+        <span class="close cursor" onclick="closeModal()">&times;</span>
+        <div class="modal-content">
+          <div class="mySlides">
+            <div class="numbertext">1 / 5</div>
+            <img
+              src="images/the-oven-bakes/the-oven-bakes-2.PNG"
+              style="height: 400px; width:auto"
+            />
+          </div>
+
+          <div class="mySlides">
+            <div class="numbertext">2 / 5</div>
+            <img
+              src="images/the-oven-bakes/the-oven-bakes-3.PNG"
+              style="height: 400px; width:auto"
+            />
+          </div>
+
+          <div class="mySlides">
+            <div class="numbertext">3 / 5</div>
+            <img
+              src="images/the-oven-bakes/the-oven-bakes-1.PNG"
+              style="height: 400px; width:auto"
+            />
+          </div>
+
+          <div class="mySlides">
+            <div class="numbertext">4 / 5</div>
+            <img
+              src="images/the-oven-bakes/the-oven-bakes-4.PNG"
+              style="height: 400px; width:auto"
+            />
+          </div>
+
+          <div class="mySlides">
+            <div class="numbertext">5 / 5</div>
+            <img
+              src="images/the-oven-bakes/the-oven-bakes-5.PNG"
+              style="height: 400px; width:auto"
+            />
+          </div>
+
+          <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+          <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+          <div class="caption-container">
+            <p id="caption"></p>
+          </div>
+
+          <div class="lightbox-column">
+            <img
+              class="demo cursor"
+              src="images/the-oven-bakes/the-oven-bakes-2.PNG"
+              style="height: 100px; width:auto"
+              onclick="currentSlide(1)"
+              alt="Sea Salt Brownies"
+            />
+          </div>
+          <div class="lightbox-column">
+            <img
+              class="demo cursor"
+              src="images/the-oven-bakes/the-oven-bakes-3.PNG"
+              style="height: 100px; width:auto"
+              onclick="currentSlide(2)"
+              alt="Biscoff Brownies"
+            />
+          </div>
+          <div class="lightbox-column">
+            <img
+              class="demo cursor"
+              src="images/the-oven-bakes/the-oven-bakes-1.PNG"
+              style="height: 100px; width:auto"
+              onclick="currentSlide(3)"
+              alt="The Oven Bakes Cover"
+            />
+          </div>
+          <div class="lightbox-column">
+            <img
+              class="demo cursor"
+              src="images/the-oven-bakes/the-oven-bakes-4.PNG"
+              style="height: 100px; width:auto"
+              onclick="currentSlide(4)"
+              alt="Oreo Brownies"
+            />
+          </div>
+          <div class="lightbox-column">
+            <img
+              class="demo cursor"
+              src="images/the-oven-bakes/the-oven-bakes-5.PNG"
+              style="height: 100px; width:auto"
+              onclick="currentSlide(5)"
+              alt="Chocolate Chip Cookie"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="business-writeup">
+      <div>
+        <header>ABOUT</header>
+        <p>
+          Delivery Details:<br />
+          <br />
+          Minimum Order(for delivery): $15<br />
+          Islandwide Delivery: $10<br />
+        </p>
+        <p>
+          Contact Details:
+          <br />
+          <img src="images/gmailIcon.png" style="height: 20px; padding: 0px;" />
+          <img src="images/gmailIcon.png" style="height: 20px; padding: 0px;" />
+          <img src="images/gmailIcon.png" style="height: 20px; padding: 0px;" />
+        </p>
+      </div>
+      <div>
+        <header>MENU</header>
+        <p>Business Writeup<br /></p>
+      </div>
+    </div>
+    <div class="reviews">
+      <div>
+        <header>REVIEWS</header>
+      </div>
+    </div>
+  </body>
+</html>
