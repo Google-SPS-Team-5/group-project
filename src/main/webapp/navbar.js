@@ -1,12 +1,16 @@
 document.write('\
 <div id="nav-container">\
-    <a href="index.html" class="nav-link">Home</a>\
-    <a href="listings.html" class="nav-link">Browse listings</a>\
-    <a href="about.html" class="nav-link">About us</a>\
+    <a href="index.html" class="nav-link"><strong>Home</strong></a>\
+    <a href="listings.html" class="nav-link"><strong>Browse listings</strong></a>\
+    <a href="about.html" class="nav-link"><strong>About us</a>\
     <div id="search-container">\
         <form action="/placeholder.js">\
-            <input type="text" placeholder="Search listing...">\
-            <button type="submit"><i class="fa fa-search"></i></button>\
+            <div id="nav-bar-search-container">\
+              <input type="text" placeholder="Search for food or snacks">\
+              <button type="submit"\
+                <i class="fa fa-search"></i>\
+              </button>\
+            </div>\
         </form>\
     </div>\
 </div>'
