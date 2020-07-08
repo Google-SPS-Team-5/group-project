@@ -27,7 +27,8 @@ public final class HomeBusiness {
   
   // TODO: convert urls to URL type (if possible in datastore)
   public HomeBusiness(String businessName, 
-                      List<String> categoryList, 
+                      List<String> categoryList,
+                      float rating,
                       float businessLat, 
                       float businessLong, 
                       String businessAddr, 
@@ -41,6 +42,7 @@ public final class HomeBusiness {
   {
     homeBusinessName = businessName;
     businessCategoriesList = categoryList;
+    aggregatedReviewRating = rating;
     businessAddressLongitude = businessLat;
     businessAddressLatitude = businessLong;
     businessAddress = businessAddr;
