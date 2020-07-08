@@ -1,0 +1,80 @@
+h2 {
+  background-color: #d2d2d2
+}
+
+/* Product Listing Section */
+
+/* Mobile */
+.product-listings-container {
+  max-width: 100%;
+  display: grid;
+  grid-gap: 1rem;
+}
+
+/* Medium Displays */
+
+@media (min-width: 600px) {
+  .product-listings-container { 
+    grid-template-columns: repeat(2, 1fr); 
+  }
+}
+
+/* Large displays */
+
+@media (min-width: 900px) {
+  .product-listings-container { 
+    grid-template-columns: repeat(3, 1fr); 
+  }
+}
+
+.product-listing-card {
+  background-color: #dddddd;
+  width: 100%;
+  text-align: center;
+  border-radius: 5px;
+}
+
+.product-listing-card img {
+  transition: transform 0.5s, filter 1s cubic-bezier(0, 0, 0.2, 1);
+  transform: scale(1.2);
+
+}
+
+.product-listing-card:hover img {
+  transform: scale(1);
+}
+
+.price {
+  color: #2c2c2c;
+  font-size: 22px;
+}
+
+.product-listing-image {
+  border-radius: 5px 5px 0px 0px;
+  overflow: hidden;
+  padding: 0;
+}
+
+.product-listing-image img {
+  width: 100%;
+}
+
+.fa.fa-cart-arrow-down {
+  font-size: 16px;
+}
+
+/* Map section */
+
+#map-container {
+  text-align: center;
+  height: 50%;
+  width: 100%;
+  padding: 50px 0px;
+}
+
+#map {
+  border: thin solid black;
+  height: 100%;
+  width: 100%;
+
+}
