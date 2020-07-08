@@ -4,25 +4,26 @@ import java.net.URL;
 import java.util.Comparator;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Collection;
 import java.util.Collections;
 
 public final class HomeBusiness {
 
   private String homeBusinessName;
-  private List<String> businessCategoriesList = new List<String>();
+  private List<String> businessCategoriesList = new ArrayList<String>();
   private float aggregatedReviewRating;
   private float businessAddressLongitude;
   private float businessAddressLatitude;
   private String businessAddress;
   private String businessLogoBlobstoreUrl;
-  private List<String> businessPhotoBlobstoreUrlList = new List<String>();
+  private List<String> businessPhotoBlobstoreUrlList = new ArrayList<String>();
   private String businessDescription;
   private String businessMenuUrl;
   private String businessOrderInformation;
   private String businessContactUrl;
   private String businessUrl;
-  private List<String> reviewDatastoreKeyList = new List<String<>();
+  private List<String> reviewDatastoreKeyList = new ArrayList<String>();
   
   // TODO: convert urls to URL type (if possible in datastore)
   public HomeBusiness(String businessName, 
