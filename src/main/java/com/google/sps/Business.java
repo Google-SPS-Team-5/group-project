@@ -14,19 +14,19 @@ import java.util.Collections;
 public final class Business {
 
   private String name;
-  private List<String> categories = new ArrayList<String>();
+  private List<String> categories;
   private float aggregatedRating;
   private float addressLng;
   private float addressLat;
   private String address;
   private String logoBlobstoreUrl;
-  private List<String> photoBlobstoreUrlList = new ArrayList<String>();
+  private List<String> photoBlobstoreUrlList;
   private String description;
   private String menuUrl;
   private String orderInformation;
   private String contactUrl;
   private String websiteUrl;
-  private List<String> reviewDatastoreKeyList = new ArrayList<String>();
+  private List<String> reviewDatastoreKeyList;
   
   /**
   *Default constructor for the class. Does not initialise reviewDatastoreKeyList as that is added through the review form on the product page.
