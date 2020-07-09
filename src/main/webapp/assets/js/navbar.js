@@ -2,6 +2,12 @@ document.addEventListener("DOMContentLoaded", function(){
   isLoggedin();
 });
 
+/**
+ * Fetch data from /login endpoint to check the status of the user.
+ * Data that the enpoint contains is JSON.
+ * If the user is logged in, the userEmail will be a non-empty string.
+ * Depending on the log in status, the navbar rendered will look different.
+ */
 function isLoggedin() {
     console.log("trigger")
     fetch('/login').then(response => response.json()).then(userJson => {
@@ -15,6 +21,10 @@ function isLoggedin() {
     });
 }
 
+/**
+ * Returns a navbar that contains the user email (link to their profile)
+ * and a link to log out
+ */
 function navBarUserLoggedIn(userEmail, logoutUrl) {
     return `
         <a href="index.html" class="nav-link">Home</a>
@@ -29,6 +39,9 @@ function navBarUserLoggedIn(userEmail, logoutUrl) {
         </div>`;
 }
 
+/**
+ * Returns a navbar that contains a link to log in
+ */
 function navBarUserLoggedOut(loginUrl) {
    return `
         <a href="index.html" class="nav-link">Home</a>
