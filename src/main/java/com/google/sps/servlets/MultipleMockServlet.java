@@ -1,8 +1,7 @@
 package com.google.sps.servlets;
 
 import com.google.gson.Gson;
-import com.google.sps.HomeBusiness;
-import com.google.sps.HomeBusinessMockData;
+import com.google.sps.MockData;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,7 +16,7 @@ public class MultipleMockServlet extends HttpServlet {
 
   Gson gson = new Gson();
 
-  HomeBusinessMockData mockData = new HomeBusinessMockData();
+  MockData mockData = new MockData();
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {

@@ -1,6 +1,6 @@
 package com.google.sps;
 
-import com.google.sps.HomeBusiness;
+import com.google.sps.Business;
 import java.net.URL;    
 import java.util.Comparator;
 import java.util.ArrayList;
@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Collection;
 import java.util.Collections;
 
-public final class HomeBusinessMockData {
+public final class MockData {
 
-  public HomeBusinessMockData()
+  public MockData()
   {
     String businessName = "The Oven Bakes";
     List<String> categoryList = Arrays.asList("Dessert", "Brownies", "Cookies");
@@ -36,7 +36,7 @@ public final class HomeBusinessMockData {
     String businessContactUrl = "https://www.instagram.com/theovenbakes/";
     String linkToBusiness = "https://www.instagram.com/theovenbakes/";
 
-    HomeBusiness mockBusiness1 = new HomeBusiness(businessName, 
+    Business mockBusiness1 = new Business(businessName, 
                                             categoryList,
                                             5,
                                             businessLat, 
@@ -68,7 +68,7 @@ public final class HomeBusinessMockData {
     businessContactUrl = "https://api.whatsapp.com/send?phone=6597849932&text=&source=&data=&app_absent=";
     linkToBusiness = "https://www.instagram.com/roti.kirai.singapura/?utm_source=ig_embed";
 
-    HomeBusiness mockBusiness2 = new HomeBusiness(businessName, 
+    Business mockBusiness2 = new Business(businessName, 
                                             categoryList,
                                             4, 
                                             businessLat, 
@@ -103,7 +103,7 @@ public final class HomeBusinessMockData {
     businessContactUrl = "https://paparch.sg/collections/frontpage";
     linkToBusiness = "https://paparch.sg/pages/faqs";
 
-    HomeBusiness mockBusiness3 = new HomeBusiness(businessName, 
+    Business mockBusiness3 = new Business(businessName, 
                                             categoryList,
                                             4, 
                                             businessLat, 
@@ -139,7 +139,7 @@ public final class HomeBusinessMockData {
     businessContactUrl = "https://api.whatsapp.com/send?phone=6598266648&text=&source=&data=&app_absent=";
     linkToBusiness = "https://www.instagram.com/bekalmama.sg/";
 
-    HomeBusiness mockBusiness4 = new HomeBusiness(businessName, 
+    Business mockBusiness4 = new Business(businessName, 
                                             categoryList,
                                             4, 
                                             businessLat, 
@@ -180,7 +180,7 @@ public final class HomeBusinessMockData {
     businessContactUrl = "https://www.instagram.com/homesweetoven";
     linkToBusiness = "https://www.instagram.com/homesweetoven/";
 
-    HomeBusiness mockBusiness5 = new HomeBusiness(businessName, 
+    Business mockBusiness5 = new Business(businessName, 
                                             categoryList,
                                             3, 
                                             businessLat, 
@@ -220,7 +220,7 @@ public final class HomeBusinessMockData {
     businessContactUrl = "https://www.facebook.com/raiyshasataygoreng/";
     linkToBusiness = "https://www.facebook.com/raiyshasataygoreng/";
 
-    HomeBusiness mockBusiness6 = new HomeBusiness(businessName, 
+    Business mockBusiness6 = new Business(businessName, 
                                             categoryList,
                                             2, 
                                             businessLat, 
@@ -254,7 +254,7 @@ public final class HomeBusinessMockData {
     businessContactUrl = "https://jiak.sg/food/jia-ji-mei-shi-%e4%bd%b3%e8%ae%b0%e7%be%8e%e9%a3%9f/";
     linkToBusiness = "https://jiak.sg/food/jia-ji-mei-shi-%e4%bd%b3%e8%ae%b0%e7%be%8e%e9%a3%9f/";
 
-    HomeBusiness mockBusiness7 = new HomeBusiness(businessName, 
+    Business mockBusiness7 = new Business(businessName, 
                                             categoryList,
                                             1, 
                                             businessLat, 
@@ -287,7 +287,7 @@ public final class HomeBusinessMockData {
     businessContactUrl = "https://jiak.sg/food/delisnacks-tampines/";
     linkToBusiness = "https://jiak.sg/food/delisnacks-tampines/";
 
-    HomeBusiness mockBusiness8 = new HomeBusiness(businessName, 
+    Business mockBusiness8 = new Business(businessName, 
                                             categoryList, 
                                             businessLat,
                                             4.6F, 
@@ -318,7 +318,7 @@ public final class HomeBusinessMockData {
     businessContactUrl = "https://jiak.sg/food/bite-size-by-apizski/";
     linkToBusiness = "https://jiak.sg/food/bite-size-by-apizski/";
 
-    HomeBusiness mockBusiness9 = new HomeBusiness(businessName, 
+    Business mockBusiness9 = new Business(businessName, 
                                             categoryList,
                                             0.8F, 
                                             businessLat, 
@@ -353,7 +353,7 @@ public final class HomeBusinessMockData {
     businessContactUrl = "https://www.facebook.com/streetsofbangkok/";
     linkToBusiness = "https://www.instagram.com/streetsofbangkok.sg/";
 
-    HomeBusiness mockBusiness10 = new HomeBusiness(businessName, 
+    Business mockBusiness10 = new Business(businessName, 
                                             categoryList,
                                             4.9F, 
                                             businessLat, 
@@ -371,7 +371,7 @@ public final class HomeBusinessMockData {
   }
 
   
-  public List<HomeBusiness> mockDataList = new ArrayList<HomeBusiness>();
+  public List<Business> mockDataList = new ArrayList<Business>();
 }
 
 
