@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/*
+* Exposes a list of businesses as a json object to a /multiplemockdata GET query.
+*/
 @WebServlet("/multiplemockdata")
 public class MultipleMockServlet extends HttpServlet {
 

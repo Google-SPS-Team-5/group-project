@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Collection;
 import java.util.Collections;
 
+/**
+* Holds all relevant data to a Business on the site.
+*/
 public final class Business {
 
   private String name;
@@ -25,7 +28,9 @@ public final class Business {
   private String websiteUrl;
   private List<String> reviewDatastoreKeyList = new ArrayList<String>();
   
-  // TODO: convert urls to URL type (if possible in datastore)
+  /**
+  *Default constructor for the class. Does not initialise reviewDatastoreKeyList as that is added through the review form on the product page.
+  */
   public Business(String businessName, 
                       List<String> categoryList,
                       float rating,

@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/*
+* Exposes a single Business as a json object to a /mockdata GET query.
+*/
 @WebServlet("/mockdata")
 public class MockServlet extends HttpServlet {
 

@@ -9,8 +9,15 @@ import java.util.List;
 import java.util.Collection;
 import java.util.Collections;
 
+
+/**
+* Temporary class to hold mock data for testing purposes. Will be removed when we have actual business data in our data and blobstores.
+*/
 public final class MockData {
 
+  /**
+  * Default constructor to initialise all the businesses and add them to the mockDataList. (total of 10).
+  */
   public MockData()
   {
     String businessName = "The Oven Bakes";
@@ -370,8 +377,11 @@ public final class MockData {
     mockDataList = Arrays.asList(mockBusiness1, mockBusiness2, mockBusiness3, mockBusiness4, mockBusiness5, mockBusiness6, mockBusiness7, mockBusiness8, mockBusiness9, mockBusiness10);
   }
 
-  
+  /**
+  * Access the mock data through this list.
+  */
   public List<Business> mockDataList = new ArrayList<Business>();
+
 }
 
 
