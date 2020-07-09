@@ -17,7 +17,9 @@
     <div class="business-description">
       <div class="layout">
         <div>
-          <img id="businessLogo" style="height:140px; padding:10px;"/>
+          <a id="businessUrl" target="_blank">
+            <img id="businessLogo" style="height:140px; padding:10px;"/>
+          </a>
         </div>
         <div style="text-align:right;">
           <p class="businessName" style="text-align: left; margin-block-start: 30px; margin-block-end: 10px;">
@@ -25,7 +27,7 @@
           </p>
           <div id="businessCategories" style="text-align: left;">
           </div>
-          <div style="position:absolute; bottom:10px; right:10px;">
+          <div id="aggregateRating" style="position:absolute; bottom:10px; right:10px;">
             <i class="fas fa-star yellow-star"></i
             ><i class="fas fa-star yellow-star"></i
             ><i class="fas fa-star yellow-star"></i
@@ -36,47 +38,7 @@
       </div>
     </div>
     <div class="image-gallery">
-      <div class="lightbox-row">
-        <div class="lightbox-column">
-          <img
-            src="images/the-oven-bakes/the-oven-bakes-2.PNG"
-            style="height: 250px; width:100%"
-            onclick="openModal();currentSlide(1)"
-            class="hover-shadow cursor"
-          />
-        </div>
-        <div class="lightbox-column">
-          <img
-            src="images/the-oven-bakes/the-oven-bakes-3.PNG"
-            style="height: 250px; width:100%"
-            onclick="openModal();currentSlide(2)"
-            class="hover-shadow cursor"
-          />
-        </div>
-        <div class="lightbox-column">
-          <img
-            src="images/the-oven-bakes/the-oven-bakes-1.PNG"
-            style="height: 250px; width:100%"
-            onclick="openModal();currentSlide(3)"
-            class="hover-shadow cursor"
-          />
-        </div>
-        <div class="lightbox-column">
-          <img
-            src="images/the-oven-bakes/the-oven-bakes-4.PNG"
-            style="height: 250px; width:100%"
-            onclick="openModal();currentSlide(4)"
-            class="hover-shadow cursor"
-          />
-        </div>
-        <div class="lightbox-column">
-          <img
-            src="images/the-oven-bakes/the-oven-bakes-5.PNG"
-            style="height: 250px; width:100%"
-            onclick="openModal();currentSlide(5)"
-            class="hover-shadow cursor"
-          />
-        </div>
+      <div id="image-thumbnail-gallery" class="lightbox-row">
       </div>
 
       <div id="myModal" class="modal">
