@@ -1,0 +1,46 @@
+.user-information {
+    display: grid;
+    height: 200px;
+    grid-template-columns: 20% 60%;
+    justify-content: center;
+    align-content: center;
+    padding: 10px;
+}
+
+.user-information > div {
+    text-align : center;
+    padding : 10px;
+    font-size : 15px;
+    height : 160px;    
+    position : relative;
+}
+
+.user-preference {
+    display: grid;
+    height: 600px;
+    grid-template-columns: 40% 40%;
+    justify-content: center;
+    align-content: center;
+    grid-gap: 1vw;
+    padding: 10px; 
+}
+
+.user-preference > div {
+    text-align : center;
+    padding : 10px;
+    font-size : 30px;
+    height : 560px;    
+    position : relative;
+}
+
+.edit-profile-button {
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+    border-radius: 3px;
+    padding: 5px 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 13px;
+}
