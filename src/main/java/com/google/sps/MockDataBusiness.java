@@ -13,12 +13,12 @@ import java.util.Collections;
 /**
 * Temporary class to hold mock data for testing purposes. Will be removed when we have actual business data in our data and blobstores.
 */
-public final class MockData {
+public final class MockDataBusiness {
 
   /**
   * Default constructor to initialise all the businesses and add them to the mockDataList. (total of 10).
   */
-  public MockData()
+  public MockDataBusiness()
   {
     String businessName = "The Oven Bakes";
     List<String> categoryList = Arrays.asList("Dessert", "Brownies", "Cookies");
