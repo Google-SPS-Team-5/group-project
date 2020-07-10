@@ -8,11 +8,18 @@ html, body {
 /* Nav bar section */
 
 #nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   overflow: hidden;
   background-color: #333;
   padding: 10px 0px;
 }
 
+#nav-pages {
+  display: flex;
+  align-items: center;
+}
 .nav-link {
   display: inline;
   text-align: center;
@@ -24,10 +31,6 @@ html, body {
 
 .nav-link:hover {
   background-color: #111;
-}
-
-#search-container {
-  float: right;
 }
 
 #search-container input[type=text] {
