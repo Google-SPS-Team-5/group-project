@@ -1,5 +1,5 @@
-document.addEventListener("DOMContentLoaded", function(){ 
-  isLoggedin();
+document.addEventListener("DOMContentLoaded", function() {
+    isLoggedin();
 });
 
 /**
@@ -8,17 +8,16 @@ document.addEventListener("DOMContentLoaded", function(){
  * If the user is logged in, the userEmail will be a non-empty string.
  * Depending on the log in status, the navbar rendered will look different.
  */
-function isLoggedin() {
-    console.log("trigger")
-    fetch('/login').then(response => response.json()).then(userJson => {
-        console.log(userJson);
-        var navBarContainer = document.getElementById("nav-container");
-        if (userJson.userEmail) {
-            navBarContainer.innerHTML = navBarUserLoggedIn(userJson.userEmail, userJson.url)
-        } else {
-            navBarContainer.innerHTML = navBarUserLoggedOut(userJson.url)
-        }
-    });
+async function isLoggedin() {
+    const response = await fetch("/login");
+    const userJson = await response.json();
+    var navBarContainer = document.getElementById("nav-container");
+    if (userJson.userEmail) {
+        navBarContainer.innerHTML = navBarUserLoggedIn(userJson.userEmail, userJson.url)
+    } else {
+        navBarContainer.innerHTML = navBarUserLoggedOut(userJson.url)
+    }
+
 }
 
 /**
@@ -43,7 +42,7 @@ function navBarUserLoggedIn(userEmail, logoutUrl) {
  * Returns a navbar that contains a link to log in
  */
 function navBarUserLoggedOut(loginUrl) {
-   return `
+    return `
         <a href="index.html" class="nav-link">Home</a>
         <a href="about.html" class="nav-link">About us</a>
         <a href="${loginUrl}" class="nav-link authentication">Log In</a>
