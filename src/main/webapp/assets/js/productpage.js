@@ -8,7 +8,7 @@ async function populateProductDetails() {
   business = await getMockData();
 
   populateBusinessDescription(business);
-  populateImageGallery(business);
+  populateImageGallery(business.photoBlobstoreUrlList);
   populateBusinessWriteup(business);
   populateContactDetails(business);
 }
@@ -27,12 +27,19 @@ function populateBusinessDescription(business) {
   //TODO: Fix star CSS and use CSS to set float rating
 }
 
-function populateImageGallery(business) {
+function populateImageGallery(photoUrlList) {
   const imagePreviewGallery = document.getElementById("image-thumbnail-gallery");
-  const modalGallery = document.getElementById("myModal");
+  const modalGalleryContainer = document.getElementById("slides-container");
+  const modalGalleryImagePreviewContainer = document.getElementById("gallery-thumbnail-container");
 
-  business.photoBlobstoreUrlList.forEach(photoUrl => imagePreviewGallery.innerHTML += createThumbnailImageElement(photoUrl));
-
+  var image;
+  const urlListLength = photoUrlList.length;
+  for (image = 1; image <= urlListLength; image++) {
+    const url = photoUrlList[image-1];
+    imagePreviewGallery.innerHTML += createThumbnailImageElement(url);
+    modalGalleryContainer.innerHTML += createGalleryImageElement(url, image, urlListLength);
+    modalGalleryImagePreviewContainer.innerHTML += createGalleryImagePreviewElement(url, image);
+  }  
 }
 
 function populateBusinessWriteup(business) {
@@ -53,16 +60,33 @@ function createThumbnailImageElement(imageUrl) {
   return `<div class="lightbox-column">
           <img
             src=${imageUrl}
-            style="height: 250px; width:auto"
+            style="height: 250px; width:auto;"
             onclick="openModal();currentSlide(1)"
             class="hover-shadow cursor"
-          />`;
+          />
+          `;
 }
 
-function createGalleryImageElement(imageUrl) {
-
+function createGalleryImageElement(imageUrl, index, length) {
+  return `<div class="mySlides">
+              <div class="numbertext">${index} / ${length}</div>
+              <img
+                src=${imageUrl}
+                style="height: 400px; width:auto;"
+              />
+            </div>
+          `;
 }
 
-function createGalleryImagePreviewElement(imageUrl) {
-
+function createGalleryImagePreviewElement(imageUrl, index) {
+  return `<div class="lightbox-column">
+              <img
+                class="demo cursor"
+                src=${imageUrl}
+                style="height: 100px; width:auto"
+                onclick="currentSlide(${index})"
+                alt="Sea Salt Brownies"
+              />
+            </div>
+          `;
 }

@@ -44,44 +44,7 @@
       <div id="myModal" class="modal">
         <span class="close cursor" onclick="closeModal()">&times;</span>
         <div class="modal-content">
-          <div class="mySlides">
-            <div class="numbertext">1 / 5</div>
-            <img
-              src="images/the-oven-bakes/the-oven-bakes-2.PNG"
-              style="height: 400px; width:auto"
-            />
-          </div>
-
-          <div class="mySlides">
-            <div class="numbertext">2 / 5</div>
-            <img
-              src="images/the-oven-bakes/the-oven-bakes-3.PNG"
-              style="height: 400px; width:auto"
-            />
-          </div>
-
-          <div class="mySlides">
-            <div class="numbertext">3 / 5</div>
-            <img
-              src="images/the-oven-bakes/the-oven-bakes-1.PNG"
-              style="height: 400px; width:auto"
-            />
-          </div>
-
-          <div class="mySlides">
-            <div class="numbertext">4 / 5</div>
-            <img
-              src="images/the-oven-bakes/the-oven-bakes-4.PNG"
-              style="height: 400px; width:auto"
-            />
-          </div>
-
-          <div class="mySlides">
-            <div class="numbertext">5 / 5</div>
-            <img
-              src="images/the-oven-bakes/the-oven-bakes-5.PNG"
-              style="height: 400px; width:auto"
-            />
+          <div id="slides-container">
           </div>
 
           <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
@@ -90,52 +53,10 @@
           <div class="caption-container">
             <p id="caption"></p>
           </div>
-
-          <div class="lightbox-column">
-            <img
-              class="demo cursor"
-              src="images/the-oven-bakes/the-oven-bakes-2.PNG"
-              style="height: 100px; width:auto"
-              onclick="currentSlide(1)"
-              alt="Sea Salt Brownies"
-            />
+          
+          <div id="gallery-thumbnail-container">
           </div>
-          <div class="lightbox-column">
-            <img
-              class="demo cursor"
-              src="images/the-oven-bakes/the-oven-bakes-3.PNG"
-              style="height: 100px; width:auto"
-              onclick="currentSlide(2)"
-              alt="Biscoff Brownies"
-            />
-          </div>
-          <div class="lightbox-column">
-            <img
-              class="demo cursor"
-              src="images/the-oven-bakes/the-oven-bakes-1.PNG"
-              style="height: 100px; width:auto"
-              onclick="currentSlide(3)"
-              alt="The Oven Bakes Cover"
-            />
-          </div>
-          <div class="lightbox-column">
-            <img
-              class="demo cursor"
-              src="images/the-oven-bakes/the-oven-bakes-4.PNG"
-              style="height: 100px; width:auto"
-              onclick="currentSlide(4)"
-              alt="Oreo Brownies"
-            />
-          </div>
-          <div class="lightbox-column">
-            <img
-              class="demo cursor"
-              src="images/the-oven-bakes/the-oven-bakes-5.PNG"
-              style="height: 100px; width:auto"
-              onclick="currentSlide(5)"
-              alt="Chocolate Chip Cookie"
-            />
-          </div>
+          
         </div>
       </div>
     </div>
@@ -346,5 +267,6 @@
         </div>
       </div>
     </div>
+  <script src="assets/js/footer.js"></script>
   </body>
 </html>
