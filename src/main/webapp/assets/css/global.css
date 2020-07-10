@@ -47,3 +47,21 @@ html, body {
   font-size: 22px;
   border-radius: 0px 8px 8px 0px;
 }
+
+/*Footer*/
+
+
+#footer {
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   background-color: gray;
+   color: white;
+   display: grid;
+   grid-template-columns: repeat(2, 1fr); 
+   text-align: left;
+}
+
+#footer div {
+    margin: 2rem;
+}
