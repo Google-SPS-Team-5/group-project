@@ -7,7 +7,7 @@ async function getReviews() {
 
   /** Display reviews in sections. */
   reviewsList = JSON.parse(reviewsList)
-  var reviewsContainer = document.getElementById('reviews')
+  var reviewsContainer = document.getElementById('review-grid');
   for (i=0; i<reviewsList.length; i++) {
     var reviewSection = createReviewSection(reviewsList[i]);
     reviewsContainer.appendChild(reviewSection);
@@ -19,7 +19,7 @@ async function getReviews() {
  */
 function createReviewSection(review) {
   const reviewWrapper = document.createElement("div");
-  reviewWrapper.class = "review-grid";
+  reviewWrapper.class = "review-card";
 
   reviewWrapper.innerHTML =
     `<div class="review-card">
