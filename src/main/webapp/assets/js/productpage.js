@@ -43,11 +43,13 @@ function populateImageGallery(photoUrlList) {
 }
 
 function populateBusinessWriteup(business) {
-  
+  document.getElementById("businessDescr").innerHTML = business.description;
+  document.getElementById("menuUrl").href = business.menuUrl;
 }
 
 function populateContactDetails() {
-  
+  document.getElementById("orderInfo").innerHTML = business.orderInformation;
+  document.getElementById("contactUrl").href = business.contactUrl;
 }
 
 function createCategoryElement(categoryName) {
