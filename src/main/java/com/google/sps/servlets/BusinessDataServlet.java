@@ -14,6 +14,8 @@ import com.google.appengine.api.images.ImagesService;
 import com.google.appengine.api.images.ImagesServiceFactory;
 import com.google.appengine.api.images.ServingUrlOptions;
 import com.google.gson.Gson;
+import java.lang.reflect.Type;
+import com.google.gson.reflect.TypeToken;
 import com.google.sps.Business;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,33 +34,65 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/business-data")
 public class BusinessDataServlet extends HttpServlet {
     
-//   @Override
-//   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    
-//     // Create query for Datastore.
-//     Query query = new Query("Business");
+  @Override
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // Create gson for serializing and deserializing
+    Gson gson = new Gson();
 
-//     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-//     PreparedQuery results = datastore.prepare(query);
+    // Create query for Datastore.
+    Query query = new Query("Business");
 
-//     // Iterate over results and add each comment to the ArrayList.
-//     List<Business> businesses = new ArrayList<>();
-//     for (Entity entity : results.asIterable()) {
-//       long id = entity.getKey().getId();
-//       String username = (String) entity.getProperty("username");
-//       String comments = (String) entity.getProperty("comments");
-//       String timestamp = (String) entity.getProperty("timestamp");
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    PreparedQuery results = datastore.prepare(query);
+
+    // Iterate over results and add each business to the ArrayList.
+    List<Business> businesses = new ArrayList<>();
+    for (Entity entity : results.asIterable()) {
+      String name = (String) entity.getProperty("name");
+      String desc = (String) entity.getProperty("desc");
+      String[] categoriesArr = gson.fromJson((String) entity.getProperty("categories"), String[].class);
+      List<String> categories = Arrays.asList(categoriesArr);
+      String address = (String) entity.getProperty("address");
+      String addressLatStr = (String) entity.getProperty("addressLat");
+      String addressLngStr = (String) entity.getProperty("addressLng");
+      float addressLat;
+      if (addressLatStr.isEmpty()) {
+          addressLat = 404;
+      } else {
+          addressLat = Float.parseFloat(addressLatStr);
+      }
+      float addressLng;
+      if (addressLngStr.isEmpty()) {
+          addressLng = 404;
+      } else {
+          addressLng = Float.parseFloat(addressLngStr);
+      }
+      String contactDetails = (String) entity.getProperty("contactDetails");
+      String orderDetails = (String) entity.getProperty("orderDetails");
+      String businessLink = (String) entity.getProperty("businessLink");
+      String menuLink = (String) entity.getProperty("menuLink");
+      String logoUrl = (String) entity.getProperty("logoUrl");
+      String[] picturesUrlsArr = gson.fromJson((String) entity.getProperty("picturesUrls"), String[].class);
+      List<String> picturesUrls = Arrays.asList(picturesUrlsArr);
+      String ratingStr = (String) entity.getProperty("rating");
+      float rating;
+      if (ratingStr.isEmpty()) {
+          rating = 404;
+      } else {
+          rating = Float.parseFloat(ratingStr);
+      }
+      String[] reviewsArr = gson.fromJson((String) entity.getProperty("reviews"), String[].class);
+      List<String> reviews = reviewsArr == null ? new ArrayList<String>() : Arrays.asList(reviewsArr);
+
   
-//       Business business = new Business();
-//       businesses.add(business);
-//     }
+      Business business = new Business(name, categories, rating, addressLat, addressLng, address, logoUrl, picturesUrls, desc, menuLink, orderDetails, contactDetails, businessLink);
+      businesses.add(business);
+    }
 
-//     Gson gson = new Gson();
-
-//     // Send the JSON as the response.
-//     response.setContentType("application/json;");
-//     response.getWriter().println(gson.toJson(businesses));
-//   }
+    // Send the JSON as the response.
+    response.setContentType("application/json;");
+    response.getWriter().println(gson.toJson(businesses));
+  }
   
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -66,7 +100,8 @@ public class BusinessDataServlet extends HttpServlet {
     // Get the input from the form.
     String name = request.getParameter("name");
     String desc = request.getParameter("desc");
-    List<String> categories = Arrays.asList(request.getParameterValues("categories"));
+    String[] categoriesArr = request.getParameterValues("categories");
+    List<String> categories = categoriesArr == null ? new ArrayList<String>() : Arrays.asList(categoriesArr);
     String address = request.getParameter("address");
     String addressLat = request.getParameter("addressLat");
     String addressLng = request.getParameter("addressLng");
@@ -77,7 +112,7 @@ public class BusinessDataServlet extends HttpServlet {
     String logoUrl = getUploadedLogoUrlFromBlobstore(request, "logo");
     List<String> picturesUrls = getUploadedPicturesUrlsFromBlobstore(request, "pictures");
     // can't add reviews and rating when creating a new business
-    int rating = 0;
+    String rating = "";
     List<String> reviews = new ArrayList<String>();
 
     Entity businessEntity = new Entity("Business");
