@@ -6,3 +6,7 @@
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+#pictures-file-names {
+    white-space: pre;
+}
