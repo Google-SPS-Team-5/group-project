@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="assets/css/forms.css" />
     <link rel="stylesheet" href="assets/css/global.css" />
   </head>
-  <body onload="fetchBlobstoreUrlAndShowForm();">
+  <body>
     <script src="assets/js/navbar.js"></script>
 
     <h2 style="margin: 2rem 5rem 2rem 5rem;">Add a New Business</h2>
@@ -16,7 +16,7 @@
     <div style="margin: 5rem">
       <form id="add-business-form" method="POST" enctype="multipart/form-data">
         <label for="name">Name:</label><br />
-        <input type="text" id="name" name="name" /><br />
+        <input type="text" id="name" name="name" required/><br />
         <div class="two-columns">
           <div>
             <label for="desc">Description:</label><br />
@@ -88,11 +88,11 @@
         </div>
         <p>Logo:</p>
         <label for="logo" id="upload-button">Upload Logo</label><br />
-        <input type="file" id="logo" name="logo" /><br />
+        <input type="file" id="logo" name="logo"/><br />
         <label id="logo-file-name"></label>
         <p>Pictures:</p>
         <label for="pictures" id="upload-button">Upload Pictures</label><br />
-        <input type="file" id="pictures" name="pictures" multiple /><br />
+        <input type="file" id="pictures" name="pictures" multiple/><br />
         <label id="pictures-file-names"></label>
         <div style="display: flex; justify-content: flex-end;">
           <button type="submit" value="Submit">Add</button>

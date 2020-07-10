@@ -63,20 +63,19 @@ public class BusinessDataServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Gson gson = new Gson();
-    List<String> uploadedFileUrls = getUploadedFilesUrlsFromBlobstore(request, "image");
     // Get the input from the form.
     String name = request.getParameter("name");
     String desc = request.getParameter("desc");
-    List<String> categories = Arrays.asList(request.getParameter("categories"));
+    List<String> categories = Arrays.asList(request.getParameterValues("categories"));
     String address = request.getParameter("address");
-    double addressLat = Double.parseDouble(request.getParameter("addressLat"));
-    double addressLng = Double.parseDouble(request.getParameter("addressLng"));
+    String addressLat = request.getParameter("addressLat");
+    String addressLng = request.getParameter("addressLng");
     String contactDetails = request.getParameter("contactDetails");
     String orderDetails = request.getParameter("orderDetails");
     String businessLink = request.getParameter("businessLink");
     String menuLink = request.getParameter("menuLink");
-    String logoUrl = uploadedFileUrls.get(0);
-    List<String> picturesUrls = uploadedFileUrls.subList(1, uploadedFileUrls.size());
+    String logoUrl = getUploadedLogoUrlFromBlobstore(request, "logo");
+    List<String> picturesUrls = getUploadedPicturesUrlsFromBlobstore(request, "pictures");
     // can't add reviews and rating when creating a new business
     int rating = 0;
     List<String> reviews = new ArrayList<String>();
@@ -92,7 +91,7 @@ public class BusinessDataServlet extends HttpServlet {
     businessEntity.setProperty("orderDetails", orderDetails);
     businessEntity.setProperty("businessLink", businessLink);
     businessEntity.setProperty("menuLink", menuLink);
-    businessEntity.setProperty("logUrl", logoUrl);
+    businessEntity.setProperty("logoUrl", logoUrl);
     businessEntity.setProperty("picturesUrls", gson.toJson(picturesUrls));
     businessEntity.setProperty("rating", rating);
     businessEntity.setProperty("reviews", reviews);
@@ -104,10 +103,45 @@ public class BusinessDataServlet extends HttpServlet {
     response.sendRedirect("/index.html");
   }
 
-  private List<String> getUploadedFilesUrlsFromBlobstore(HttpServletRequest request, String formInputElementName) {
+  private String getUploadedLogoUrlFromBlobstore(HttpServletRequest request, String formInputElementName) {
     BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
     Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
     List<BlobKey> blobKeys = blobs.get(formInputElementName);
+
+    // if no images were uploaded
+    if (blobKeys == null) {
+        return "";
+    }
+
+    // Our form only contains a single file input, so get the first index.
+    BlobKey blobKey = blobKeys.get(0);
+
+    // We could check the validity of the file here, e.g. to make sure it's an image file
+    // https://stackoverflow.com/q/10779564/873165
+
+    // Use ImagesService to get a URL that points to the uploaded file.
+    ImagesService imagesService = ImagesServiceFactory.getImagesService();
+    ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
+    String url = imagesService.getServingUrl(options);
+
+    System.out.println(url);
+    // GCS's localhost preview is not actually on localhost,
+    // so make the URL relative to the current domain.
+    if(url.startsWith("http://localhost:8080/")){
+      url = url.replace("http://localhost:8080/", "/");
+    }
+    return url;
+  }
+
+  private List<String> getUploadedPicturesUrlsFromBlobstore(HttpServletRequest request, String formInputElementName) {
+    BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+    Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
+    List<BlobKey> blobKeys = blobs.get(formInputElementName);
+
+    // if no images were uploaded
+    if (blobKeys == null) {
+        return new ArrayList<String>();
+    }
 
     // Handle all blobkeys
     List<String> urls = new ArrayList<String>();
@@ -133,4 +167,5 @@ public class BusinessDataServlet extends HttpServlet {
 
     return urls;
   }
+
 }

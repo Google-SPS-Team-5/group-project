@@ -1,4 +1,8 @@
-async function fetchBlobstoreUrlAndShowForm() {
+document.addEventListener("DOMContentLoaded", function() {
+    fetchBlobstoreUrl();
+});
+
+async function fetchBlobstoreUrl() {
     const response = await fetch('/business-blobstore');
     const imageUploadUrl = await response.text();
     const addBusinessForm = document.getElementById('add-business-form');
