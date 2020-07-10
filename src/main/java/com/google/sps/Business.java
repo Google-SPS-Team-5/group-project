@@ -40,7 +40,7 @@ public final class Business {
                       String businessLogoUrl, 
                       List<String> businessPhotoUrlList,
                       String businessDescr,
-                      String menuUrl,
+                      String menuLink,
                       String businessOrderInfo,
                       String businessContactUrl,
                       String linkToBusiness)
@@ -54,7 +54,7 @@ public final class Business {
     logoBlobstoreUrl = businessLogoUrl;
     photoBlobstoreUrlList = businessPhotoUrlList;
     description = businessDescr;
-    menuUrl = menuUrl;
+    menuUrl = menuLink;
     orderInformation = businessOrderInfo;
     contactUrl = businessContactUrl;
     websiteUrl = linkToBusiness;
