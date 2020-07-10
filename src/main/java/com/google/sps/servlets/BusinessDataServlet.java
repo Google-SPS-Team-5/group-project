@@ -1,19 +1,27 @@
 
 package com.google.sps.servlets;
 
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreService;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.images.ImagesService;
+import com.google.appengine.api.images.ImagesServiceFactory;
+import com.google.appengine.api.images.ServingUrlOptions;
 import com.google.gson.Gson;
 import com.google.sps.Business;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.text.SimpleDateFormat;  
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,37 +32,38 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/business-data")
 public class BusinessDataServlet extends HttpServlet {
     
-  @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+//   @Override
+//   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     
-    // Create query for Datastore.
-    Query query = new Query("Business");
+//     // Create query for Datastore.
+//     Query query = new Query("Business");
 
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    PreparedQuery results = datastore.prepare(query);
+//     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+//     PreparedQuery results = datastore.prepare(query);
 
-    // Iterate over results and add each comment to the ArrayList.
-    List<Business> businesses = new ArrayList<>();
-    for (Entity entity : results.asIterable()) {
-      long id = entity.getKey().getId();
-    //   String username = (String) entity.getProperty("username");
-    //   String comments = (String) entity.getProperty("comments");
-    //   String timestamp = (String) entity.getProperty("timestamp");
+//     // Iterate over results and add each comment to the ArrayList.
+//     List<Business> businesses = new ArrayList<>();
+//     for (Entity entity : results.asIterable()) {
+//       long id = entity.getKey().getId();
+//       String username = (String) entity.getProperty("username");
+//       String comments = (String) entity.getProperty("comments");
+//       String timestamp = (String) entity.getProperty("timestamp");
+  
+//       Business business = new Business();
+//       businesses.add(business);
+//     }
 
-      Business business = new Business();
-      businesses.add(business);
-    }
+//     Gson gson = new Gson();
 
-    Gson gson = new Gson();
-
-    // Send the JSON as the response.
-    response.setContentType("application/json;");
-    response.getWriter().println(gson.toJson(businesses));
-  }
+//     // Send the JSON as the response.
+//     response.setContentType("application/json;");
+//     response.getWriter().println(gson.toJson(businesses));
+//   }
   
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    List<String> uploadedFileUrls = getUploadedFileUrlFromBlobstore(request, "image");
+    Gson gson = new Gson();
+    List<String> uploadedFileUrls = getUploadedFilesUrlsFromBlobstore(request, "image");
     // Get the input from the form.
     String name = request.getParameter("name");
     String desc = request.getParameter("desc");
@@ -69,11 +78,11 @@ public class BusinessDataServlet extends HttpServlet {
     String logoUrl = uploadedFileUrls.get(0);
     List<String> picturesUrls = uploadedFileUrls.subList(1, uploadedFileUrls.size());
     // can't add reviews and rating when creating a new business
-    Int review = 0;
-    List<String> reviews = new String
+    int rating = 0;
+    List<String> reviews = new ArrayList<String>();
 
     Entity businessEntity = new Entity("Business");
-    businessEntity.setProperty("name", username);
+    businessEntity.setProperty("name", name);
     businessEntity.setProperty("desc", desc);
     businessEntity.setProperty("categories", gson.toJson(categories));
     businessEntity.setProperty("address", address);
@@ -85,6 +94,8 @@ public class BusinessDataServlet extends HttpServlet {
     businessEntity.setProperty("menuLink", menuLink);
     businessEntity.setProperty("logUrl", logoUrl);
     businessEntity.setProperty("picturesUrls", gson.toJson(picturesUrls));
+    businessEntity.setProperty("rating", rating);
+    businessEntity.setProperty("reviews", reviews);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(businessEntity);
@@ -93,7 +104,7 @@ public class BusinessDataServlet extends HttpServlet {
     response.sendRedirect("/index.html");
   }
 
-  private List<String> getUploadedFileUrlsFromBlobstore(HttpServletRequest request, String formInputElementName) {
+  private List<String> getUploadedFilesUrlsFromBlobstore(HttpServletRequest request, String formInputElementName) {
     BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
     Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
     List<BlobKey> blobKeys = blobs.get(formInputElementName);

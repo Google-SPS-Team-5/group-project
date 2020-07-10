@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 @WebServlet("/business-blobstore")
-public final class BlobstoreServlet extends HttpServlet {
+public final class BusinessBlobstoreServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
