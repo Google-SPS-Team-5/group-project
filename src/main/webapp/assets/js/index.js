@@ -1,5 +1,6 @@
 // default to load 6 product first
 const INITIAL_PRODUCT_LOAD = 6
+const INITIAL_DESC_WORDS = 20
 
 async function getMultipleMockData() {
   let response = await fetch('/multiplemockdatabusiness');
@@ -64,6 +65,7 @@ function initMap(foodLocations) {
  */
 function homePageListingTemplate(product) {
   const baseImage = product.photoBlobstoreUrlList.length === 0 ? "" : product.photoBlobstoreUrlList[0];
+  const description = truncateWords(product.description, INITIAL_DESC_WORDS)
   return `<div class="product-listing-card">
             <div class='product-listing-image'>
             <img src=${baseImage}>
@@ -71,8 +73,8 @@ function homePageListingTemplate(product) {
             <h3>${product.name}</h3>
             <p class="categories">${product.categories}</p>
             <p class="price">Price: From \$${product.minPrice}</p>
-            <p>${product.description}</p>
             <p class="delivery">${product.orderInformation}</p>
+            <p>${description}...</p>
             <p class="rating">Rating: ${product.aggregatedRating}</p>
             <span>
               <button>
@@ -82,4 +84,11 @@ function homePageListingTemplate(product) {
             </span>
           </div>
           `;
+}
+
+/**
+ * Truncates a string into a fixed number of words
+ */
+function truncateWords(str, no_words) {
+    return str.split(" ").splice(0, no_words).join(" ");
 }
