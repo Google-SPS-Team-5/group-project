@@ -22,8 +22,8 @@ public final class MockDataBusiness {
   {
     String businessName = "The Oven Bakes";
     List<String> categoryList = Arrays.asList("Dessert", "Brownies", "Cookies");
-    float businessLat = 1.315120F;
-    float businessLong = 103.764977F;
+    float businessLat = 1.326574F;
+    float businessLong = 103.814158F;
     String businessAddr = "3150 Commonwealth Avenue West, 129580";
     String businessLogoUrl = "https://res-1.cloudinary.com/crunchbase-production/image/upload/c_lpad,h_120,w_120,f_auto,b_white,q_auto:eco/v1412921346/nnzir0xhukjpbpmctwy9.jpg";
     List<String> businessPhotoUrlList = Arrays.asList("images/the-oven-bakes/the-oven-bakes-1.PNG","images/the-oven-bakes/the-oven-bakes-2.PNG","images/the-oven-bakes/the-oven-bakes-3.PNG","images/the-oven-bakes/the-oven-bakes-5.PNG");
@@ -59,8 +59,8 @@ public final class MockDataBusiness {
 
     businessName = "Roti Kirai Singapura";
     categoryList = Arrays.asList("Mains");
-    businessLat = 1.351780F;
-    businessLong = 103.954720F;
+    businessLat = 1.322040F;
+    businessLong = 103.814554F;
     businessAddr = "Blk 298 Tampines Street 22 Singapore 520298";
     businessLogoUrl = "https://res-1.cloudinary.com/crunchbase-production/image/upload/c_lpad,h_120,w_120,f_auto,b_white,q_auto:eco/v1412921346/nnzir0xhukjpbpmctwy9.jpg";
     businessPhotoUrlList = Arrays.asList("images/the-oven-bakes/the-oven-bakes-1.PNG","images/the-oven-bakes/the-oven-bakes-2.PNG","images/the-oven-bakes/the-oven-bakes-3.PNG","images/the-oven-bakes/the-oven-bakes-5.PNG");
@@ -91,8 +91,8 @@ public final class MockDataBusiness {
 
     businessName = "Paparch Sg";
     categoryList = Arrays.asList("Dessert", "Cakes");
-    businessLat = 1.315120F;
-    businessLong = 103.764977F;
+    businessLat = 1.323561F;
+    businessLong = 103.841931F;
     businessAddr = "3150 Commonwealth Avenue West, 129580";
     businessLogoUrl = "https://res-1.cloudinary.com/crunchbase-production/image/upload/c_lpad,h_120,w_120,f_auto,b_white,q_auto:eco/v1412921346/nnzir0xhukjpbpmctwy9.jpg";
     businessPhotoUrlList = Arrays.asList("images/the-oven-bakes/the-oven-bakes-1.PNG","images/the-oven-bakes/the-oven-bakes-2.PNG","images/the-oven-bakes/the-oven-bakes-3.PNG","images/the-oven-bakes/the-oven-bakes-5.PNG");

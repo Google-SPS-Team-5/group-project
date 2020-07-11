@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Product Listing</title>
+    <title class="businessName"></title>
     <link rel="stylesheet" href="assets/css/global.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/css/product-page.css" />
@@ -10,33 +10,26 @@
     <link rel="stylesheet" href="assets/css/reviews.css" />
     <script type="text/javascript" src="assets/js/lightbox.js"></script>
     <script type="text/javascript" src="assets/js/reviews.js"></script>
-    <script
-      src="https://kit.fontawesome.com/bf05d78857.js"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://kit.fontawesome.com/bf05d78857.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="assets/js/productpage.js"></script>
+    <script type="text/javascript" src="assets/js/authentication.js"></script>
   </head>
-  <body onload="getReviews();">
+  <body onload ="populateProductDetails(); getReviews();">
     <script src="assets/js/navbar.js"></script>
     <div class="business-description">
       <div class="layout">
         <div>
-          <img
-            src="images/the-oven-bakes/the-oven-bakes-logo.PNG"
-            style="height:140px; padding:10px;"
-          />
+          <a id="businessUrl" target="_blank">
+            <img id="businessLogo" style="height:140px; padding:10px;"/>
+          </a>
         </div>
         <div style="text-align:right;">
-          <p
-            style="text-align: left; margin-block-start: 30px; margin-block-end: 10px;"
-          >
-            The Oven Bakes
+          <p class="businessName" style="text-align: left; margin-block-start: 30px; margin-block-end: 10px;">
+            
           </p>
-          <div style="text-align: left;">
-            <mark>Dessert</mark>
-            <mark>Brownies</mark>
-            <mark>Cookies</mark>
+          <div id="businessCategories" style="text-align: left;">
           </div>
-          <div style="position:absolute; bottom:10px; right:10px;">
+          <div id="aggregateRating" style="position:absolute; bottom:10px; right:10px;">
             <i class="fas fa-star yellow-star"></i
             ><i class="fas fa-star yellow-star"></i
             ><i class="fas fa-star yellow-star"></i
@@ -47,90 +40,13 @@
       </div>
     </div>
     <div class="image-gallery">
-      <div class="lightbox-row">
-        <div class="lightbox-column">
-          <img
-            src="images/the-oven-bakes/the-oven-bakes-2.PNG"
-            style="height: 250px; width:100%"
-            onclick="openModal();currentSlide(1)"
-            class="hover-shadow cursor"
-          />
-        </div>
-        <div class="lightbox-column">
-          <img
-            src="images/the-oven-bakes/the-oven-bakes-3.PNG"
-            style="height: 250px; width:100%"
-            onclick="openModal();currentSlide(2)"
-            class="hover-shadow cursor"
-          />
-        </div>
-        <div class="lightbox-column">
-          <img
-            src="images/the-oven-bakes/the-oven-bakes-1.PNG"
-            style="height: 250px; width:100%"
-            onclick="openModal();currentSlide(3)"
-            class="hover-shadow cursor"
-          />
-        </div>
-        <div class="lightbox-column">
-          <img
-            src="images/the-oven-bakes/the-oven-bakes-4.PNG"
-            style="height: 250px; width:100%"
-            onclick="openModal();currentSlide(4)"
-            class="hover-shadow cursor"
-          />
-        </div>
-        <div class="lightbox-column">
-          <img
-            src="images/the-oven-bakes/the-oven-bakes-5.PNG"
-            style="height: 250px; width:100%"
-            onclick="openModal();currentSlide(5)"
-            class="hover-shadow cursor"
-          />
-        </div>
+      <div id="image-thumbnail-gallery" class="lightbox-row">
       </div>
 
       <div id="myModal" class="modal">
         <span class="close cursor" onclick="closeModal()">&times;</span>
         <div class="modal-content">
-          <div class="mySlides">
-            <div class="numbertext">1 / 5</div>
-            <img
-              src="images/the-oven-bakes/the-oven-bakes-2.PNG"
-              style="height: 400px; width:auto"
-            />
-          </div>
-
-          <div class="mySlides">
-            <div class="numbertext">2 / 5</div>
-            <img
-              src="images/the-oven-bakes/the-oven-bakes-3.PNG"
-              style="height: 400px; width:auto"
-            />
-          </div>
-
-          <div class="mySlides">
-            <div class="numbertext">3 / 5</div>
-            <img
-              src="images/the-oven-bakes/the-oven-bakes-1.PNG"
-              style="height: 400px; width:auto"
-            />
-          </div>
-
-          <div class="mySlides">
-            <div class="numbertext">4 / 5</div>
-            <img
-              src="images/the-oven-bakes/the-oven-bakes-4.PNG"
-              style="height: 400px; width:auto"
-            />
-          </div>
-
-          <div class="mySlides">
-            <div class="numbertext">5 / 5</div>
-            <img
-              src="images/the-oven-bakes/the-oven-bakes-5.PNG"
-              style="height: 400px; width:auto"
-            />
+          <div id="slides-container">
           </div>
 
           <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
@@ -139,101 +55,39 @@
           <div class="caption-container">
             <p id="caption"></p>
           </div>
+          
+          <div id="gallery-thumbnail-container">
+          </div>
 
-          <div class="lightbox-column">
-            <img
-              class="demo cursor"
-              src="images/the-oven-bakes/the-oven-bakes-2.PNG"
-              style="height: 100px; width:auto"
-              onclick="currentSlide(1)"
-              alt="Sea Salt Brownies"
-            />
-          </div>
-          <div class="lightbox-column">
-            <img
-              class="demo cursor"
-              src="images/the-oven-bakes/the-oven-bakes-3.PNG"
-              style="height: 100px; width:auto"
-              onclick="currentSlide(2)"
-              alt="Biscoff Brownies"
-            />
-          </div>
-          <div class="lightbox-column">
-            <img
-              class="demo cursor"
-              src="images/the-oven-bakes/the-oven-bakes-1.PNG"
-              style="height: 100px; width:auto"
-              onclick="currentSlide(3)"
-              alt="The Oven Bakes Cover"
-            />
-          </div>
-          <div class="lightbox-column">
-            <img
-              class="demo cursor"
-              src="images/the-oven-bakes/the-oven-bakes-4.PNG"
-              style="height: 100px; width:auto"
-              onclick="currentSlide(4)"
-              alt="Oreo Brownies"
-            />
-          </div>
-          <div class="lightbox-column">
-            <img
-              class="demo cursor"
-              src="images/the-oven-bakes/the-oven-bakes-5.PNG"
-              style="height: 100px; width:auto"
-              onclick="currentSlide(5)"
-              alt="Chocolate Chip Cookie"
-            />
-          </div>
         </div>
       </div>
     </div>
     <div class="business-writeup">
       <div>
-        <h2>About The Oven Bakes</h2>
-        <p>
-          The Oven Bakes is a local home business that makes mouth-watering
-          brownies and cookies. These homemade treats are sure going to sweeten
-          your day. Baked goodies are limited in stock and only available for
-          pre-order. Grab yours soon!
+        <h2 class="businessName">About </h2>
+        <p id=businessDescr>
         </p>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
-        </p>
-        <p>
-          View the menu
-          <a href="https://www.instagram.com/theovenbakes/" target="_blank"
-            >here</a
-          >.
+          View the menu <a target="_blank" id="menuUrl">here</a>.
         </p>
       </div>
       <div>
         <h2>Order Information</h2>
+        <p id="orderInfo">
         <p>
-          Minimum Order(for delivery): $15
-        </p>
-        <p>Islandwide Delivery: $10</p>
-        <p>
-          Contact Details:
+          <h3>Contact Details:</h3>
         </p>
         <p>
-          <i class="fab fa-instagram" style="margin-right: 0.5rem"></i
-          ><a href="https://www.instagram.com/theovenbakes/" target="_blank"
-            >@theovenbakes</a
-          >
+          <a target="_blank" id="contactUrl">
+            Contact link
+          </a>
         </p>
       </div>
     </div>
     <div class="reviews">
       <div style="text-align: center">
-        <h2>
-          Reviews for The Oven Bakes
+        <h2 class="businessName">
+          Reviews for 
         </h2>
       </div>
       <div class="review-form">
@@ -259,5 +113,6 @@
       </div>
       <div id="review-grid"></div>
     </div>
+  <script src="assets/js/footer.js"></script>
   </body>
 </html>
