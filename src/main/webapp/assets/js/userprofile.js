@@ -3,7 +3,6 @@ async function getUserInformation() {
     let userinformation = await response.json();
 
     var user = JSON.parse(userinformation);
-    document.getElementById("user-description").innerHTML = user.name;
-    
+
     return user;
 }
