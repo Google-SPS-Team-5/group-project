@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Edit Business</title>
+    <script src="assets/js/authentication.js"></script>
+    <link rel="stylesheet" href="assets/css/add.css" />
+    <link rel="stylesheet" href="assets/css/forms.css" />
+    <link rel="stylesheet" href="assets/css/global.css" />
+  </head>
+  <body>
+    <script src="assets/js/navbar.js"></script>
+
+    <h1 id="page-title" style="margin: 2rem 5rem 2rem 5rem; display: none;">Add a New Business</h1>
+
+    <div id="error-message" style="display: none">
+        <h1>Sorry, this page is for admins only!</h1>
+        <p>You are being redirected to the home page...</p>
+    </div>
+    <div id="form-container" style="visibility: hidden; margin: 5rem">
+      <form id="edit-business-form" method="POST" enctype="multipart/form-data">
+        <label for="name">Name:</label><br />
+        <input type="text" id="name" name="name" required/><br />
+        <div class="two-columns">
+          <div>
+            <label for="desc">Description:</label><br />
+            <textarea type="text" id="desc" name="desc"></textarea><br />
+          </div>
+          <div>
+            <label for="categories">Categories:</label><br />
+            <select name="categories" id="categories" multiple>
+              <option value="Snacks">Snacks</option>
+              <option value="Mains">Mains</option>
+              <option value="Desserts">Desserts</option>
+              <option value="Drinks">Drinks</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="two-columns" style="align-items: center;">
+          <div>
+            <label for="address">Address:</label><br />
+            <textarea type="text" id="address" name="address"></textarea><br />
+          </div>
+          <div>
+            <label for="addressLat">Latitude:</label><br />
+            <input
+              type="number"
+              step="0.000001"
+              id="addressLat"
+              name="addressLat"
+            /><br />
+            <label for="addressLng">Longitude:</label><br />
+            <input
+              type="number"
+              step="0.000001"
+              id="addressLng"
+              name="addressLng"
+            /><br />
+          </div>
+        </div>
+        <div class="two-columns">
+          <div>
+            <label for="contactDetails">Contact Details:</label><br />
+            <textarea
+              type="text"
+              id="contactDetails"
+              name="contactDetails"
+            ></textarea
+            ><br />
+          </div>
+          <div>
+            <label for="orderDetails">Order Details:</label><br />
+            <textarea
+              type="text"
+              id="orderDetails"
+              name="orderDetails"
+            ></textarea
+            ><br />
+          </div>
+        </div>
+
+        <div class="two-columns">
+          <div>
+            <label for="businessLink">Business Link:</label><br />
+            <input type="text" id="businessLink" name="businessLink" /><br />
+          </div>
+          <div>
+            <label for="menuLink">Menu Link:</label><br />
+            <input type="text" id="menuLink" name="menuLink" /><br />
+          </div>
+        </div>
+        <p>Logo:</p>
+        <label for="logo" id="upload-button">Upload Logo</label><br />
+        <input type="file" id="logo" name="logo"/><br />
+        <label id="logo-file-name"></label>
+        <p>Pictures:</p>
+        <label for="pictures" id="upload-button">Upload Pictures</label><br />
+        <input type="file" id="pictures" name="pictures" multiple/><br />
+        <label id="pictures-file-names"></label>
+        <div style="display: flex; justify-content: flex-end;">
+          <button type="submit" value="Submit">Add</button>
+        </div>
+      </form>
+    </div>
+    <script src="assets/js/footer.js"></script>
+    <script src="assets/js/add.js"></script>
+  </body>
+</html>
