@@ -24,7 +24,7 @@ public final class Business {
   private String description;
   private String menuUrl;
   private String orderInformation;
-  private String contactUrl;
+  private String contactInformation;
   private String websiteUrl;
   private List<String> reviewDatastoreKeyList;
   
@@ -42,7 +42,7 @@ public final class Business {
                       String businessDescr,
                       String menuLink,
                       String businessOrderInfo,
-                      String businessContactUrl,
+                      String businessContactInfo,
                       String linkToBusiness)
   {
     name = businessName;
@@ -56,7 +56,7 @@ public final class Business {
     description = businessDescr;
     menuUrl = menuLink;
     orderInformation = businessOrderInfo;
-    contactUrl = businessContactUrl;
+    contactInformation = businessContactInfo;
     websiteUrl = linkToBusiness;
   }
 
