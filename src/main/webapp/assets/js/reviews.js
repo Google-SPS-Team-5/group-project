@@ -20,12 +20,14 @@ async function getReviews() {
 function createReviewSection(review) {
   const reviewWrapper = document.createElement("div");
   reviewWrapper.className = "review-card";
-
+  
+  let stars = createStars(review.rating);
   reviewWrapper.innerHTML =
     `<div class="review-card-container">
       <div class="name-and-date">
         <p>${review.userID}</p>
         <div class="rating">
+          ${stars}
           <i class="fas fa-star yellow-star"></i>
           <i class="fas fa-star yellow-star"></i>
           <i class="fas fa-star yellow-star"></i>
@@ -40,12 +42,17 @@ function createReviewSection(review) {
   return reviewWrapper;
 }
 
-function displayRating(rating) {
+function createStars(rating) {
   i=0;
+  var starHTML = '';
   for (; i<rating; i++) {
-    document.write('<i class="fas fa-star yellow-star"></i>');
+    starHTML.concat('<i class="fas fa-star yellow-star"></i>');
+    console.log(starHTML);
   }
   while (i<5) {
-    document.write('<i class="fas fa-star"></i>');
+    starHTML.concat('<i class="fas fa-star"></i>');
+    i += 1;
   }
+
+  return starHTML;
 }
