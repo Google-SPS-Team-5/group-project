@@ -16,7 +16,7 @@ async function initHomePage() {
   let foodLocations = []
 
   for (let i = 0; i < productsToLoad; i++) {
-    document.getElementById("productListings").innerHTML += homePageListingTemplate(mockData[i]);
+    document.getElementById("product-listings").innerHTML += homePageListingTemplate(mockData[i]);
     foodLocations.push(createLocation(mockData[i]))
   }
   initMap(foodLocations)
