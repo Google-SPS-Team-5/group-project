@@ -1,5 +1,5 @@
 async function getMockData() {
-  let response = await fetch('/mockdata');
+  let response = await fetch('/mockdatabusiness');
   let mockdata = await response.json();
   return mockdata;
 }

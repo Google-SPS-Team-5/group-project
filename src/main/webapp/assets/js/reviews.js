@@ -39,3 +39,13 @@ function createReviewSection(review) {
 
   return reviewWrapper;
 }
+
+function displayRating(rating) {
+  i=0;
+  for (; i<rating; i++) {
+    document.write('<i class="fas fa-star yellow-star"></i>');
+  }
+  while (i<5) {
+    document.write('<i class="fas fa-star"></i>');
+  }
+}
