@@ -11,9 +11,13 @@
   <body>
     <script src="assets/js/navbar.js"></script>
 
-    <h2 style="margin: 2rem 5rem 2rem 5rem;">Add a New Business</h2>
+    <h1 id="page-title" style="margin: 2rem 5rem 2rem 5rem; display: none;">Add a New Business</h1>
 
-    <div style="margin: 5rem">
+    <div id="error-message" style="display: none">
+        <h1>Sorry, this page is for admins only!</h1>
+        <p>You are being redirected to the home page...</p>
+    </div>
+    <div id="form-container" style="visibility: hidden; margin: 5rem">
       <form id="add-business-form" method="POST" enctype="multipart/form-data">
         <label for="name">Name:</label><br />
         <input type="text" id="name" name="name" required/><br />
