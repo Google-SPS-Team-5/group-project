@@ -18,9 +18,9 @@ async function showFormOrRedirectOut() {
 }
 
 async function fetchBlobstoreUrl() {
-    const response = await fetch('/business-blobstore');
+    const response = await fetch('/edit-business-blobstore');
     const imageUploadUrl = await response.text();
-    const addBusinessForm = document.getElementById('add-business-form');
+    const addBusinessForm = document.getElementById('edit-business-form');
     addBusinessForm.action = imageUploadUrl;
 }
 
