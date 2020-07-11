@@ -26,14 +26,7 @@ function createReviewSection(review) {
     `<div class="review-card-container">
       <div class="name-and-date">
         <p>${review.userID}</p>
-        <div class="rating">
-          ${stars}
-          <i class="fas fa-star yellow-star"></i>
-          <i class="fas fa-star yellow-star"></i>
-          <i class="fas fa-star yellow-star"></i>
-          <i class="fas fa-star yellow-star"></i>
-          <i class="fas fa-star yellow-star"></i>
-        </div>
+        <div class="rating">${stars}</div>
         <p>${review.dateTime}</p>
       </div>
       <p>${review.comment}</p>
@@ -43,15 +36,14 @@ function createReviewSection(review) {
 }
 
 function createStars(rating) {
-  i=0;
+  var i=0;
   var starHTML = '';
   for (; i<rating; i++) {
-    starHTML.concat('<i class="fas fa-star yellow-star"></i>');
-    console.log(starHTML);
+    starHTML += '<i class="fas fa-star yellow-star"></i>';
   }
   while (i<5) {
-    starHTML.concat('<i class="fas fa-star"></i>');
     i += 1;
+    starHTML += '<i class="fas fa-star"></i>';
   }
 
   return starHTML;
