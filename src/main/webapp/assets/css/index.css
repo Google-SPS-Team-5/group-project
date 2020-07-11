@@ -23,6 +23,10 @@
   }
 }
 
+.product-listings-wrapper {
+  text-align: center;
+}
+
 .product-listing-card {
   background-color: #dddddd;
   width: 100%;
