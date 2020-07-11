@@ -4,15 +4,14 @@
         <title></title> 
         <link rel = "stylesheet" href = "assets/css/profile-page.css">
     </head>
-    <body>
+    <body onload="getUserInformation()">
         <script src="assets/js/navbar.js"></script>
         <div class="user-information">
             <div>
                 <img src = "images/stitchIcon.png" style = "height:140px; padding:10px;">
             </div>
             <div>
-                <p style = "text-align: left; margin-block-start: 25px; margin-block-end: 10px; font-size: 20px;">
-                    username of User 
+                <p id="user-description" style = "text-align: left; margin-block-start: 25px; margin-block-end: 10px; font-size: 20px;">
                     &nbsp;&nbsp;
                     <button class="edit-profile-button">Edit Profile</button>
                 </p>

@@ -10,13 +10,15 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/userinformation")
 public class userServlet extends HttpServlet {
 
-    Gson gson = new Gson();
-    MockUserData mockUserData = new MockUserData();
+  Gson gson = new Gson();
+  MockUserData mockUserData = new MockUserData();
 
-    @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  @Override
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        response.setContentType("text/html;");
-        response.getWriter().println("<h1>Hello world!</h1>");
-      }
+    String json = gson.toJson(mockUserData.mockUserDataList.get(0));
+
+    response.setContentType("application/json;");
+    response.getWriter().println(json);
+  }
 }
