@@ -19,11 +19,10 @@ async function getReviews() {
  */
 function createReviewSection(review) {
   const reviewWrapper = document.createElement("div");
-  reviewWrapper.class = "review-card";
+  reviewWrapper.className = "review-card";
 
   reviewWrapper.innerHTML =
-    `<div class="review-card">
-    <div class="review-card-container">
+    `<div class="review-card-container">
       <div class="name-and-date">
         <p>${review.userID}</p>
         <div class="rating">
@@ -36,7 +35,6 @@ function createReviewSection(review) {
         <p>${review.dateTime}</p>
       </div>
       <p>${review.comment}</p>
-    </div>
     </div>`;
 
   return reviewWrapper;
