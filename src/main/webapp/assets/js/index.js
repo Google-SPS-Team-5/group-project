@@ -73,7 +73,6 @@ function homePageListingTemplate(product) {
             <h3>${product.name}</h3>
             <p class="categories">${product.categories}</p>
             <p class="price">Price: From \$${product.minPrice}</p>
-            <p class="delivery">${product.orderInformation}</p>
             <p>${description}...</p>
             <p class="rating">Rating: ${product.aggregatedRating}</p>
             <span>
