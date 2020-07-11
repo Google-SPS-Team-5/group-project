@@ -2,7 +2,7 @@
 const INITIAL_PRODUCT_LOAD = 6
 
 async function getMultipleMockData() {
-  let response = await fetch('/multiplemockdata');
+  let response = await fetch('/multiplemockdatabusiness');
   let mockdata = await response.json();
   return mockdata;
 }
@@ -70,7 +70,7 @@ function homePageListingTemplate(product) {
             </div>
             <h3>${product.name}</h3>
             <p class="categories">${product.categories}</p>
-            <p class="price">Price undefined</p>
+            <p class="price">Price: From \$${product.minPrice}</p>
             <p>${product.description}</p>
             <p class="delivery">${product.orderInformation}</p>
             <p class="rating">Rating: ${product.aggregatedRating}</p>
