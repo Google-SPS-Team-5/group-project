@@ -111,7 +111,7 @@ public class BusinessDataServlet extends HttpServlet {
     String orderDetails = request.getParameter(BUSINESS_ORDER_INFO);
     String minPriceStr = request.getParameter(BUSINESS_MIN_PRICE);
     String maxPriceStr = request.getParameter(BUSINESS_MAX_PRICE);
-    float minPrice;
+    float minPrice = getFloatParameter(request, BUSINESS_MAX_PRICE);
       if (minPriceStr.isEmpty()) {
           minPrice = 404;
       } else {
@@ -155,6 +155,15 @@ public class BusinessDataServlet extends HttpServlet {
 
     // Redirect back to the HTML page.
     response.sendRedirect("/index.html");
+  }
+
+  private float getFloatParameter(HttpServletRequest request, String formElementName) {
+    String floatStr = request.getParameter(BUSINESS_MAX_PRICE);
+    if (floatStr.isEmpty()) {
+      return 404;
+    } else {
+      return Float.parseFloat(floatStr);
+    }
   }
  
   /**
