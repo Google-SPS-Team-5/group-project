@@ -35,6 +35,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/business-data")
 public class BusinessDataServlet extends HttpServlet {
     
+  /** Writes a JSON-ified list of all existing businesses from the Datastore
+  */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Create gson for serializing and deserializing
@@ -95,6 +97,9 @@ public class BusinessDataServlet extends HttpServlet {
     response.getWriter().println(gson.toJson(businesses));
   }
   
+  /**
+  * Gets input from Add New Business form, creats a Business entity and stores it in the Datastore.
+  */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Gson gson = new Gson();
@@ -138,7 +143,10 @@ public class BusinessDataServlet extends HttpServlet {
     // Redirect back to the HTML page.
     response.sendRedirect("/index.html");
   }
-
+ 
+  /**
+  * Gets the logo image url from the blobstore, or empty string if logo was not uploaded.
+  */
   private String getUploadedLogoUrlFromBlobstore(HttpServletRequest request, String formInputElementName) {
     BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
     Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
@@ -169,6 +177,10 @@ public class BusinessDataServlet extends HttpServlet {
     return url;
   }
 
+
+  /**
+  * Gets the url of the business images from the blobstore, or empty string if no images were uploaded.
+  */
   private List<String> getUploadedPicturesUrlsFromBlobstore(HttpServletRequest request, String formInputElementName) {
     BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
     Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
