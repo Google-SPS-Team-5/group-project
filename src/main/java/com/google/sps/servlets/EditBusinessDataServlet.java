@@ -34,10 +34,58 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that returns all businesses and lets you create a new business */
+/** Servlet that returns a specific business and lets you edit that specific business */
 @WebServlet("/edit-business-data")
 public class EditBusinessDataServlet extends HttpServlet {
 
+
+  /** Writes a JSON-ified of a specific from the Datastore. The key is taken from the URL parameter.
+  */
+  @Override
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    try {
+        // Create gson for serializing and deserializing
+        Gson gson = new Gson();
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        Key businessKey = KeyFactory.createKey("Business", Long.parseLong("5928566696968192"));    // Get the input from the form.
+        Entity businessEntity = getBusinessEntity(datastore, businessKey);
+
+        String name = (String) businessEntity.getProperty(BUSINESS_NAME);
+        String desc = (String) businessEntity.getProperty(BUSINESS_DESC);
+        String[] categoriesArr = gson.fromJson((String) businessEntity.getProperty(BUSINESS_CATEGORIES), String[].class);
+        List<String> categories = Arrays.asList(categoriesArr);
+        String address = (String) businessEntity.getProperty(BUSINESS_ADDRESS);
+        float addressLat = ((Double) businessEntity.getProperty(BUSINESS_ADDRESS_LAT)).floatValue();
+        float addressLng = ((Double) businessEntity.getProperty(BUSINESS_ADDRESS_LNG)).floatValue();
+        String contactDetails = (String) businessEntity.getProperty(BUSINESS_CONTACT_INFO);
+        String orderDetails = (String) businessEntity.getProperty(BUSINESS_ORDER_INFO);
+        float minPrice = ((Double) businessEntity.getProperty(BUSINESS_MIN_PRICE)).floatValue();
+        float maxPrice = ((Double) businessEntity.getProperty(BUSINESS_MAX_PRICE)).floatValue();
+        String businessLink = (String) businessEntity.getProperty(BUSINESS_LINK);
+        String menuLink = (String) businessEntity.getProperty(BUSINESS_MENU_LINK);
+        String logoUrl = (String) businessEntity.getProperty(BUSINESS_LOGO);
+        String[] picturesUrlsArr = gson.fromJson((String) businessEntity.getProperty(BUSINESS_PICTURES), String[].class);
+        List<String> picturesUrls = picturesUrlsArr == null ? new ArrayList<String>() : Arrays.asList(picturesUrlsArr);
+        float rating = ((Double) businessEntity.getProperty(BUSINESS_RATING)).floatValue();
+        String[] reviewsArr = gson.fromJson((String) businessEntity.getProperty(BUSINESS_REVIEWS), String[].class);
+        List<String> reviews = reviewsArr == null ? new ArrayList<String>() : Arrays.asList(reviewsArr);
+
+
+        Business business = new Business(name, categories, minPrice, maxPrice, rating, addressLat, addressLng, address, logoUrl, picturesUrls, desc, menuLink, orderDetails, contactDetails, businessLink);
+        // Send the JSON as the response.
+        response.setContentType("application/json;");
+        response.getWriter().println(gson.toJson(business));
+    } catch (IOException err) {
+        System.out.println(err);
+    } catch (EntityNotFoundException err) {
+        System.out.println(err);
+    }
+  }
+
+
+  /** Gets input from the form, including the business key, retrieves the business matching the key
+  * and updates it with the fields from the form.
+  */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Gson gson = new Gson();
@@ -46,7 +94,6 @@ public class EditBusinessDataServlet extends HttpServlet {
     try {
     // Get the input from the form.
     Key businessKey = KeyFactory.createKey("Business", Long.parseLong(request.getParameter(BUSINESS_KEY)));    // Get the input from the form.
-    System.out.println(businessKey.toString());
     String name = request.getParameter(BUSINESS_NAME);
     String desc = request.getParameter(BUSINESS_DESC);
     String[] categoriesArr = request.getParameterValues(BUSINESS_CATEGORIES);
