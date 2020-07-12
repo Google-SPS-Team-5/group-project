@@ -47,8 +47,8 @@ async function populateForm() {
     document.getElementById("menuLink").defaultValue = business.menuUrl;
     document.getElementById("minPrice").defaultValue = business.minPrice;
     document.getElementById("maxPrice").defaultValue = business.maxPrice;
-    document.getElementById("logo").defaultValue = business.logo;
-    document.getElementById("pictures").defaultValue = business.pictures;
+    document.getElementById("logo").defaultValue = business.logoBlobstoreUrl;
+    document.getElementById("pictures").defaultValue = business.photoBlobstoreUrlList;
 
     console.log(business);
 }
