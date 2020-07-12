@@ -17,4 +17,5 @@ public final class Constants {
   public static final String BUSINESS_PICTURES = "pictures";
   public static final String BUSINESS_RATING = "rating";
   public static final String BUSINESS_REVIEWS = "reviews";
+  public static final float NOT_FOUND = (float) 404;
 }

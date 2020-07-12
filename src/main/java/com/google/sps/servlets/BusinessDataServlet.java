@@ -17,7 +17,7 @@ import com.google.gson.Gson;
 import java.lang.reflect.Type;
 import com.google.gson.reflect.TypeToken;
 import com.google.sps.Business;
-import com.google.sps.Constants.*;
+import static com.google.sps.Constants.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,20 +56,8 @@ public class BusinessDataServlet extends HttpServlet {
       String[] categoriesArr = gson.fromJson((String) entity.getProperty(BUSINESS_CATEGORIES), String[].class);
       List<String> categories = Arrays.asList(categoriesArr);
       String address = (String) entity.getProperty(BUSINESS_ADDRESS);
-      String addressLatStr = (String) entity.getProperty(BUSINESS_ADDRESS_LAT);
-      String addressLngStr = (String) entity.getProperty(BUSINESS_ADDRESS_LNG);
-      float addressLat;
-      if (addressLatStr.isEmpty()) {
-          addressLat = 404;
-      } else {
-          addressLat = Float.parseFloat(addressLatStr);
-      }
-      float addressLng;
-      if (addressLngStr.isEmpty()) {
-          addressLng = 404;
-      } else {
-          addressLng = Float.parseFloat(addressLngStr);
-      }
+      float addressLat = ((Double) entity.getProperty(BUSINESS_ADDRESS_LAT)).floatValue();
+      float addressLng = ((Double) entity.getProperty(BUSINESS_ADDRESS_LNG)).floatValue();
       String contactDetails = (String) entity.getProperty(BUSINESS_CONTACT_INFO);
       String orderDetails = (String) entity.getProperty(BUSINESS_ORDER_INFO);
       String businessLink = (String) entity.getProperty(BUSINESS_LINK);
@@ -77,13 +65,7 @@ public class BusinessDataServlet extends HttpServlet {
       String logoUrl = (String) entity.getProperty(BUSINESS_LOGO);
       String[] picturesUrlsArr = gson.fromJson((String) entity.getProperty(BUSINESS_PICTURES), String[].class);
       List<String> picturesUrls = picturesUrlsArr == null ? new ArrayList<String>() : Arrays.asList(picturesUrlsArr);
-      String ratingStr = (String) entity.getProperty(BUSINESS_RATING);
-      float rating;
-      if (ratingStr.isEmpty()) {
-          rating = 404;
-      } else {
-          rating = Float.parseFloat(ratingStr);
-      }
+      float rating = ((Double) entity.getProperty(BUSINESS_RATING)).floatValue();
       String[] reviewsArr = gson.fromJson((String) entity.getProperty(BUSINESS_REVIEWS), String[].class);
       List<String> reviews = reviewsArr == null ? new ArrayList<String>() : Arrays.asList(reviewsArr);
 
@@ -109,8 +91,20 @@ public class BusinessDataServlet extends HttpServlet {
     String[] categoriesArr = request.getParameterValues(BUSINESS_CATEGORIES);
     List<String> categories = categoriesArr == null ? new ArrayList<String>() : Arrays.asList(categoriesArr);
     String address = request.getParameter(BUSINESS_ADDRESS);
-    String addressLat = request.getParameter(BUSINESS_ADDRESS_LAT);
-    String addressLng = request.getParameter(BUSINESS_ADDRESS_LNG);
+    String addressLatStr = request.getParameter(BUSINESS_ADDRESS_LAT);
+    String addressLngStr = request.getParameter(BUSINESS_ADDRESS_LNG);
+    float addressLat;
+      if (addressLatStr.isEmpty()) {
+          addressLat = 404;
+      } else {
+          addressLat = Float.parseFloat(addressLatStr);
+      }
+      float addressLng;
+      if (addressLngStr.isEmpty()) {
+          addressLng = 404;
+      } else {
+          addressLng = Float.parseFloat(addressLngStr);
+      }
     String contactDetails = request.getParameter(BUSINESS_CONTACT_INFO);
     String orderDetails = request.getParameter(BUSINESS_ORDER_INFO);
     String businessLink = request.getParameter(BUSINESS_LINK);
@@ -118,7 +112,7 @@ public class BusinessDataServlet extends HttpServlet {
     String logoUrl = getUploadedLogoUrlFromBlobstore(request, BUSINESS_LOGO);
     List<String> picturesUrls = getUploadedPicturesUrlsFromBlobstore(request, BUSINESS_PICTURES);
     // can't add reviews and rating when creating a new business
-    String rating = "";
+    float rating = 404;
     List<String> reviews = new ArrayList<String>();
 
     Entity businessEntity = new Entity("Business");
