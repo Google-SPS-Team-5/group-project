@@ -28,29 +28,28 @@ async function populateForm() {
     const response = await fetch("/edit-business-data");
     const business = await response.json();
 
-    document.getElementById("name").defaultValue = business.name;
-    document.getElementById("desc").defaultValue = business.description;
+    console.log(business);
+    document.getElementById("name").defaultValue = business.data.name;
+    document.getElementById("desc").defaultValue = business.data.description;
     var categories = document.getElementById("categories");
-    for (const category of business.categories) {
+    for (const category of business.data.categories) {
         for (i = 0; i< categories.options.length; i++) {
             if (categories.options[i].value == category) {
                 categories.options[i].selected = true;
             }
         }
     }
-    document.getElementById("address").defaultValue = business.address;
-    document.getElementById("addressLat").defaultValue = business.addressLat;
-    document.getElementById("addressLng").defaultValue = business.addressLng;
-    document.getElementById("contactDetails").defaultValue = business.contactInformation;
-    document.getElementById("orderDetails").defaultValue = business.orderInformation;
-    document.getElementById("businessLink").defaultValue = business.websiteUrl;
-    document.getElementById("menuLink").defaultValue = business.menuUrl;
-    document.getElementById("minPrice").defaultValue = business.minPrice;
-    document.getElementById("maxPrice").defaultValue = business.maxPrice;
-    document.getElementById("logo").defaultValue = business.logoBlobstoreUrl;
-    document.getElementById("pictures").defaultValue = business.photoBlobstoreUrlList;
-
-    console.log(business);
+    document.getElementById("address").defaultValue = business.data.address;
+    document.getElementById("addressLat").defaultValue = business.data.addressLat;
+    document.getElementById("addressLng").defaultValue = business.data.addressLng;
+    document.getElementById("contactDetails").defaultValue = business.data.contactInformation;
+    document.getElementById("orderDetails").defaultValue = business.data.orderInformation;
+    document.getElementById("businessLink").defaultValue = business.data.websiteUrl;
+    document.getElementById("menuLink").defaultValue = business.data.menuUrl;
+    document.getElementById("minPrice").defaultValue = business.data.minPrice;
+    document.getElementById("maxPrice").defaultValue = business.data.maxPrice;
+    document.getElementById("logo").defaultValue = business.data.logoBlobstoreUrl;
+    document.getElementById("pictures").defaultValue = business.data.photoBlobstoreUrlList;
 }
 
 document.querySelector("#logo").onchange = function(){

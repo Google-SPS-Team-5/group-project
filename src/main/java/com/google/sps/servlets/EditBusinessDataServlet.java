@@ -72,9 +72,10 @@ public class EditBusinessDataServlet extends HttpServlet {
 
 
         Business business = new Business(name, categories, minPrice, maxPrice, rating, addressLat, addressLng, address, logoUrl, picturesUrls, desc, menuLink, orderDetails, contactDetails, businessLink);
+        String businessJson = String.format("{\"data\" : %s, \"id\": %s }", gson.toJson(business), businessEntity.getKey().getId());
         // Send the JSON as the response.
         response.setContentType("application/json;");
-        response.getWriter().println(gson.toJson(business));
+        response.getWriter().println(businessJson);
     } catch (IOException err) {
         System.out.println(err);
     } catch (EntityNotFoundException err) {
