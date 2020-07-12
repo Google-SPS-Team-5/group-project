@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", function() {
 async function showFormOrRedirectOut() {
     const response = await fetch("/authentication");
     const userJson = await response.json();
-    console.log(userJson.isAdmin);
     if (userJson.isAdmin == "true") {
         fetchBlobstoreUrl();
         document.getElementById("page-title").style.display = "block";
@@ -18,10 +17,10 @@ async function showFormOrRedirectOut() {
 }
 
 async function fetchBlobstoreUrl() {
-    const response = await fetch('/edit-business-blobstore');
+    const response = await fetch("/edit-business-blobstore");
     const imageUploadUrl = await response.text();
-    const addBusinessForm = document.getElementById('edit-business-form');
-    addBusinessForm.action = imageUploadUrl;
+    const editBusinessForm = document.getElementById("edit-business-form");
+    editBusinessForm.action = imageUploadUrl;
 }
 
 document.querySelector("#logo").onchange = function(){

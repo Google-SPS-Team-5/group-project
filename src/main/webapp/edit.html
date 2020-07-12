@@ -11,7 +11,7 @@
   <body>
     <script src="assets/js/navbar.js"></script>
 
-    <h1 id="page-title" style="margin: 2rem 5rem 2rem 5rem; display: none;">Add a New Business</h1>
+    <h1 id="page-title" style="margin: 2rem 5rem 2rem 5rem; display: none;">Edit Business</h1>
 
     <div id="error-message" style="display: none">
         <h1>Sorry, this page is for admins only!</h1>
@@ -19,7 +19,7 @@
     </div>
     <div id="form-container" style="visibility: hidden; margin: 5rem">
       <form id="edit-business-form" method="POST" enctype="multipart/form-data">
-        <input id="businessKey" style="display: none" value="6649846324789248" />
+        <input id="businessKey" name="businessKey" style="display: none" value="aglub19hcHBfaWRyFQsSCEJ1c2luZXNzGICAgICAgMQKDA" />
         <label for="name">Name:</label><br />
         <input type="text" id="name" name="name" required/><br />
         <div class="two-columns">
@@ -91,6 +91,16 @@
             <input type="text" id="menuLink" name="menuLink" /><br />
           </div>
         </div>
+        <div class="two-columns">
+          <div>
+            <label for="minPrice">Minimum Price:</label><br />
+            <input type="number" step="0.01" id="minPrice" name="minPrice" /><br />
+          </div>
+          <div>
+            <label for="maxPrice">Maximum Price:</label><br />
+            <input type="number" step="0.01" id="maxPrice" name="maxPrice" /><br />
+          </div>
+        </div>
         <p>Logo:</p>
         <label for="logo" id="upload-button">Upload Logo</label><br />
         <input type="file" id="logo" name="logo"/><br />
@@ -100,11 +110,11 @@
         <input type="file" id="pictures" name="pictures" multiple/><br />
         <label id="pictures-file-names"></label>
         <div style="display: flex; justify-content: flex-end;">
-          <button type="submit" value="Submit">Add</button>
+          <button type="submit" value="Submit">Edit</button>
         </div>
       </form>
     </div>
     <script src="assets/js/footer.js"></script>
-    <script src="assets/js/add.js"></script>
+    <script src="assets/js/edit.js"></script>
   </body>
 </html>
