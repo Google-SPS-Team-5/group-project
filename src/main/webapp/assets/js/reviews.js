@@ -38,13 +38,12 @@ function createReviewSection(review) {
 function createStars(rating) {
   var i=0;
   var starHTML = '';
-  for (; i<rating; i++) {
-    starHTML += '<i class="fas fa-star yellow-star"></i>';
+  for (i=0; i<5; i++) {
+    if (i<rating) {
+      starHTML += '<i class="fas fa-star yellow-star"></i>';
+    } else {
+      starHTML += '<i class="fas fa-star"></i>';
+    }
   }
-  while (i<5) {
-    i += 1;
-    starHTML += '<i class="fas fa-star"></i>';
-  }
-
   return starHTML;
 }
