@@ -17,7 +17,7 @@ import com.google.gson.Gson;
 import java.lang.reflect.Type;
 import com.google.gson.reflect.TypeToken;
 import com.google.sps.Business;
-import com.google.sps.Constants;
+import static com.google.sps.Constants.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,6 +35,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/business-data")
 public class BusinessDataServlet extends HttpServlet {
     
+  /** Writes a JSON-ified list of all existing businesses from the Datastore
+  */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Create gson for serializing and deserializing
@@ -49,44 +51,28 @@ public class BusinessDataServlet extends HttpServlet {
     // Iterate over results and add each business to the ArrayList.
     List<Business> businesses = new ArrayList<>();
     for (Entity entity : results.asIterable()) {
-      String name = (String) entity.getProperty(Constants.BUSINESS_NAME);
-      String desc = (String) entity.getProperty(Constants.BUSINESS_DESC);
-      String[] categoriesArr = gson.fromJson((String) entity.getProperty(Constants.BUSINESS_CATEGORIES), String[].class);
+      String name = (String) entity.getProperty(BUSINESS_NAME);
+      String desc = (String) entity.getProperty(BUSINESS_DESC);
+      String[] categoriesArr = gson.fromJson((String) entity.getProperty(BUSINESS_CATEGORIES), String[].class);
       List<String> categories = Arrays.asList(categoriesArr);
-      String address = (String) entity.getProperty(Constants.BUSINESS_ADDRESS);
-      String addressLatStr = (String) entity.getProperty(Constants.BUSINESS_ADDRESS_LAT);
-      String addressLngStr = (String) entity.getProperty(Constants.BUSINESS_ADDRESS_LNG);
-      float addressLat;
-      if (addressLatStr.isEmpty()) {
-          addressLat = 404;
-      } else {
-          addressLat = Float.parseFloat(addressLatStr);
-      }
-      float addressLng;
-      if (addressLngStr.isEmpty()) {
-          addressLng = 404;
-      } else {
-          addressLng = Float.parseFloat(addressLngStr);
-      }
-      String contactDetails = (String) entity.getProperty(Constants.BUSINESS_CONTACT_INFO);
-      String orderDetails = (String) entity.getProperty(Constants.BUSINESS_ORDER_INFO);
-      String businessLink = (String) entity.getProperty(Constants.BUSINESS_LINK);
-      String menuLink = (String) entity.getProperty(Constants.BUSINESS_MENU_LINK);
-      String logoUrl = (String) entity.getProperty(Constants.BUSINESS_LOGO);
-      String[] picturesUrlsArr = gson.fromJson((String) entity.getProperty(Constants.BUSINESS_PICTURES), String[].class);
+      String address = (String) entity.getProperty(BUSINESS_ADDRESS);
+      float addressLat = ((Double) entity.getProperty(BUSINESS_ADDRESS_LAT)).floatValue();
+      float addressLng = ((Double) entity.getProperty(BUSINESS_ADDRESS_LNG)).floatValue();
+      String contactDetails = (String) entity.getProperty(BUSINESS_CONTACT_INFO);
+      String orderDetails = (String) entity.getProperty(BUSINESS_ORDER_INFO);
+      float minPrice = ((Double) entity.getProperty(BUSINESS_MIN_PRICE)).floatValue();
+      float maxPrice = ((Double) entity.getProperty(BUSINESS_MAX_PRICE)).floatValue();
+      String businessLink = (String) entity.getProperty(BUSINESS_LINK);
+      String menuLink = (String) entity.getProperty(BUSINESS_MENU_LINK);
+      String logoUrl = (String) entity.getProperty(BUSINESS_LOGO);
+      String[] picturesUrlsArr = gson.fromJson((String) entity.getProperty(BUSINESS_PICTURES), String[].class);
       List<String> picturesUrls = picturesUrlsArr == null ? new ArrayList<String>() : Arrays.asList(picturesUrlsArr);
-      String ratingStr = (String) entity.getProperty(Constants.BUSINESS_RATING);
-      float rating;
-      if (ratingStr.isEmpty()) {
-          rating = 404;
-      } else {
-          rating = Float.parseFloat(ratingStr);
-      }
-      String[] reviewsArr = gson.fromJson((String) entity.getProperty(Constants.BUSINESS_REVIEWS), String[].class);
+      float rating = ((Double) entity.getProperty(BUSINESS_RATING)).floatValue();
+      String[] reviewsArr = gson.fromJson((String) entity.getProperty(BUSINESS_REVIEWS), String[].class);
       List<String> reviews = reviewsArr == null ? new ArrayList<String>() : Arrays.asList(reviewsArr);
 
   
-      Business business = new Business(name, categories, rating, addressLat, addressLng, address, logoUrl, picturesUrls, desc, menuLink, orderDetails, contactDetails, businessLink);
+      Business business = new Business(name, categories, minPrice, maxPrice, rating, addressLat, addressLng, address, logoUrl, picturesUrls, desc, menuLink, orderDetails, contactDetails, businessLink);
       businesses.add(business);
     }
 
@@ -95,42 +81,74 @@ public class BusinessDataServlet extends HttpServlet {
     response.getWriter().println(gson.toJson(businesses));
   }
   
+  /**
+  * Gets input from Add New Business form, creats a Business entity and stores it in the Datastore.
+  */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Gson gson = new Gson();
     // Get the input from the form.
-    String name = request.getParameter(Constants.BUSINESS_NAME);
-    String desc = request.getParameter(Constants.BUSINESS_DESC);
-    String[] categoriesArr = request.getParameterValues(Constants.BUSINESS_CATEGORIES);
+    String name = request.getParameter(BUSINESS_NAME);
+    String desc = request.getParameter(BUSINESS_DESC);
+    String[] categoriesArr = request.getParameterValues(BUSINESS_CATEGORIES);
     List<String> categories = categoriesArr == null ? new ArrayList<String>() : Arrays.asList(categoriesArr);
-    String address = request.getParameter(Constants.BUSINESS_ADDRESS);
-    String addressLat = request.getParameter(Constants.BUSINESS_ADDRESS_LAT);
-    String addressLng = request.getParameter(Constants.BUSINESS_ADDRESS_LNG);
-    String contactDetails = request.getParameter(Constants.BUSINESS_CONTACT_INFO);
-    String orderDetails = request.getParameter(Constants.BUSINESS_ORDER_INFO);
-    String businessLink = request.getParameter(Constants.BUSINESS_LINK);
-    String menuLink = request.getParameter(Constants.BUSINESS_MENU_LINK);
-    String logoUrl = getUploadedLogoUrlFromBlobstore(request, Constants.BUSINESS_LOGO);
-    List<String> picturesUrls = getUploadedPicturesUrlsFromBlobstore(request, Constants.BUSINESS_PICTURES);
+    String address = request.getParameter(BUSINESS_ADDRESS);
+    String addressLatStr = request.getParameter(BUSINESS_ADDRESS_LAT);
+    String addressLngStr = request.getParameter(BUSINESS_ADDRESS_LNG);
+    float addressLat;
+    if (addressLatStr.isEmpty()) {
+        addressLat = 404;
+    } else {
+        addressLat = Float.parseFloat(addressLatStr);
+    }
+    float addressLng;
+    if (addressLngStr.isEmpty()) {
+        addressLng = 404;
+    } else {
+        addressLng = Float.parseFloat(addressLngStr);
+    }
+    String contactDetails = request.getParameter(BUSINESS_CONTACT_INFO);
+    String orderDetails = request.getParameter(BUSINESS_ORDER_INFO);
+    String minPriceStr = request.getParameter(BUSINESS_MIN_PRICE);
+    String maxPriceStr = request.getParameter(BUSINESS_MAX_PRICE);
+    float minPrice;
+      if (minPriceStr.isEmpty()) {
+          minPrice = 404;
+      } else {
+          minPrice = Float.parseFloat(minPriceStr);
+      }
+      float maxPrice;
+      if (maxPriceStr.isEmpty()) {
+          maxPrice = 404;
+      } else {
+          maxPrice = Float.parseFloat(maxPriceStr);
+      }
+
+    String businessLink = request.getParameter(BUSINESS_LINK);
+    String menuLink = request.getParameter(BUSINESS_MENU_LINK);
+    String logoUrl = getUploadedLogoUrlFromBlobstore(request, BUSINESS_LOGO);
+    List<String> picturesUrls = getUploadedPicturesUrlsFromBlobstore(request, BUSINESS_PICTURES);
     // can't add reviews and rating when creating a new business
-    String rating = "";
+    float rating = 404;
     List<String> reviews = new ArrayList<String>();
 
     Entity businessEntity = new Entity("Business");
-    businessEntity.setProperty(Constants.BUSINESS_NAME, name);
-    businessEntity.setProperty(Constants.BUSINESS_DESC, desc);
-    businessEntity.setProperty(Constants.BUSINESS_CATEGORIES, gson.toJson(categories));
-    businessEntity.setProperty(Constants.BUSINESS_ADDRESS, address);
-    businessEntity.setProperty(Constants.BUSINESS_ADDRESS_LAT, addressLat);
-    businessEntity.setProperty(Constants.BUSINESS_ADDRESS_LNG, addressLng);
-    businessEntity.setProperty(Constants.BUSINESS_CONTACT_INFO, contactDetails);
-    businessEntity.setProperty(Constants.BUSINESS_ORDER_INFO, orderDetails);
-    businessEntity.setProperty(Constants.BUSINESS_LINK, businessLink);
-    businessEntity.setProperty(Constants.BUSINESS_MENU_LINK, menuLink);
-    businessEntity.setProperty(Constants.BUSINESS_LOGO, logoUrl);
-    businessEntity.setProperty(Constants.BUSINESS_PICTURES, gson.toJson(picturesUrls));
-    businessEntity.setProperty(Constants.BUSINESS_RATING, rating);
-    businessEntity.setProperty(Constants.BUSINESS_REVIEWS, reviews);
+    businessEntity.setProperty(BUSINESS_NAME, name);
+    businessEntity.setProperty(BUSINESS_DESC, desc);
+    businessEntity.setProperty(BUSINESS_CATEGORIES, gson.toJson(categories));
+    businessEntity.setProperty(BUSINESS_ADDRESS, address);
+    businessEntity.setProperty(BUSINESS_ADDRESS_LAT, addressLat);
+    businessEntity.setProperty(BUSINESS_ADDRESS_LNG, addressLng);
+    businessEntity.setProperty(BUSINESS_CONTACT_INFO, contactDetails);
+    businessEntity.setProperty(BUSINESS_ORDER_INFO, orderDetails);
+    businessEntity.setProperty(BUSINESS_LINK, businessLink);
+    businessEntity.setProperty(BUSINESS_MENU_LINK, menuLink);
+    businessEntity.setProperty(BUSINESS_MIN_PRICE, minPrice);
+    businessEntity.setProperty(BUSINESS_MAX_PRICE, maxPrice);
+    businessEntity.setProperty(BUSINESS_LOGO, logoUrl);
+    businessEntity.setProperty(BUSINESS_PICTURES, gson.toJson(picturesUrls));
+    businessEntity.setProperty(BUSINESS_RATING, rating);
+    businessEntity.setProperty(BUSINESS_REVIEWS, reviews);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(businessEntity);
@@ -138,7 +156,10 @@ public class BusinessDataServlet extends HttpServlet {
     // Redirect back to the HTML page.
     response.sendRedirect("/index.html");
   }
-
+ 
+  /**
+  * Gets the logo image url from the blobstore, or empty string if logo was not uploaded.
+  */
   private String getUploadedLogoUrlFromBlobstore(HttpServletRequest request, String formInputElementName) {
     BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
     Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
@@ -169,6 +190,10 @@ public class BusinessDataServlet extends HttpServlet {
     return url;
   }
 
+
+  /**
+  * Gets the url of the business images from the blobstore, or empty string if no images were uploaded.
+  */
   private List<String> getUploadedPicturesUrlsFromBlobstore(HttpServletRequest request, String formInputElementName) {
     BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
     Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
