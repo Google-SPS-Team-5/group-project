@@ -72,7 +72,7 @@ public class BusinessDataServlet extends HttpServlet {
       List<String> reviews = reviewsArr == null ? new ArrayList<String>() : Arrays.asList(reviewsArr);
   
       Business business = new Business(name, categories, minPrice, maxPrice, rating, addressLat, addressLng, address, logoUrl, picturesUrls, desc, menuLink, orderDetails, contactDetails, businessLink);
-      String businessJson = String.format("{data : %s, id: %s }", gson.toJson(business), entity.getKey().getId());
+      String businessJson = String.format("{\"data\" : %s, \"id\": %s }", gson.toJson(business), entity.getKey().getId());
       businessesJson.add(businessJson);
     }
 
