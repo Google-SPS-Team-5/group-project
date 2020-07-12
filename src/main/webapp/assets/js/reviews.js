@@ -36,7 +36,6 @@ function createReviewSection(review) {
 }
 
 function createStars(rating) {
-  var i=0;
   var starHTML = '';
   for (i=0; i<5; i++) {
     if (i<rating) {
