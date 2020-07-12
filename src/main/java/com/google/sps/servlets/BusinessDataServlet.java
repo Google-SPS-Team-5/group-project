@@ -93,45 +93,20 @@ public class BusinessDataServlet extends HttpServlet {
     String[] categoriesArr = request.getParameterValues(BUSINESS_CATEGORIES);
     List<String> categories = categoriesArr == null ? new ArrayList<String>() : Arrays.asList(categoriesArr);
     String address = request.getParameter(BUSINESS_ADDRESS);
-    String addressLatStr = request.getParameter(BUSINESS_ADDRESS_LAT);
-    String addressLngStr = request.getParameter(BUSINESS_ADDRESS_LNG);
-    float addressLat;
-    if (addressLatStr.isEmpty()) {
-        addressLat = 404;
-    } else {
-        addressLat = Float.parseFloat(addressLatStr);
-    }
-    float addressLng;
-    if (addressLngStr.isEmpty()) {
-        addressLng = 404;
-    } else {
-        addressLng = Float.parseFloat(addressLngStr);
-    }
+    float addressLat = getFloatParameter(request, BUSINESS_ADDRESS_LAT);
+    float addressLng = getFloatParameter(request, BUSINESS_ADDRESS_LNG);
     String contactDetails = request.getParameter(BUSINESS_CONTACT_INFO);
     String orderDetails = request.getParameter(BUSINESS_ORDER_INFO);
-    String minPriceStr = request.getParameter(BUSINESS_MIN_PRICE);
-    String maxPriceStr = request.getParameter(BUSINESS_MAX_PRICE);
-    float minPrice = getFloatParameter(request, BUSINESS_MAX_PRICE);
-      if (minPriceStr.isEmpty()) {
-          minPrice = 404;
-      } else {
-          minPrice = Float.parseFloat(minPriceStr);
-      }
-      float maxPrice;
-      if (maxPriceStr.isEmpty()) {
-          maxPrice = 404;
-      } else {
-          maxPrice = Float.parseFloat(maxPriceStr);
-      }
-
+    float minPrice = getFloatParameter(request, BUSINESS_MIN_PRICE);
+    float maxPrice = getFloatParameter(request, BUSINESS_MAX_PRICE);
     String businessLink = request.getParameter(BUSINESS_LINK);
     String menuLink = request.getParameter(BUSINESS_MENU_LINK);
     String logoUrl = getUploadedLogoUrlFromBlobstore(request, BUSINESS_LOGO);
     List<String> picturesUrls = getUploadedPicturesUrlsFromBlobstore(request, BUSINESS_PICTURES);
     // can't add reviews and rating when creating a new business
-    float rating = 404;
+    float rating = request.getParameter(BUSINESS_RATING);
     List<String> reviews = new ArrayList<String>();
-
+    
     Entity businessEntity = new Entity("Business");
     businessEntity.setProperty(BUSINESS_NAME, name);
     businessEntity.setProperty(BUSINESS_DESC, desc);
@@ -158,7 +133,7 @@ public class BusinessDataServlet extends HttpServlet {
   }
 
   private float getFloatParameter(HttpServletRequest request, String formElementName) {
-    String floatStr = request.getParameter(BUSINESS_MAX_PRICE);
+    String floatStr = request.getParameter(formElementName);
     if (floatStr.isEmpty()) {
       return 404;
     } else {
