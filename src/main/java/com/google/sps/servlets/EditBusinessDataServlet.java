@@ -45,7 +45,7 @@ public class EditBusinessDataServlet extends HttpServlet {
 
     try {
     // Get the input from the form.
-    Key businessKey = KeyFactory.createKey("Business", request.getParameter(BUSINESS_KEY));    // Get the input from the form.
+    Key businessKey = KeyFactory.createKey("Business", Long.parseLong(request.getParameter(BUSINESS_KEY)));    // Get the input from the form.
     System.out.println(businessKey.toString());
     String name = request.getParameter(BUSINESS_NAME);
     String desc = request.getParameter(BUSINESS_DESC);
