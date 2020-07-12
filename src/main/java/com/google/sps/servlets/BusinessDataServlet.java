@@ -60,8 +60,8 @@ public class BusinessDataServlet extends HttpServlet {
       float addressLng = ((Double) entity.getProperty(BUSINESS_ADDRESS_LNG)).floatValue();
       String contactDetails = (String) entity.getProperty(BUSINESS_CONTACT_INFO);
       String orderDetails = (String) entity.getProperty(BUSINESS_ORDER_INFO);
-      float addressLat = ((Double) entity.getProperty(BUSINESS_MIN_PRICE)).floatValue();
-      float addressLng = ((Double) entity.getProperty(BUSINESS_MAX_PRICE)).floatValue();
+      float minPrice = ((Double) entity.getProperty(BUSINESS_MIN_PRICE)).floatValue();
+      float maxPrice = ((Double) entity.getProperty(BUSINESS_MAX_PRICE)).floatValue();
       String businessLink = (String) entity.getProperty(BUSINESS_LINK);
       String menuLink = (String) entity.getProperty(BUSINESS_MENU_LINK);
       String logoUrl = (String) entity.getProperty(BUSINESS_LOGO);
@@ -72,7 +72,7 @@ public class BusinessDataServlet extends HttpServlet {
       List<String> reviews = reviewsArr == null ? new ArrayList<String>() : Arrays.asList(reviewsArr);
 
   
-      Business business = new Business(name, categories, rating, addressLat, addressLng, address, logoUrl, picturesUrls, desc, menuLink, orderDetails, contactDetails, businessLink);
+      Business business = new Business(name, categories, minPrice, maxPrice, rating, addressLat, addressLng, address, logoUrl, picturesUrls, desc, menuLink, orderDetails, contactDetails, businessLink);
       businesses.add(business);
     }
 
@@ -143,6 +143,8 @@ public class BusinessDataServlet extends HttpServlet {
     businessEntity.setProperty(BUSINESS_ORDER_INFO, orderDetails);
     businessEntity.setProperty(BUSINESS_LINK, businessLink);
     businessEntity.setProperty(BUSINESS_MENU_LINK, menuLink);
+    businessEntity.setProperty(BUSINESS_MIN_PRICE, minPrice);
+    businessEntity.setProperty(BUSINESS_MAX_PRICE, maxPrice);
     businessEntity.setProperty(BUSINESS_LOGO, logoUrl);
     businessEntity.setProperty(BUSINESS_PICTURES, gson.toJson(picturesUrls));
     businessEntity.setProperty(BUSINESS_RATING, rating);
