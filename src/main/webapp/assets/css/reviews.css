@@ -6,7 +6,7 @@
 }
 
 /* Mobile */
-.review-grid{
+#review-grid{
     max-width: 100%;
     display: grid;
     grid-gap: 1rem;
@@ -15,7 +15,7 @@
   /* Medium Displays */
   
   @media (min-width: 600px) {
-    .review-grid{ 
+    #review-grid{ 
       grid-template-columns: repeat(2, 1fr); 
     }
   }
@@ -23,7 +23,7 @@
   /* Large displays */
   
   @media (min-width: 900px) {
-    .review-grid{ 
+    #review-grid{ 
       grid-template-columns: repeat(3, 1fr); 
     }
   }

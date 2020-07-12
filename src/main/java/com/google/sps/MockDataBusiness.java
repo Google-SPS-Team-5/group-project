@@ -13,17 +13,17 @@ import java.util.Collections;
 /**
 * Temporary class to hold mock data for testing purposes. Will be removed when we have actual business data in our data and blobstores.
 */
-public final class MockData {
+public final class MockDataBusiness {
 
   /**
   * Default constructor to initialise all the businesses and add them to the mockDataList. (total of 10).
   */
-  public MockData()
+  public MockDataBusiness()
   {
     String businessName = "The Oven Bakes";
     List<String> categoryList = Arrays.asList("Dessert", "Brownies", "Cookies");
-    float businessLat = 1.315120F;
-    float businessLong = 103.764977F;
+    float businessLat = 1.326574F;
+    float businessLong = 103.814158F;
     String businessAddr = "3150 Commonwealth Avenue West, 129580";
     String businessLogoUrl = "https://res-1.cloudinary.com/crunchbase-production/image/upload/c_lpad,h_120,w_120,f_auto,b_white,q_auto:eco/v1412921346/nnzir0xhukjpbpmctwy9.jpg";
     List<String> businessPhotoUrlList = Arrays.asList("images/the-oven-bakes/the-oven-bakes-1.PNG","images/the-oven-bakes/the-oven-bakes-2.PNG","images/the-oven-bakes/the-oven-bakes-3.PNG","images/the-oven-bakes/the-oven-bakes-5.PNG");
@@ -45,6 +45,8 @@ public final class MockData {
 
     Business mockBusiness1 = new Business(businessName, 
                                             categoryList,
+                                            14,
+                                            24,
                                             5,
                                             businessLat, 
                                             businessLong, 
@@ -59,8 +61,8 @@ public final class MockData {
 
     businessName = "Roti Kirai Singapura";
     categoryList = Arrays.asList("Mains");
-    businessLat = 1.351780F;
-    businessLong = 103.954720F;
+    businessLat = 1.322040F;
+    businessLong = 103.814554F;
     businessAddr = "Blk 298 Tampines Street 22 Singapore 520298";
     businessLogoUrl = "https://res-1.cloudinary.com/crunchbase-production/image/upload/c_lpad,h_120,w_120,f_auto,b_white,q_auto:eco/v1412921346/nnzir0xhukjpbpmctwy9.jpg";
     businessPhotoUrlList = Arrays.asList("images/the-oven-bakes/the-oven-bakes-1.PNG","images/the-oven-bakes/the-oven-bakes-2.PNG","images/the-oven-bakes/the-oven-bakes-3.PNG","images/the-oven-bakes/the-oven-bakes-5.PNG");
@@ -77,7 +79,9 @@ public final class MockData {
 
     Business mockBusiness2 = new Business(businessName, 
                                             categoryList,
-                                            4, 
+                                            13,
+                                            55,
+                                            4,
                                             businessLat, 
                                             businessLong, 
                                             businessAddr, 
@@ -91,8 +95,8 @@ public final class MockData {
 
     businessName = "Paparch Sg";
     categoryList = Arrays.asList("Dessert", "Cakes");
-    businessLat = 1.315120F;
-    businessLong = 103.764977F;
+    businessLat = 1.323561F;
+    businessLong = 103.841931F;
     businessAddr = "3150 Commonwealth Avenue West, 129580";
     businessLogoUrl = "https://res-1.cloudinary.com/crunchbase-production/image/upload/c_lpad,h_120,w_120,f_auto,b_white,q_auto:eco/v1412921346/nnzir0xhukjpbpmctwy9.jpg";
     businessPhotoUrlList = Arrays.asList("images/the-oven-bakes/the-oven-bakes-1.PNG","images/the-oven-bakes/the-oven-bakes-2.PNG","images/the-oven-bakes/the-oven-bakes-3.PNG","images/the-oven-bakes/the-oven-bakes-5.PNG");
@@ -112,7 +116,9 @@ public final class MockData {
 
     Business mockBusiness3 = new Business(businessName, 
                                             categoryList,
-                                            4, 
+                                            23,
+                                            47,
+                                            4,
                                             businessLat, 
                                             businessLong, 
                                             businessAddr, 
@@ -148,6 +154,8 @@ public final class MockData {
 
     Business mockBusiness4 = new Business(businessName, 
                                             categoryList,
+                                            19,
+                                            34,
                                             4, 
                                             businessLat, 
                                             businessLong, 
@@ -189,6 +197,8 @@ public final class MockData {
 
     Business mockBusiness5 = new Business(businessName, 
                                             categoryList,
+                                            10,
+                                            15,
                                             3, 
                                             businessLat, 
                                             businessLong, 
@@ -229,6 +239,8 @@ public final class MockData {
 
     Business mockBusiness6 = new Business(businessName, 
                                             categoryList,
+                                            6,
+                                            20,
                                             2, 
                                             businessLat, 
                                             businessLong, 
@@ -263,6 +275,8 @@ public final class MockData {
 
     Business mockBusiness7 = new Business(businessName, 
                                             categoryList,
+                                            3,
+                                            20,
                                             1, 
                                             businessLat, 
                                             businessLong, 
@@ -297,6 +311,8 @@ public final class MockData {
     Business mockBusiness8 = new Business(businessName, 
                                             categoryList, 
                                             businessLat,
+                                            10,
+                                            30,
                                             4.6F, 
                                             businessLong, 
                                             businessAddr, 
@@ -327,6 +343,8 @@ public final class MockData {
 
     Business mockBusiness9 = new Business(businessName, 
                                             categoryList,
+                                            11,
+                                            39,
                                             0.8F, 
                                             businessLat, 
                                             businessLong, 
@@ -362,6 +380,8 @@ public final class MockData {
 
     Business mockBusiness10 = new Business(businessName, 
                                             categoryList,
+                                            15,
+                                            20,
                                             4.9F, 
                                             businessLat, 
                                             businessLong, 
@@ -383,5 +403,3 @@ public final class MockData {
   public List<Business> mockDataList = new ArrayList<Business>();
 
 }
-
-

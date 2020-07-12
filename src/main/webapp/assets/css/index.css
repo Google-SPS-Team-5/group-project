@@ -23,6 +23,10 @@
   }
 }
 
+.product-listings-wrapper {
+  text-align: center;
+}
+
 .product-listing-card {
   background-color: #dddddd;
   width: 100%;
@@ -42,7 +46,7 @@
 
 .price {
   color: #2c2c2c;
-  font-size: 22px;
+  font-size: 18px;
 }
 
 .product-listing-image {
