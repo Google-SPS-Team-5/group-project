@@ -60,6 +60,8 @@ public class BusinessDataServlet extends HttpServlet {
       float addressLng = ((Double) entity.getProperty(BUSINESS_ADDRESS_LNG)).floatValue();
       String contactDetails = (String) entity.getProperty(BUSINESS_CONTACT_INFO);
       String orderDetails = (String) entity.getProperty(BUSINESS_ORDER_INFO);
+      float addressLat = ((Double) entity.getProperty(BUSINESS_MIN_PRICE)).floatValue();
+      float addressLng = ((Double) entity.getProperty(BUSINESS_MAX_PRICE)).floatValue();
       String businessLink = (String) entity.getProperty(BUSINESS_LINK);
       String menuLink = (String) entity.getProperty(BUSINESS_MENU_LINK);
       String logoUrl = (String) entity.getProperty(BUSINESS_LOGO);
@@ -94,19 +96,34 @@ public class BusinessDataServlet extends HttpServlet {
     String addressLatStr = request.getParameter(BUSINESS_ADDRESS_LAT);
     String addressLngStr = request.getParameter(BUSINESS_ADDRESS_LNG);
     float addressLat;
-      if (addressLatStr.isEmpty()) {
-          addressLat = 404;
-      } else {
-          addressLat = Float.parseFloat(addressLatStr);
-      }
-      float addressLng;
-      if (addressLngStr.isEmpty()) {
-          addressLng = 404;
-      } else {
-          addressLng = Float.parseFloat(addressLngStr);
-      }
+    if (addressLatStr.isEmpty()) {
+        addressLat = 404;
+    } else {
+        addressLat = Float.parseFloat(addressLatStr);
+    }
+    float addressLng;
+    if (addressLngStr.isEmpty()) {
+        addressLng = 404;
+    } else {
+        addressLng = Float.parseFloat(addressLngStr);
+    }
     String contactDetails = request.getParameter(BUSINESS_CONTACT_INFO);
     String orderDetails = request.getParameter(BUSINESS_ORDER_INFO);
+    String minPriceStr = request.getParameter(BUSINESS_MIN_PRICE);
+    String maxPriceStr = request.getParameter(BUSINESS_MAX_PRICE);
+    float minPrice;
+      if (minPriceStr.isEmpty()) {
+          minPrice = 404;
+      } else {
+          minPrice = Float.parseFloat(minPriceStr);
+      }
+      float maxPrice;
+      if (maxPriceStr.isEmpty()) {
+          maxPrice = 404;
+      } else {
+          maxPrice = Float.parseFloat(maxPriceStr);
+      }
+
     String businessLink = request.getParameter(BUSINESS_LINK);
     String menuLink = request.getParameter(BUSINESS_MENU_LINK);
     String logoUrl = getUploadedLogoUrlFromBlobstore(request, BUSINESS_LOGO);
