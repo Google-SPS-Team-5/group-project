@@ -15,6 +15,8 @@ public final class Business {
 
   private String name;
   private List<String> categories;
+  private float minPrice;
+  private float maxPrice;
   private float aggregatedRating;
   private float addressLng;
   private float addressLat;
@@ -33,6 +35,8 @@ public final class Business {
   */
   public Business(String businessName, 
                       List<String> categoryList,
+                      float businessMinPrice,
+                      float businessMaxPrice,
                       float rating,
                       float businessLat, 
                       float businessLong, 
@@ -47,6 +51,8 @@ public final class Business {
   {
     name = businessName;
     categories = categoryList;
+    minPrice = businessMinPrice;
+    maxPrice = businessMaxPrice;
     aggregatedRating = rating;
     addressLng = businessLat;
     addressLat = businessLong;
