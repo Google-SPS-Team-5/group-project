@@ -47,7 +47,9 @@ public class EditBusinessDataServlet extends HttpServlet {
         // Create gson for serializing and deserializing
         Gson gson = new Gson();
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        Key businessKey = KeyFactory.createKey("Business", Long.parseLong("5928566696968192"));    // Get the input from the form.
+        // TODO: Verify this works once url parameters is sent from previous page
+        Long businessId =getCurrentBusinessId(request);
+        Key businessKey = KeyFactory.createKey("Business", businessId);    // Get the input from the form.
         Entity businessEntity = getBusinessEntity(datastore, businessKey);
 
         String name = (String) businessEntity.getProperty(BUSINESS_NAME);
@@ -93,8 +95,10 @@ public class EditBusinessDataServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
     try {
-    // Get the input from the form.
-    Key businessKey = KeyFactory.createKey("Business", Long.parseLong(request.getParameter(BUSINESS_KEY)));    // Get the input from the form.
+    // TODO: Verify this works once url parameters is sent from previous page
+    Long businessId =getCurrentBusinessId(request);
+    Key businessKey = KeyFactory.createKey("Business", businessId);    // Get the input from the form.
+     // Get the input from the form
     String name = request.getParameter(BUSINESS_NAME);
     String desc = request.getParameter(BUSINESS_DESC);
     String[] categoriesArr = request.getParameterValues(BUSINESS_CATEGORIES);
@@ -242,6 +246,32 @@ public class EditBusinessDataServlet extends HttpServlet {
     }
 
     return urls;
+  }
+
+  /**
+  * Extracts parameters from the URL and stores as values in a map, where the keys are the
+  * names of the parameters.
+  */
+  private Map<String, String> getQueryMap(String query) {  
+    String[] params = query.split("?");  
+    Map<String, String> map = new HashMap<String, String>();
+
+    for (String param : params) {  
+        String name = param.split("=")[0];  
+        String value = param.split("=")[1];  
+        map.put(name, value);  
+    }  
+    return map;  
+    }
+
+  /**
+  * Returns the business id from the url request parameter
+  * the endpoint would be /page.html?businessID=736Gkevw
+  */
+  private Long getCurrentBusinessId(HttpServletRequest request) {
+      String urlStr = request.getRequestURL().toString();
+      Map<String, String> urlParameters = getQueryMap(url);
+      return Long.parseLong(urlParameters.get("businessID"));
   }
 
 }
