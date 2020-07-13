@@ -1,5 +1,6 @@
 /* Input styles for forms*/
-input[type='text'] {
+input[type='text'],
+input[type='number'] {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -12,7 +13,21 @@ input[type='text'] {
 
 textarea {
   width: 100%;
-  height: 100px;
+  height: 8rem;
+  resize: none;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+select {
+  width: 100%;
+  height: 8rem;
+  overflow-y: auto;
   resize: none;
   padding: 12px 20px;
   margin: 8px 0;
@@ -24,14 +39,32 @@ textarea {
 }
 
 button {
-    background-color: lightgray;
-    border: none;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 12px;
-    text-transform: uppercase;
-    cursor: pointer;
-    border-radius: 4px;
-  }
+  background-color: lightgray;
+  border: none;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+/*Customise input file buttons*/
+#pictures, #logo {
+  opacity: 0;
+  position: absolute;
+  z-index: -1;
+}
+
+#upload-button {
+  background-color: lightgray;
+  border: none;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  cursor: pointer;
+  border-radius: 4px;
+}

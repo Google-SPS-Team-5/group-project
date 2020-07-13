@@ -45,6 +45,8 @@ public final class MockDataBusiness {
 
     Business mockBusiness1 = new Business(businessName, 
                                             categoryList,
+                                            14,
+                                            24,
                                             5,
                                             businessLat, 
                                             businessLong, 
@@ -77,7 +79,9 @@ public final class MockDataBusiness {
 
     Business mockBusiness2 = new Business(businessName, 
                                             categoryList,
-                                            4, 
+                                            13,
+                                            55,
+                                            4,
                                             businessLat, 
                                             businessLong, 
                                             businessAddr, 
@@ -112,7 +116,9 @@ public final class MockDataBusiness {
 
     Business mockBusiness3 = new Business(businessName, 
                                             categoryList,
-                                            4, 
+                                            23,
+                                            47,
+                                            4,
                                             businessLat, 
                                             businessLong, 
                                             businessAddr, 
@@ -148,6 +154,8 @@ public final class MockDataBusiness {
 
     Business mockBusiness4 = new Business(businessName, 
                                             categoryList,
+                                            19,
+                                            34,
                                             4, 
                                             businessLat, 
                                             businessLong, 
@@ -189,6 +197,8 @@ public final class MockDataBusiness {
 
     Business mockBusiness5 = new Business(businessName, 
                                             categoryList,
+                                            10,
+                                            15,
                                             3, 
                                             businessLat, 
                                             businessLong, 
@@ -229,6 +239,8 @@ public final class MockDataBusiness {
 
     Business mockBusiness6 = new Business(businessName, 
                                             categoryList,
+                                            6,
+                                            20,
                                             2, 
                                             businessLat, 
                                             businessLong, 
@@ -263,6 +275,8 @@ public final class MockDataBusiness {
 
     Business mockBusiness7 = new Business(businessName, 
                                             categoryList,
+                                            3,
+                                            20,
                                             1, 
                                             businessLat, 
                                             businessLong, 
@@ -297,6 +311,8 @@ public final class MockDataBusiness {
     Business mockBusiness8 = new Business(businessName, 
                                             categoryList, 
                                             businessLat,
+                                            10,
+                                            30,
                                             4.6F, 
                                             businessLong, 
                                             businessAddr, 
@@ -327,6 +343,8 @@ public final class MockDataBusiness {
 
     Business mockBusiness9 = new Business(businessName, 
                                             categoryList,
+                                            11,
+                                            39,
                                             0.8F, 
                                             businessLat, 
                                             businessLong, 
@@ -362,6 +380,8 @@ public final class MockDataBusiness {
 
     Business mockBusiness10 = new Business(businessName, 
                                             categoryList,
+                                            15,
+                                            20,
                                             4.9F, 
                                             businessLat, 
                                             businessLong, 
@@ -383,5 +403,3 @@ public final class MockDataBusiness {
   public List<Business> mockDataList = new ArrayList<Business>();
 
 }
-
-
