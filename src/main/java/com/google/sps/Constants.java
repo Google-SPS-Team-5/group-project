@@ -3,7 +3,7 @@ package com.google.sps;
 public final class Constants {
 
   // For querying the bussiness entities
-  public static final String BUSINESS_KEY = "businessKey";
+  public static final String BUSINESS_ID = "businessId";
   public static final String BUSINESS_NAME = "name";
   public static final String BUSINESS_DESC = "desc";
   public static final String BUSINESS_CATEGORIES = "categories";

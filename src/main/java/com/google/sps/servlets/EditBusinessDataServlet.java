@@ -27,6 +27,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Date;
 import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 import java.text.SimpleDateFormat;  
 import javax.servlet.annotation.WebServlet;
@@ -48,7 +49,7 @@ public class EditBusinessDataServlet extends HttpServlet {
         Gson gson = new Gson();
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         // TODO: Verify this works once url parameters is sent from previous page
-        Long businessId =getCurrentBusinessId(request);
+        Long businessId = Long.parseLong(request.getParameter("businessID"));
         Key businessKey = KeyFactory.createKey("Business", businessId);    // Get the input from the form.
         Entity businessEntity = getBusinessEntity(datastore, businessKey);
 
@@ -95,9 +96,9 @@ public class EditBusinessDataServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
     try {
-    // TODO: Verify this works once url parameters is sent from previous page
-    Long businessId =getCurrentBusinessId(request);
-    Key businessKey = KeyFactory.createKey("Business", businessId);    // Get the input from the form.
+    // Long businessId = Long.parseLong(request.getParameter("businessID"));
+    Long businessId = Long.parseLong(request.getParameter(BUSINESS_ID));
+    Key businessKey = KeyFactory.createKey("Business", businessId);
      // Get the input from the form
     String name = request.getParameter(BUSINESS_NAME);
     String desc = request.getParameter(BUSINESS_DESC);
@@ -204,7 +205,6 @@ public class EditBusinessDataServlet extends HttpServlet {
     ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
     String url = imagesService.getServingUrl(options);
 
-    System.out.println(url);
     // GCS's localhost preview is not actually on localhost,
     // so make the URL relative to the current domain.
     if(url.startsWith("http://localhost:8080/")){
@@ -234,8 +234,6 @@ public class EditBusinessDataServlet extends HttpServlet {
       ImagesService imagesService = ImagesServiceFactory.getImagesService();
       ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
       String url = imagesService.getServingUrl(options);
-
-      System.out.println(url);
       // GCS's localhost preview is not actually on localhost,
       // so make the URL relative to the current domain.
       if(url.startsWith("http://localhost:8080/")){
@@ -247,31 +245,4 @@ public class EditBusinessDataServlet extends HttpServlet {
 
     return urls;
   }
-
-  /**
-  * Extracts parameters from the URL and stores as values in a map, where the keys are the
-  * names of the parameters.
-  */
-  private Map<String, String> getQueryMap(String query) {  
-    String[] params = query.split("?");  
-    Map<String, String> map = new HashMap<String, String>();
-
-    for (String param : params) {  
-        String name = param.split("=")[0];  
-        String value = param.split("=")[1];  
-        map.put(name, value);  
-    }  
-    return map;  
-    }
-
-  /**
-  * Returns the business id from the url request parameter
-  * the endpoint would be /page.html?businessID=736Gkevw
-  */
-  private Long getCurrentBusinessId(HttpServletRequest request) {
-      String urlStr = request.getRequestURL().toString();
-      Map<String, String> urlParameters = getQueryMap(url);
-      return Long.parseLong(urlParameters.get("businessID"));
-  }
-
 }

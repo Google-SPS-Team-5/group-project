@@ -25,10 +25,15 @@ async function fetchBlobstoreUrl() {
 }
 
 async function populateForm() {
-    const response = await fetch("/edit-business-data");
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const businessId = urlParams.get("businessID")
+
+    const response = await fetch(`/edit-business-data?businessID=${businessId}`);
     const business = await response.json();
 
     console.log(business);
+    document.getElementById("businessId").defaultValue = business.id;
     document.getElementById("name").defaultValue = business.data.name;
     document.getElementById("desc").defaultValue = business.data.description;
     var categories = document.getElementById("categories");
