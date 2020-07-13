@@ -39,20 +39,19 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/edit-business-data")
 public class EditBusinessDataServlet extends HttpServlet {
 
-
+  Gson gson = new Gson();
+  DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+ 
   /** Writes a JSON-ified of a specific from the Datastore. The key is taken from the URL parameter.
   */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     try {
-        // Create gson for serializing and deserializing
-        Gson gson = new Gson();
-        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        // TODO: Verify this works once url parameters is sent from previous page
         Long businessId = Long.parseLong(request.getParameter("businessID"));
-        Key businessKey = KeyFactory.createKey("Business", businessId);    // Get the input from the form.
+        Key businessKey = KeyFactory.createKey("Business", businessId);    
         Entity businessEntity = getBusinessEntity(datastore, businessKey);
 
+        // Get the input from the form
         String name = (String) businessEntity.getProperty(BUSINESS_NAME);
         String desc = (String) businessEntity.getProperty(BUSINESS_DESC);
         String[] categoriesArr = gson.fromJson((String) businessEntity.getProperty(BUSINESS_CATEGORIES), String[].class);
@@ -112,7 +111,7 @@ public class EditBusinessDataServlet extends HttpServlet {
     float maxPrice = getFloatParameter(request, BUSINESS_MAX_PRICE);
     String businessLink = request.getParameter(BUSINESS_LINK);
     String menuLink = request.getParameter(BUSINESS_MENU_LINK);
-    String logoUrl = getUploadedLogoUrlFromBlobstore(request, BUSINESS_LOGO);
+    String logoUrl = getUploadedPicturesUrlsFromBlobstore(request, BUSINESS_LOGO).get(0);
     List<String> picturesUrls = getUploadedPicturesUrlsFromBlobstore(request, BUSINESS_PICTURES);
 
     Entity businessEntity = getBusinessEntity(datastore, businessKey);
@@ -134,7 +133,7 @@ public class EditBusinessDataServlet extends HttpServlet {
 
     storeBusinessEntity(datastore, businessEntity);
 
-    // Redirect back to the product page page.
+    // Redirect back to the product page.
     response.sendRedirect("/index.html");
     } catch (IOException err) {
       System.out.println(err);
@@ -153,35 +152,8 @@ public class EditBusinessDataServlet extends HttpServlet {
     datastore.put(businessEntity);
   }
 
-  private String getUploadedLogoUrlFromBlobstore(HttpServletRequest request, String formInputElementName) {
-    BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
-    Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
-    List<BlobKey> blobKeys = blobs.get(formInputElementName);
-
-    // if no images were uploaded
-    if (blobKeys == null) {
-        return "";
-    }
-
-    // Our form only contains a single file input, so get the first index.
-    BlobKey blobKey = blobKeys.get(0);
-
-    // We could check the validity of the file here, e.g. to make sure it's an image file
-    // https://stackoverflow.com/q/10779564/873165
-
-    // Use ImagesService to get a URL that points to the uploaded file.
-    ImagesService imagesService = ImagesServiceFactory.getImagesService();
-    ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
-    String url = imagesService.getServingUrl(options);
-
-    // GCS's localhost preview is not actually on localhost,
-    // so make the URL relative to the current domain.
-    if(url.startsWith("http://localhost:8080/")){
-      url = url.replace("http://localhost:8080/", "/");
-    }
-    return url;
-  }
-
+  /** Gets the url of the business images from the blobstore, or empty string if no images were uploaded.
+  */
   private List<String> getUploadedPicturesUrlsFromBlobstore(HttpServletRequest request, String formInputElementName) {
     BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
     Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
@@ -215,7 +187,7 @@ public class EditBusinessDataServlet extends HttpServlet {
     return urls;
   }
 
-    /** Gets the float value from the form, or 404 if none was inputted
+  /** Gets the float value from the form, or 404 if none was inputted
   */
   private float getFloatParameter(HttpServletRequest request, String formElementName) {
     String floatStr = request.getParameter(formElementName);

@@ -33,7 +33,7 @@ async function populateForm() {
     const business = await response.json();
 
     console.log(business);
-    document.getElementById("businessId").defaultValue = business.id;
+    document.getElementById("businessID").defaultValue = business.id;
     document.getElementById("name").defaultValue = business.data.name;
     document.getElementById("desc").defaultValue = business.data.description;
     var categories = document.getElementById("categories");

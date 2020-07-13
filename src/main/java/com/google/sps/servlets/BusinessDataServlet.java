@@ -101,7 +101,7 @@ public class BusinessDataServlet extends HttpServlet {
     float maxPrice = getFloatParameter(request, BUSINESS_MAX_PRICE);
     String businessLink = request.getParameter(BUSINESS_LINK);
     String menuLink = request.getParameter(BUSINESS_MENU_LINK);
-    String logoUrl = getUploadedLogoUrlFromBlobstore(request, BUSINESS_LOGO);
+    String logoUrl = getUploadedPicturesUrlsFromBlobstore(request, BUSINESS_LOGO).get(0);
     List<String> picturesUrls = getUploadedPicturesUrlsFromBlobstore(request, BUSINESS_PICTURES);
     // can't add reviews and rating when creating a new business
     float rating = getFloatParameter(request, BUSINESS_RATING);
@@ -143,42 +143,7 @@ public class BusinessDataServlet extends HttpServlet {
     }
   }
  
-  /**
-  * Gets the logo image url from the blobstore, or empty string if logo was not uploaded.
-  */
-  private String getUploadedLogoUrlFromBlobstore(HttpServletRequest request, String formInputElementName) {
-    BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
-    Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
-    List<BlobKey> blobKeys = blobs.get(formInputElementName);
-
-    // if no images were uploaded
-    if (blobKeys == null) {
-        return "";
-    }
-
-    // Our form only contains a single file input, so get the first index.
-    BlobKey blobKey = blobKeys.get(0);
-
-    // We could check the validity of the file here, e.g. to make sure it's an image file
-    // https://stackoverflow.com/q/10779564/873165
-
-    // Use ImagesService to get a URL that points to the uploaded file.
-    ImagesService imagesService = ImagesServiceFactory.getImagesService();
-    ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
-    String url = imagesService.getServingUrl(options);
-
-    System.out.println(url);
-    // GCS's localhost preview is not actually on localhost,
-    // so make the URL relative to the current domain.
-    if(url.startsWith("http://localhost:8080/")){
-      url = url.replace("http://localhost:8080/", "/");
-    }
-    return url;
-  }
-
-
-  /**
-  * Gets the url of the business images from the blobstore, or empty string if no images were uploaded.
+  /** Gets the url of the business images from the blobstore, or empty string if no images were uploaded.
   */
   private List<String> getUploadedPicturesUrlsFromBlobstore(HttpServletRequest request, String formInputElementName) {
     BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
