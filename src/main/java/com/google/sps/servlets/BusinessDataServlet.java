@@ -49,7 +49,7 @@ public class BusinessDataServlet extends HttpServlet {
     PreparedQuery results = datastore.prepare(query);
 
     // Iterate over results and add each business to the ArrayList.
-    List<Business> businesses = new ArrayList<>();
+    List<String> businessesJson = new ArrayList<>();
     for (Entity entity : results.asIterable()) {
       String name = (String) entity.getProperty(BUSINESS_NAME);
       String desc = (String) entity.getProperty(BUSINESS_DESC);
@@ -70,15 +70,15 @@ public class BusinessDataServlet extends HttpServlet {
       float rating = ((Double) entity.getProperty(BUSINESS_RATING)).floatValue();
       String[] reviewsArr = gson.fromJson((String) entity.getProperty(BUSINESS_REVIEWS), String[].class);
       List<String> reviews = reviewsArr == null ? new ArrayList<String>() : Arrays.asList(reviewsArr);
-
   
       Business business = new Business(name, categories, minPrice, maxPrice, rating, addressLat, addressLng, address, logoUrl, picturesUrls, desc, menuLink, orderDetails, contactDetails, businessLink);
-      businesses.add(business);
+      String businessJson = String.format("{\"data\" : %s, \"id\": %s }", gson.toJson(business), entity.getKey().getId());
+      businessesJson.add(businessJson);
     }
 
     // Send the JSON as the response.
     response.setContentType("application/json;");
-    response.getWriter().println(gson.toJson(businesses));
+    response.getWriter().println(gson.toJson(businessesJson));
   }
   
   /**
