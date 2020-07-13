@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -37,17 +38,15 @@ public class ReviewsServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get review input from review form.
-    String userID = getParameter(request, "name", "anonymous");; // Accept input name for now, should be user Datastore key, to be implemented later
+    String userID = getParameter(request, "name", "anonymous"); // Accept input name for now, should be user Datastore key, to be implemented later
     String comment = getParameter(request, "review", "404");
     int rating = request.getParameter("rating");
 
     // Get current timestamp for time when review is posted.
     LocalDateTime dateTime = LocalDateTime.now();
 
-    // Get business entity corresponding to the current product page.
-    String businessKey = request.getParameter(BUSINESS_KEY); // KIV url parameters, pretend it exists for now
-    Entity businessEntity = datastore.get(businessKey);
-    List<Key> reviewsKeyList = businessEntity.getProperty(BUSINESS_REVIEWS);
+    // Get existing reviews key list.
+    List<Key> reviewsKeyList = getReviewsKeyList();
 
     // Create review entity and get its key.
     Entity reviewEntity = new Entity("Review");
@@ -60,7 +59,7 @@ public class ReviewsServlet extends HttpServlet {
 
     // Append key to its Business entity.
     reviewsKeyList.add(reviewKey);
-    businessEntity.setProperty(BUSINESS_REVIEWS, reviewsKeyList);
+    businessEntity.setProperty(BUSINESS_REVIEWS, gson.toJson(reviewsKeyList));
 
     // Redirect back to the product page.
     response.sendRedirect("/product.html?businessID="+businessKey);
@@ -82,13 +81,12 @@ public class ReviewsServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Query Datastore for reviews under the appropriate Business entity.
-    String businessKey = request.getParameter("businessID"); // KIV url parameters, pretend it exists for now
-    Entity businessEntity = datastore.get(businessKey);
-    List<String> reviewsKeyList = businessEntity.getProperty(BUSINESS_REVIEWS);
+    List<Key> reviewsKeyList = getReviewsKeyList();
     ArrayList<Review> reviews = new ArrayList<Review>();
 
     // Convert review entities to objects and add to the list.
-    for (Entity reviewEntity : reviewsKeyList) {
+    for (Key reviewKey : reviewsKeyList) {
+      Entity reviewEntity = datastore.get(reviewKey);
       String userID = (String) reviewEntity.getProperty("userID");
       String comment = (String) reviewEntity.getProperty("comment");
       LocalDateTime dateTime = (String) reviewEntity.getProperty("dateTime");
@@ -108,5 +106,17 @@ public class ReviewsServlet extends HttpServlet {
   private String convertToJsonUsingGson(ArrayList<Review> reviewsList) {
     String json = gson.toJson(reviewsList);
     return json;
+  }
+
+  /**
+   * Gets a list of Datastore keys corresponding to the Review entities for the Business.
+   * @return List<Key> of keys for review entities
+   */
+  private List<Key> getReviewsKeyList() {
+    String businessKey = request.getParameter(BUSINESS_KEY); // KIV url parameter
+    Entity businessEntity = datastore.get(businessKey);
+    Key[] reviewsKeyArr = gson.fromJson(businessEntity.getProperty(BUSINESS_REVIEWS), Key[].class);
+    List<Key> reviewsKeyList = new ArrayList<Key>(Arrays.asList(reviewsKeyArr));
+    return reviewsKeyList;
   }
 }
