@@ -39,7 +39,7 @@ public class ReviewsServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get review input from review form.
     String userID = getParameter(request, "name", "anonymous"); // Accept input name for now, should be user Datastore key, to be implemented later
-    String comment = getParameter(request, "review", "404");
+    String comment = getParameter(request, "review", "No comment provided.");
     int rating = request.getParameter("rating");
 
     // Get current timestamp for time when review is posted.
@@ -87,10 +87,10 @@ public class ReviewsServlet extends HttpServlet {
     // Convert review entities to objects and add to the list.
     for (Key reviewKey : reviewsKeyList) {
       Entity reviewEntity = datastore.get(reviewKey);
-      String userID = (String) reviewEntity.getProperty("userID");
-      String comment = (String) reviewEntity.getProperty("comment");
-      LocalDateTime dateTime = (String) reviewEntity.getProperty("dateTime");
-      int rating = reviewEntity.getProperty("rating");
+      String userID = (String) reviewEntity.getProperty(REVIEW_USERID);
+      String comment = (String) reviewEntity.getProperty(REVIEW_COMMENT);
+      LocalDateTime dateTime = (String) reviewEntity.getProperty(REVIEW_DATETIME);
+      int rating = reviewEntity.getProperty(REVIEW_RATING);
       Review review = new Review(userID, comment, rating, dateTime);
       reviews.add(review);
     }
@@ -113,7 +113,7 @@ public class ReviewsServlet extends HttpServlet {
    * @return List<Key> of keys for review entities
    */
   private List<Key> getReviewsKeyList() {
-    String businessKey = request.getParameter(BUSINESS_KEY); // KIV url parameter
+    Key businessKey = request.getParameter(BUSINESS_KEY); // KIV url parameter
     Entity businessEntity = datastore.get(businessKey);
     Key[] reviewsKeyArr = gson.fromJson(businessEntity.getProperty(BUSINESS_REVIEWS), Key[].class);
     List<Key> reviewsKeyList = new ArrayList<Key>(Arrays.asList(reviewsKeyArr));
