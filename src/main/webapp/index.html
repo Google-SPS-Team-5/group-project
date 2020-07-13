@@ -16,6 +16,13 @@
 <script src="assets/js/navbar.js"></div>
 <script src="assets/js/mockdata.js"></script>
 
+<div id="search-container">
+    <form method="post" name="search" action="search-listings">
+        <label for="search">Search:</label>
+        <input id="query" type="text" name="query" placeholder="Search listing...">
+        <button type="submit" onClick="return isEmpty()"><i class="fa fa-search"></i></button>
+    </form>
+</div>
 <div id="featured-listing">
     <h2 id='featured-listing-title'>
       <i class="fa fa-heart" aria-hidden="true"></i> 

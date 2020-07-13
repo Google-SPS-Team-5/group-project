@@ -24,6 +24,18 @@ async function initHomePage() {
 }
 
 /**
+ * Prevents user from entering an empty search term.
+ */
+function isEmpty() {
+    var x;
+    x = document.getElementById("query").value;
+    if (x == "") {
+        alert("Enter a valid search term!");
+        return false;
+    };
+}
+
+/**
  * Creates the product listing location for google map marker.
  */
 function createLocation(product) {
