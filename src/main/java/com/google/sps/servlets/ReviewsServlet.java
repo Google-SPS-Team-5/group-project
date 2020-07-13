@@ -104,11 +104,11 @@ public class ReviewsServlet extends HttpServlet {
   }
 
   /**
-   * Gets a list of Datastore keys corresponding to the Review entities for the Business.
+   * Gets a list of Datastore keys corresponding to the Review entities for the current Business listing.
    * @return List<Key> of keys for review entities
    */
   private List<Key> getReviewsKeyList() {
-    Key businessKey = request.getParameter(BUSINESS_KEY); // KIV url parameter
+    Key businessKey = KeyFactory.createKey("Business", Long.parseLong(request.getParameter(BUSINESS_KEY))); // KIV url parameter
     Entity businessEntity = datastore.get(businessKey);
     Key[] reviewsKeyArr = gson.fromJson(businessEntity.getProperty(BUSINESS_REVIEWS), Key[].class);
     List<Key> reviewsKeyList = new ArrayList<Key>(Arrays.asList(reviewsKeyArr));
