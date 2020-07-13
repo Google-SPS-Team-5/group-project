@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -38,7 +39,9 @@ public class ReviewsServlet extends HttpServlet {
     int rating = request.getParameter("rating");
 
     // Get current timestamp for time when review is posted.
-    LocalDateTime dateTime = LocalDateTime.now();
+    LocalDateTime dateTimeObj = LocalDateTime.now();
+    DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+    String dateTime = dateTimeObj.format(format);
 
     // Get existing reviews key list.
     List<Key> reviewsKeyList = getReviewsKeyList();
@@ -84,7 +87,7 @@ public class ReviewsServlet extends HttpServlet {
       Entity reviewEntity = datastore.get(reviewKey);
       String userID = (String) reviewEntity.getProperty(REVIEW_USERID);
       String comment = (String) reviewEntity.getProperty(REVIEW_COMMENT);
-      LocalDateTime dateTime = (String) reviewEntity.getProperty(REVIEW_DATETIME);
+      String dateTime = (String) reviewEntity.getProperty(REVIEW_DATETIME);
       int rating = reviewEntity.getProperty(REVIEW_RATING);
       Review review = new Review(userID, comment, rating, dateTime);
       reviews.add(review);
