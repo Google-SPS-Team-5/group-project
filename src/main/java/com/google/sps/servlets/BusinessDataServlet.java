@@ -104,9 +104,9 @@ public class BusinessDataServlet extends HttpServlet {
     String logoUrl = getUploadedLogoUrlFromBlobstore(request, BUSINESS_LOGO);
     List<String> picturesUrls = getUploadedPicturesUrlsFromBlobstore(request, BUSINESS_PICTURES);
     // can't add reviews and rating when creating a new business
-    float rating = request.getParameter(BUSINESS_RATING);
+    float rating = getFloatParameter(request, BUSINESS_RATING);
     List<String> reviews = new ArrayList<String>();
-    
+
     Entity businessEntity = new Entity("Business");
     businessEntity.setProperty(BUSINESS_NAME, name);
     businessEntity.setProperty(BUSINESS_DESC, desc);
@@ -134,7 +134,7 @@ public class BusinessDataServlet extends HttpServlet {
 
   private float getFloatParameter(HttpServletRequest request, String formElementName) {
     String floatStr = request.getParameter(formElementName);
-    if (floatStr.isEmpty()) {
+    if (floatStr == null || floatStr.isEmpty()) {
       return 404;
     } else {
       return Float.parseFloat(floatStr);
