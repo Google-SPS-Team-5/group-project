@@ -26,13 +26,8 @@ import java.util.List;
  */
 @WebServlet("/reviews")
 public class ReviewsServlet extends HttpServlet {
-  Gson gson;
-  DatastoreService datastore;
-
-  public ReviewsServlet() throws IOException {
-    gson = new Gson();
-    datastore = DatastoreServiceFactory.getDatastoreService();
-  }
+  Gson gson = new Gson();
+  DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
   /** Get review from review form and store it in Datastore under its Business entity. */
   @Override
