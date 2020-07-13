@@ -132,6 +132,8 @@ public class BusinessDataServlet extends HttpServlet {
     response.sendRedirect("/index.html");
   }
 
+  /** Gets the float value from the form, or 404 if none was inputted
+  */
   private float getFloatParameter(HttpServletRequest request, String formElementName) {
     String floatStr = request.getParameter(formElementName);
     if (floatStr == null || floatStr.isEmpty()) {
