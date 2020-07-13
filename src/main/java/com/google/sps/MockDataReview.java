@@ -18,14 +18,14 @@ public class MockDataReview {
             "but the majority have suffered alteration in some form, by injected humour, " +
             "or randomised words which don't look even slightly believable.";
     int rating = 4;
-    LocalDateTime dateTime = LocalDateTime.now();
+    String dateTime = "12-12-2020 00:00:00";
 
     Review mockReview1 = new Review(userID, comment, rating, dateTime);
 
     userID = "John Doe";
     comment = "I love the sea salt brownies! My first time having sea salt on a dessert and I was mind blown!";
     rating = 5;
-    dateTime = LocalDateTime.of(2017, 1, 14, 10, 34);
+    dateTime = "12-07-2019 12:00:00";
 
     Review mockReview2 = new Review(userID, comment, rating, dateTime);
 
@@ -33,7 +33,7 @@ public class MockDataReview {
     comment = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
             "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
     rating = 3;
-    dateTime = LocalDateTime.of(2018, 11, 12, 0, 0);
+    dateTime = "11-04-2015 10:07:23";
 
     Review mockReview3 = new Review(userID, comment, rating, dateTime);
 
@@ -41,7 +41,7 @@ public class MockDataReview {
     comment = "Quam nulla porttitor massa id neque aliquam. Ultrices mi tempus imperdiet nulla malesuada. " +
             "Eros in cursus turpis massa tincidunt dui ut ornare lectus.";
     rating = 2;
-    dateTime = LocalDateTime.of(2020, 3, 14, 23, 59);
+    dateTime = "07-07-2017 07:07:07";
 
     Review mockReview4 = new Review(userID, comment, rating, dateTime);
 
@@ -50,7 +50,7 @@ public class MockDataReview {
             "totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et " +
             "quasi architecto beatae vitae dicta sunt explicabo.";
     rating = 1;
-    dateTime = LocalDateTime.of(2020, 7, 3, 10, 34);
+    dateTime = "06-07-2019 01:00:00";
 
     Review mockReview5 = new Review(userID, comment, rating, dateTime);
 
@@ -58,7 +58,7 @@ public class MockDataReview {
     comment = "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, " +
             "nisi ut aliquid ex ea commodi consequatur?";
     rating = 5;
-    dateTime = LocalDateTime.of(2019, 1, 14, 10, 34);
+    dateTime = "10-08-2019 14:30:00";
 
     Review mockReview6 = new Review(userID, comment, rating, dateTime);
 
@@ -66,7 +66,7 @@ public class MockDataReview {
     comment = "I love the sea salt brownies! I didn't know if capybaras could eat sea salt brownies, " +
             "but I just tested it and it was amazing!";
     rating = 4;
-    dateTime = LocalDateTime.of(2020, 7, 10, 14, 34);
+    dateTime = "20-11-2019 12:15:00";
 
     Review mockReview7 = new Review(userID, comment, rating, dateTime);
 
