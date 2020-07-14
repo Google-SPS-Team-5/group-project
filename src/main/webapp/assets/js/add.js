@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", function() {
 async function showFormOrRedirectOut() {
     const response = await fetch("/authentication");
     const userJson = await response.json();
-    console.log(userJson.isAdmin);
     if (userJson.isAdmin == "true") {
         fetchBlobstoreUrl();
         document.getElementById("page-title").style.display = "block";
