@@ -8,10 +8,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/a")
-public class LoginServlet extends HttpServlet {
+@WebServlet("/authentication")
+public class AuthenticationServlet extends HttpServlet {
 
-  private final String USER_JSON_DETAILS = "{ \"userEmail\": \"%s\", \"url\": \"%s\"}";
+  private final String USER_JSON_DETAILS = "{ \"userEmail\": \"%s\", \"url\": \"%s\", \"isAdmin\": \"%s\"}";
   
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -21,15 +21,16 @@ public class LoginServlet extends HttpServlet {
     if (userService.isUserLoggedIn()) {
       String userEmail = userService.getCurrentUser().getEmail();
       String urlToRedirectToAfterUserLogsOut = "/";
+      Boolean isAdmin = userService.isUserAdmin();
       String logoutUrl = userService.createLogoutURL(urlToRedirectToAfterUserLogsOut);
 
-      String json = String.format(USER_JSON_DETAILS, userEmail, logoutUrl);
+      String json = String.format(USER_JSON_DETAILS, userEmail, logoutUrl, isAdmin);
       response.getWriter().println(json);
     } else {
       String urlToRedirectToAfterUserLogsIn = "/";
       String loginUrl = userService.createLoginURL(urlToRedirectToAfterUserLogsIn);
 
-      String json = String.format(USER_JSON_DETAILS, "", loginUrl);
+      String json = String.format(USER_JSON_DETAILS, "", loginUrl, "");
       response.getWriter().println(json);
     }
   }

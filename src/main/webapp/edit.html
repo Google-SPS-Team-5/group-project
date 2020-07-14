@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>Add New Business</title>
+    <title>Edit Business</title>
     <script src="assets/js/authentication.js"></script>
     <link rel="stylesheet" href="assets/css/add.css" />
     <link rel="stylesheet" href="assets/css/forms.css" />
@@ -11,14 +11,15 @@
   <body>
     <script src="assets/js/navbar.js"></script>
 
-    <h1 id="page-title" style="margin: 2rem 5rem 2rem 5rem; display: none;">Add a New Business</h1>
+    <h1 id="page-title" style="margin: 2rem 5rem 2rem 5rem; display: none;">Edit Business</h1>
 
     <div id="error-message" style="display: none">
         <h1>Sorry, this page is for admins only!</h1>
         <p>You are being redirected to the home page...</p>
     </div>
     <div id="form-container" style="visibility: hidden; margin: 5rem">
-      <form id="add-business-form" method="POST" enctype="multipart/form-data">
+      <form id="edit-business-form" method="POST" enctype="multipart/form-data">
+        <input id="businessID" name="businessID" style="display: none" />
         <label for="name">Name:</label><br />
         <input type="text" id="name" name="name" required/><br />
         <div class="two-columns">
@@ -109,11 +110,11 @@
         <input type="file" id="pictures" name="pictures" multiple/><br />
         <label id="pictures-file-names"></label>
         <div style="display: flex; justify-content: flex-end;">
-          <button type="submit" value="Submit">Add</button>
+          <button type="submit" value="Submit">Edit</button>
         </div>
       </form>
     </div>
     <script src="assets/js/footer.js"></script>
-    <script src="assets/js/add.js"></script>
+    <script src="assets/js/edit.js"></script>
   </body>
 </html>

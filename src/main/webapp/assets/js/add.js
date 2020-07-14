@@ -1,6 +1,20 @@
 document.addEventListener("DOMContentLoaded", function() {
-    fetchBlobstoreUrl();
+    showFormOrRedirectOut();
 });
+
+async function showFormOrRedirectOut() {
+    const response = await fetch("/authentication");
+    const userJson = await response.json();
+    if (userJson.isAdmin == "true") {
+        fetchBlobstoreUrl();
+        document.getElementById("page-title").style.display = "block";
+        document.getElementById("form-container").style.visibility = "visible";
+    } else {
+        document.getElementById("error-message").style.display = "block";
+        document.getElementById("error-message").style.margin = "5rem";
+        setTimeout(function(){window.location.href = "/";}, 3000);
+    }
+}
 
 async function fetchBlobstoreUrl() {
     const response = await fetch('/business-blobstore');
