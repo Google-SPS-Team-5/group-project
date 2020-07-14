@@ -21,6 +21,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -53,16 +54,20 @@ public class ReviewsServlet extends HttpServlet {
 
       // Create review entity and get its key.
       Entity reviewEntity = new Entity("Review");
-      reviewEntity.setProperty("userID", userID);
-      reviewEntity.setProperty("comment", comment);
-      reviewEntity.setProperty("rating", rating);
-      reviewEntity.setProperty("dateTime", dateTime);
+      reviewEntity.setProperty(REVIEW_USERID, userID);
+      reviewEntity.setProperty(REVIEW_COMMENT, comment);
+      reviewEntity.setProperty(REVIEW_RATING, rating);
+      reviewEntity.setProperty(REVIEW_DATETIME, dateTime);
       datastore.put(reviewEntity);
       Key reviewKey = reviewEntity.getKey();
 
       // Append key to its Business entity.
       reviewsKeyList.add(reviewKey);
       businessEntity.setProperty(BUSINESS_REVIEWS, gson.toJson(reviewsKeyList));
+
+      // Recalculate and update aggregated rating.
+      float aggregatedRating = recalculateRating(businessEntity, reviewsKeyList.size(), rating);
+      businessEntity.setProperty(BUSINESS_RATING, aggregatedRating);
 
       // Redirect back to the product page.
       response.sendRedirect("/product.html?businessID="+businessKey);
@@ -71,6 +76,18 @@ public class ReviewsServlet extends HttpServlet {
     } catch (EntityNotFoundException err) {
         System.out.println(err);
     }
+  }
+
+  /**
+   * Recalculates the mean (aggregate) rating for the current Business entity, based on the new review.
+   * @param businessEntity business entity to update
+   * @param numReviews total number of existing reviews, including the one just added
+   * @param newRating the rating provided in the newest review
+   * @return a float for the new aggregate rating
+   */
+  private float recalculateRating(Entity businessEntity, int numReviews, int newRating) {
+    float oldAggregate = Float.parseFloat((String) businessEntity.getProperty(BUSINESS_RATING));
+    return (oldAggregate*(numReviews-1) + newRating) / numReviews;
   }
 
   /**
@@ -91,7 +108,7 @@ public class ReviewsServlet extends HttpServlet {
     try {
       // Query Datastore for reviews under the appropriate Business entity.
       List<Key> reviewsKeyList = getReviewsKeyList(request);
-      ArrayList<Review> reviews = new ArrayList<Review>();
+      List<Review> reviews = new ArrayList<Review>();
 
       // Convert review entities to objects and add to the list.
       for (Key reviewKey : reviewsKeyList) {
@@ -103,6 +120,9 @@ public class ReviewsServlet extends HttpServlet {
         Review review = new Review(userID, comment, rating, dateTime);
         reviews.add(review);
       }
+
+      // Sort the reviews by rating (descending order).
+      reviews.sort(Comparator.comparingInt(Review::getRating).reversed());
 
       String json = convertToJsonUsingGson(reviews);
       response.setContentType("application/json;");
@@ -117,7 +137,7 @@ public class ReviewsServlet extends HttpServlet {
   /**
    * Converts a Java ArrayList<Review> into a JSON string using the Gson library.
    */
-  private String convertToJsonUsingGson(ArrayList<Review> reviewsList) {
+  private String convertToJsonUsingGson(List<Review> reviewsList) {
     String json = gson.toJson(reviewsList);
     return json;
   }

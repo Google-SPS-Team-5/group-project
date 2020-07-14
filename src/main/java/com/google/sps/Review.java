@@ -19,6 +19,10 @@ public final class Review {
     this.dateTime = dateTime;
   }
 
+  public int getRating() {
+    return rating;
+  }
+
   @Override
   public String toString() {
     return String.format("Comment: %s, Rating: %d, Time: %s", this.comment, this.rating, this.dateTime);
