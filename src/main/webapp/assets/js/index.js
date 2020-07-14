@@ -1,39 +1,39 @@
 // default to load 6 product first
-const INITIAL_PRODUCT_LOAD = 6;
-const INITIAL_DESC_WORDS = 20;
+const INITIAL_PRODUCT_LOAD = 6
+const INITIAL_DESC_WORDS = 20
+
+async function getMultipleMockData() {
+  let response = await fetch('/multiplemockdatabusiness');
+  let mockdata = await response.json();
+  return mockdata;
+}
 
 /**
  * Initialize the home page with product listings.
  */
 async function initHomePage() {
-  const business = await getBusinessData();
-  const productsToLoad = Math.min(INITIAL_PRODUCT_LOAD, business.length);
-  const productListings = document.getElementById("product-listings");
+  const mockData = await getMultipleMockData();
+  const productsToLoad = Math.min(INITIAL_PRODUCT_LOAD, mockData.length);
   let foodLocations = [];
-  
+
   for (let i = 0; i < productsToLoad; i++) {
-    productListings.appendChild(homePageListingTemplate(business[i]));
-    foodLocations.push(createLocation(business[i].data));
+    document.getElementById("product-listings").innerHTML += homePageListingTemplate(mockData[i]);
+    foodLocations.push(createLocation(mockData[i]));
   }
   initMap(foodLocations);
-}
-
-async function getBusinessData() {
-  let response = await fetch("/business-data");
-  let businessData = await response.json();
-  return businessData;
 }
 
 /**
  * Prevents user from entering an empty search term.
  */
 function isEmpty() {
-    var x;
-    x = document.getElementById("query").value;
-    if (x == "") {
-        alert("Enter a valid search term!");
-        return false;
-    };
+  var x;
+  x = document.getElementById("query").value;
+  if (x == "") {
+    alert("Enter a valid search term!");
+    return false;
+  };
+  return true;
 }
 
 /**
@@ -76,30 +76,26 @@ function initMap(foodLocations) {
 /**
  * Returns a product listing on the home page.
  */
-function homePageListingTemplate(business) {
-  const product = business.data;
-  const baseImage = product.logoBlobstoreUrl;
+function homePageListingTemplate(product) {
+  const baseImage = product.photoBlobstoreUrlList.length === 0 ? "" : product.photoBlobstoreUrlList[0];
   const description = truncateWords(product.description, INITIAL_DESC_WORDS)
-  const productListingCard = document.createElement("div");
-  productListingCard.className = "product-listing-card";
-  productListingCard.innerHTML =
-          `<div class='product-listing-image'>
-          <a href="/product.html?businessID=${business.id}">
+  return `<div class="product-listing-card">
+            <div class='product-listing-image'>
             <img src=${baseImage}>
-          </a>
+            </div>
+            <h3>${product.name}</h3>
+            <p class="categories">${product.categories}</p>
+            <p class="price">Price: From \$${product.minPrice}</p>
+            <p>${description}...</p>
+            <p class="rating">Rating: ${product.aggregatedRating}</p>
+            <span>
+              <button>
+                <i class="fa fa-cart-arrow-down"></i>
+                <a href=${product.contactUrl}>Contact Business</a>
+              </button>
+            </span>
           </div>
-          <h3>${product.name}</h3>
-          <p class="categories">${product.categories}</p>
-          <p class="price">Price: From \$${product.minPrice}</p>
-          <p>${description}...</p>
-          <p class="rating">Rating: ${product.aggregatedRating}</p>
-          <span>
-            <button>
-              <i class="fa fa-cart-arrow-down"></i>
-              <a href=${product.contactUrl}>Contact Business</a>
-            </button>
-          </span>`
-  return productListingCard;
+          `;
 }
 
 /**
