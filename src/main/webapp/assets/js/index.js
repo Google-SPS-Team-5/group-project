@@ -14,6 +14,9 @@ async function getMultipleMockData() {
 async function initHomePage() {
   const mockData = await getMultipleMockData();
   const productsToLoad = Math.min(INITIAL_PRODUCT_LOAD, mockData.length);
+
+  getFilterCategories(mockData)
+
   let foodLocations = [];
 
   for (let i = 0; i < productsToLoad; i++) {
@@ -21,6 +24,45 @@ async function initHomePage() {
     foodLocations.push(createLocation(mockData[i]));
   }
   initMap(foodLocations);
+}
+
+/**
+ * Obtain a list of filter categories to allow product listings to be filtered accordingly.
+ */
+async function getFilterCategories(mockData) {
+  var categories = []
+  mockData.forEach(data => {
+    categories = [...categories, ...data.categories]
+  });
+
+  var categories = new Set(categories)
+  document.getElementById("filter-buttons").innerHTML += addCategoryFilters('All');
+  for (let category of categories.values()) {
+    document.getElementById("filter-buttons").innerHTML += addCategoryFilters(category);
+  }
+}
+
+/**
+ * Add filter buttons in HTML.
+ */
+function addCategoryFilters(category) {
+  return `<button class="btn" onclick="filterCategory('${category}')">${category}</button>`
+}
+
+/**
+ * Filter product listings based on the category selected.
+ */
+function filterCategory(category) {
+  let products = document.getElementsByClassName("product-listing-card");
+
+  for (let i = 0; i < products.length; i++) {
+    existingCategories = products[i].getElementsByClassName('categories')[0].innerHTML.split(",")
+    if (existingCategories.includes(category) || category == "All") {
+      products[i].style.display = "";
+    } else {
+      products[i].style.display = "none";
+    }
+  }
 }
 
 /**
