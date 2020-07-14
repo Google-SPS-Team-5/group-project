@@ -1,26 +1,26 @@
 // default to load 6 product first
-const INITIAL_PRODUCT_LOAD = 6
-const INITIAL_DESC_WORDS = 20
-
-async function getMultipleMockData() {
-  let response = await fetch('/multiplemockdatabusiness');
-  let mockdata = await response.json();
-  return mockdata;
-}
+const INITIAL_PRODUCT_LOAD = 6;
+const INITIAL_DESC_WORDS = 20;
 
 /**
  * Initialize the home page with product listings.
  */
 async function initHomePage() {
-  const mockData = await getMultipleMockData();
-  const productsToLoad = Math.min(INITIAL_PRODUCT_LOAD, mockData.length);
-  let foodLocations = []
+  const business = await getBusinessData();
+  const productsToLoad = Math.min(INITIAL_PRODUCT_LOAD, business.length);
+  let foodLocations = [];
 
   for (let i = 0; i < productsToLoad; i++) {
-    document.getElementById("product-listings").innerHTML += homePageListingTemplate(mockData[i]);
-    foodLocations.push(createLocation(mockData[i]))
+    document.getElementById("product-listings").innerHTML += homePageListingTemplate(business[i]);
+    foodLocations.push(createLocation(business[i].data));
   }
-  initMap(foodLocations)
+  initMap(foodLocations);
+}
+
+async function getBusinessData() {
+  let response = await fetch("/business-data");
+  let businessData = await response.json();
+  return businessData;
 }
 
 /**
@@ -63,12 +63,15 @@ function initMap(foodLocations) {
 /**
  * Returns a product listing on the home page.
  */
-function homePageListingTemplate(product) {
-  const baseImage = product.photoBlobstoreUrlList.length === 0 ? "" : product.photoBlobstoreUrlList[0];
+function homePageListingTemplate(business) {
+  const product = business.data;
+  const baseImage = product.logoBlobstoreUrl;
   const description = truncateWords(product.description, INITIAL_DESC_WORDS)
   return `<div class="product-listing-card">
             <div class='product-listing-image'>
-            <img src=${baseImage}>
+            <a href="/product.html?businessID=${business.id}">
+              <img src=${baseImage}>
+            </a>
             </div>
             <h3>${product.name}</h3>
             <p class="categories">${product.categories}</p>
