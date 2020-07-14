@@ -1,11 +1,5 @@
-async function getMockData() {
-  let response = await fetch('/mockdatabusiness');
-  let mockdata = await response.json();
-  return mockdata;
-}
-
 async function populateProductDetails() {  
-  business = await getMockData();
+  business = await getBusinessData();
 
   populateBusinessDescription(business);
   populateImageGallery(business.photoBlobstoreUrlList);
@@ -13,8 +7,25 @@ async function populateProductDetails() {
   populateContactDetails(business);
 }
 
+async function getBusinessData() {
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+
+  if (urlParams.has("businessID")) {
+    var businessId = urlParams.get("businessID");
+    let response = await fetch(`/edit-business-data?businessID=${businessId}`);
+    let businessData = await response.json();
+    return businessData.data;
+  } else {
+    let response = await fetch('/mockdatabusiness');
+    let mockdata = await response.json();
+    return mockdata;
+  }
+}
+
 function populateBusinessDescription(business) {
   Array.from(document.getElementsByClassName('businessName')).forEach(element => element.innerHTML += business.name);
+  document.getElementById("review").placeholder = `What do you like about ${business.name}?`;
 
   document.getElementById("businessLogo").src = business.logoBlobstoreUrl;
 
