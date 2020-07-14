@@ -15,11 +15,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.google.sps.MockUserData;
 
 @WebServlet("/userinformation")
-public class userServlet extends HttpServlet {
+public class UserServlet extends HttpServlet {
 
+  //retrieve user's entity based on user's name
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     //dummy data for user
@@ -51,6 +51,7 @@ public class userServlet extends HttpServlet {
     response.getWriter().println(userJson);
   }
 
+  //putting in user's data into Datastore
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
     List<String> favourites = Arrays.asList("1","2","3","4");
     List<String> pastReviews = Arrays.asList("5","6","7","8");
@@ -58,20 +59,20 @@ public class userServlet extends HttpServlet {
     Entity user1 = new Entity("User");
     user1.setProperty("name", "Sam");
     user1.setProperty("email", "sam@gmail.com");
-    user1.setProperty("favourites", favourites);
-    user1.setProperty("pastReviews", pastReviews);
+    user1.setProperty("favourites", gson.toJson(favourites));
+    user1.setProperty("pastReviews", gson.toJson(pastReviews));
 
     Entity user2 = new Entity("User");
     user2.setProperty("name", "Wendy");
     user2.setProperty("email", "wendy@gmail.com");
-    user2.setProperty("favourites", favourites);
-    user2.setProperty("pastReviews", pastReviews);
+    user2.setProperty("favourites", gson.toJson(favourites));
+    user2.setProperty("pastReviews", gson.toJson(pastReviews));
 
     Entity user3 = new Entity("User");
     user3.setProperty("name", "Tiffany");
     user3.setProperty("email", "tiffany@gmail.com");
-    user3.setProperty("favourites", favourites);
-    user3.setProperty("pastReviews", pastReviews);
+    user3.setProperty("favourites", gson.toJson(favourites));
+    user3.setProperty("pastReviews", gson.toJson(pastReviews));
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(user1);
