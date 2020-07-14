@@ -14,25 +14,26 @@ async function getMultipleMockData() {
 async function initHomePage() {
   const mockData = await getMultipleMockData();
   const productsToLoad = Math.min(INITIAL_PRODUCT_LOAD, mockData.length);
-  let foodLocations = []
+  let foodLocations = [];
 
   for (let i = 0; i < productsToLoad; i++) {
     document.getElementById("product-listings").innerHTML += homePageListingTemplate(mockData[i]);
-    foodLocations.push(createLocation(mockData[i]))
+    foodLocations.push(createLocation(mockData[i]));
   }
-  initMap(foodLocations)
+  initMap(foodLocations);
 }
 
 /**
  * Prevents user from entering an empty search term.
  */
 function isEmpty() {
-    var x;
-    x = document.getElementById("query").value;
-    if (x == "") {
-        alert("Enter a valid search term!");
-        return false;
-    };
+  var x;
+  x = document.getElementById("query").value;
+  if (x == "") {
+    alert("Enter a valid search term!");
+    return false;
+  };
+  return true;
 }
 
 /**

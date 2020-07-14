@@ -70,4 +70,8 @@ public final class Business {
   public String toString() {
     return String.format("Business: %s, Rating: %f", name, aggregatedRating);
   }
+
+  public String getBusinessName() {
+    return this.name;
+  }
 }
