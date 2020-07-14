@@ -9,11 +9,11 @@ document.addEventListener("DOMContentLoaded", function() {
  * Depending on the log in status, the navbar rendered will look different.
  */
 async function isLoggedin() {
-    const response = await fetch("/login");
+    const response = await fetch("/authentication");
     const userJson = await response.json();
     var navBarContainer = document.getElementById("authentication");
     if (userJson.userEmail) {
-        navBarContainer.innerHTML = navBarUserLoggedIn(userJson.userEmail, userJson.url)
+        navBarContainer.innerHTML = navBarUserLoggedIn(userJson.userEmail, userJson.url, userJson.isAdmin)
     } else {
         navBarContainer.innerHTML = navBarUserLoggedOut(userJson.url)
     }
@@ -24,10 +24,18 @@ async function isLoggedin() {
  * Returns a navbar that contains the user email (link to their profile)
  * and a link to log out
  */
-function navBarUserLoggedIn(userEmail, logoutUrl) {
-    return `
+function navBarUserLoggedIn(userEmail, logoutUrl, isAdmin) {
+    if (isAdmin === "true") {
+        return `
+        <a href="add.html" class="nav-link">Add New Business</a>
         <a href="#" class="nav-link">${userEmail}</a>
         <a href="${logoutUrl}" class="nav-link">Log Out</a>`;
+    } else {
+        return `
+        <a href="#" class="nav-link">${userEmail}</a>
+        <a href="${logoutUrl}" class="nav-link">Log Out</a>`;
+    }
+
 }
 
 /**
