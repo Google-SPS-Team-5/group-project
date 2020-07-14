@@ -14,6 +14,8 @@ import com.google.appengine.api.images.ImagesService;
 import com.google.appengine.api.images.ImagesServiceFactory;
 import com.google.appengine.api.images.ServingUrlOptions;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import java.lang.reflect.Type;
 import com.google.gson.reflect.TypeToken;
 import com.google.sps.Business;
@@ -34,22 +36,20 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that returns all businesses and lets you create a new business */
 @WebServlet("/business-data")
 public class BusinessDataServlet extends HttpServlet {
-    
+  // Create gson for serializing and deserializing
+  Gson gson = new Gson();
+  // Create query for Datastore.
+  DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+  Query query = new Query("Business");
+
   /** Writes a JSON-ified list of all existing businesses from the Datastore
   */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Create gson for serializing and deserializing
-    Gson gson = new Gson();
-
-    // Create query for Datastore.
-    Query query = new Query("Business");
-
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
     // Iterate over results and add each business to the ArrayList.
-    List<String> businessesJson = new ArrayList<>();
+    List<BusinessData> businessList = new ArrayList<>();
     for (Entity entity : results.asIterable()) {
       String name = (String) entity.getProperty(BUSINESS_NAME);
       String desc = (String) entity.getProperty(BUSINESS_DESC);
@@ -72,13 +72,13 @@ public class BusinessDataServlet extends HttpServlet {
       List<String> reviews = reviewsArr == null ? new ArrayList<String>() : Arrays.asList(reviewsArr);
   
       Business business = new Business(name, categories, minPrice, maxPrice, rating, addressLat, addressLng, address, logoUrl, picturesUrls, desc, menuLink, orderDetails, contactDetails, businessLink);
-      String businessJson = String.format("{\"data\" : %s, \"id\": %s }", gson.toJson(business), entity.getKey().getId());
-      businessesJson.add(businessJson);
+      BusinessData businessData = new BusinessData(gson.toJson(business), entity.getKey().getId());
+      businessList.add(businessData);
     }
 
     // Send the JSON as the response.
     response.setContentType("application/json;");
-    response.getWriter().println(gson.toJson(businessesJson));
+    response.getWriter().println(gson.toJson(businessList));
   }
   
   /**
@@ -178,6 +178,19 @@ public class BusinessDataServlet extends HttpServlet {
     }
 
     return urls;
+  }
+
+  public class BusinessData {
+    private final JsonElement data;
+    private final Long id;
+
+    JsonParser parser = new JsonParser();
+
+    public BusinessData(String business, Long ID)
+    {
+      data = parser.parse(business);
+      id = ID;
+    }
   }
 
 }
