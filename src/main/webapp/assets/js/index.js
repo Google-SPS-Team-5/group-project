@@ -87,11 +87,10 @@ async function handleSearch() {
     return false;
   }
 
-  let url = new URL(`${window.location.href}search`);
   let param = {'s': searchTerm}
-  url.search = new URLSearchParams(param).toString();
+  let searchParams = new URLSearchParams(param).toString();
 
-  let searchData = await fetchUrlData(url.href);
+  let searchData = await fetchUrlData(`/search?${searchParams}`);
 
   if (searchData.length === 0) {
     alert("No search result found!");
