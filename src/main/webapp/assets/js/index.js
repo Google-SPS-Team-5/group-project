@@ -36,11 +36,11 @@ async function initHomePage() {
 /**
  * Obtain a list of filter categories to allow product listings to be filtered accordingly.
  */
-async function getFilterCategories(mockData) {
+async function getFilterCategories(business) {
   var categories = [];
-  mockData.forEach(data => {
-    categories = [...categories, ...data.categories];
-  });
+  for (let i = 0; i < business.length; i++) {
+    categories = [...categories, ...business[i].data.categories];
+  }
 
   var categories = new Set(categories);
   var filterButtons = document.getElementById("filter-buttons");
