@@ -30,15 +30,16 @@ async function initHomePage() {
  * Obtain a list of filter categories to allow product listings to be filtered accordingly.
  */
 async function getFilterCategories(mockData) {
-  var categories = []
+  var categories = [];
   mockData.forEach(data => {
-    categories = [...categories, ...data.categories]
+    categories = [...categories, ...data.categories];
   });
 
-  var categories = new Set(categories)
-  document.getElementById("filter-buttons").innerHTML += addCategoryFilters('All');
+  var categories = new Set(categories);
+  var filterButtons = document.getElementById("filter-buttons");
+  filterButtons.appendChild(addCategoryFilters('All'));
   for (let category of categories.values()) {
-    document.getElementById("filter-buttons").innerHTML += addCategoryFilters(category);
+    filterButtons.appendChild(addCategoryFilters(category));
   }
 }
 
@@ -46,7 +47,11 @@ async function getFilterCategories(mockData) {
  * Add filter buttons in HTML.
  */
 function addCategoryFilters(category) {
-  return `<button class="btn" onclick="filterCategory('${category}')">${category}</button>`
+  let btn = document.createElement('button');
+  btn.setAttribute('class', 'btn');
+  btn.setAttribute('onclick', `filterCategory('${category}')`)
+  btn.innerText = category
+  return btn
 }
 
 /**
