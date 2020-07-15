@@ -47,7 +47,8 @@ public class ReviewsServlet extends HttpServlet {
       String dateTime = dateTimeObj.format(format);
 
       // Get existing reviews key list.
-      Key businessKey = KeyFactory.createKey("Business", Long.parseLong(request.getParameter(BUSINESS_ID))); // KIV url parameter
+      Long businessID = Long.parseLong(request.getParameter(BUSINESS_ID));
+      Key businessKey = KeyFactory.createKey("Business", businessID); // KIV url parameter
       Entity businessEntity = datastore.get(businessKey);
       Key[] reviewsKeyArr = gson.fromJson((String) businessEntity.getProperty(BUSINESS_REVIEWS), Key[].class);
       List<Key> reviewsKeyList = new ArrayList<Key>(Arrays.asList(reviewsKeyArr));
@@ -70,7 +71,7 @@ public class ReviewsServlet extends HttpServlet {
       businessEntity.setProperty(BUSINESS_RATING, aggregatedRating);
 
       // Redirect back to the product page.
-      response.sendRedirect("/product.html?businessID="+businessKey);
+      response.sendRedirect("/product.html?businessID=%d", businessID);
     } catch (IOException err) {
         System.out.println(err);
     } catch (EntityNotFoundException err) {
