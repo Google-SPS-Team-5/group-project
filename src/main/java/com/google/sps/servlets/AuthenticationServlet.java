@@ -20,14 +20,14 @@ public class AuthenticationServlet extends HttpServlet {
 
     if (userService.isUserLoggedIn()) {
       String userEmail = userService.getCurrentUser().getEmail();
-      String urlToRedirectToAfterUserLogsOut = "/";
+      String urlToRedirectToAfterUserLogsOut = request.getHeader("referer");
       Boolean isAdmin = userService.isUserAdmin();
       String logoutUrl = userService.createLogoutURL(urlToRedirectToAfterUserLogsOut);
 
       String json = String.format(USER_JSON_DETAILS, userEmail, logoutUrl, isAdmin);
       response.getWriter().println(json);
     } else {
-      String urlToRedirectToAfterUserLogsIn = "/";
+      String urlToRedirectToAfterUserLogsIn = request.getHeader("referer");
       String loginUrl = userService.createLoginURL(urlToRedirectToAfterUserLogsIn);
 
       String json = String.format(USER_JSON_DETAILS, "", loginUrl, "");
