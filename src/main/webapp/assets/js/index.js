@@ -8,10 +8,11 @@ const INITIAL_DESC_WORDS = 20;
 async function initHomePage() {
   const business = await getBusinessData();
   const productsToLoad = Math.min(INITIAL_PRODUCT_LOAD, business.length);
+  const productListings = document.getElementById("product-listings");
   let foodLocations = [];
-
+  
   for (let i = 0; i < productsToLoad; i++) {
-    document.getElementById("product-listings").innerHTML += homePageListingTemplate(business[i]);
+    productListings.appendChild(homePageListingTemplate(business[i]));
     foodLocations.push(createLocation(business[i].data));
   }
   initMap(foodLocations);
@@ -67,25 +68,26 @@ function homePageListingTemplate(business) {
   const product = business.data;
   const baseImage = product.logoBlobstoreUrl;
   const description = truncateWords(product.description, INITIAL_DESC_WORDS)
-  return `<div class="product-listing-card">
-            <div class='product-listing-image'>
-            <a href="/product.html?businessID=${business.id}">
-              <img src=${baseImage}>
-            </a>
-            </div>
-            <h3>${product.name}</h3>
-            <p class="categories">${product.categories}</p>
-            <p class="price">Price: From \$${product.minPrice}</p>
-            <p>${description}...</p>
-            <p class="rating">Rating: ${product.aggregatedRating}</p>
-            <span>
-              <button>
-                <i class="fa fa-cart-arrow-down"></i>
-                <a href=${product.contactUrl}>Contact Business</a>
-              </button>
-            </span>
+  const productListingCard = document.createElement("div");
+  productListingCard.className = "product-listing-card";
+  productListingCard.innerHTML =
+          `<div class='product-listing-image'>
+          <a href="/product.html?businessID=${business.id}">
+            <img src=${baseImage}>
+          </a>
           </div>
-          `;
+          <h3>${product.name}</h3>
+          <p class="categories">${product.categories}</p>
+          <p class="price">Price: From \$${product.minPrice}</p>
+          <p>${description}...</p>
+          <p class="rating">Rating: ${product.aggregatedRating}</p>
+          <span>
+            <button>
+              <i class="fa fa-cart-arrow-down"></i>
+              <a href=${product.contactUrl}>Contact Business</a>
+            </button>
+          </span>`
+  return productListingCard;
 }
 
 /**

@@ -47,9 +47,9 @@ function populateImageGallery(photoUrlList) {
   const urlListLength = photoUrlList.length;
   for (image = 1; image <= urlListLength; image++) {
     const url = photoUrlList[image-1];
-    imagePreviewGallery.innerHTML += createThumbnailImageElement(url);
-    modalGalleryContainer.innerHTML += createGalleryImageElement(url, image, urlListLength);
-    modalGalleryImagePreviewContainer.innerHTML += createGalleryImagePreviewElement(url, image);
+    imagePreviewGallery.appendChild(createThumbnailImageElement(url));
+    modalGalleryContainer.appendChild(createGalleryImageElement(url, image, urlListLength));
+    modalGalleryImagePreviewContainer.appendChild(createGalleryImagePreviewElement(url, image));
   }  
 }
 
@@ -70,36 +70,38 @@ function createCategoryElement(categoryName) {
 }
 
 function createThumbnailImageElement(imageUrl) {
-  return `<div class="lightbox-column">
-          <img
-            src=${imageUrl}
-            style="height: 250px; width:auto;"
-            onclick="openModal();currentSlide(1)"
-            class="hover-shadow cursor"
-          />
-          `;
+  var thumbnailImageElement = document.createElement("div");
+  thumbnailImageElement.className = "lightbox-column";
+  thumbnailImageElement.innerHTML = `<img
+                                        src=${imageUrl}
+                                        style="height: 250px; width:auto;"
+                                        onclick="openModal();currentSlide(1)"
+                                        class="hover-shadow cursor"
+                                      />`
+  return thumbnailImageElement;
 }
 
 function createGalleryImageElement(imageUrl, index, length) {
-  return `<div class="mySlides">
-              <div class="numbertext">${index} / ${length}</div>
-              <img
-                src=${imageUrl}
-                style="height: 400px; width:auto;"
-              />
-            </div>
-          `;
+  var slide = document.createElement("div");
+  slide.className = "mySlides";
+  slide.innerHTML = `<div class="numbertext">${index} / ${length}</div>
+                      <img
+                        src=${imageUrl}
+                        style="height: 400px; width:auto;"
+                      />
+                    `;
+  return slide;
 }
 
 function createGalleryImagePreviewElement(imageUrl, index) {
-  return `<div class="lightbox-column">
-              <img
-                class="demo cursor"
-                src=${imageUrl}
-                style="height: 100px; width:auto"
-                onclick="currentSlide(${index})"
-                alt="Sea Salt Brownies"
-              />
-            </div>
-          `;
+  var galleryImagePreviewElement = document.createElement("div");
+  galleryImagePreviewElement.className = "lightbox-column";
+  galleryImagePreviewElement.innerHTML = `<img
+                                            class="demo cursor"
+                                            src=${imageUrl}
+                                            style="height: 100px; width:auto"
+                                            onclick="currentSlide(${index})"
+                                            alt="Sea Salt Brownies"
+                                          />`;
+  return galleryImagePreviewElement;
 }
