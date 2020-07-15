@@ -71,7 +71,7 @@ public class ReviewsServlet extends HttpServlet {
       businessEntity.setProperty(BUSINESS_RATING, aggregatedRating);
 
       // Redirect back to the product page.
-      response.sendRedirect("/product.html?businessID=%d", businessID);
+      response.sendRedirect("/product.html?businessID=" + businessID);
     } catch (IOException err) {
         System.out.println(err);
     } catch (EntityNotFoundException err) {
