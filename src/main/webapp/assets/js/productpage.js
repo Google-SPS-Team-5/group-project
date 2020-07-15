@@ -43,12 +43,16 @@ function populateBusinessDescription(business) {
 }
 
 function populateImageGallery(photoUrlList) {
+  const urlListLength = photoUrlList.length;
+  if (urlListLength == 0) {
+    Array.from(document.getElementsByClassName('image-gallery')).forEach(element => element.style.display = "none");
+  }
   const imagePreviewGallery = document.getElementById("image-thumbnail-gallery");
   const modalGalleryContainer = document.getElementById("slides-container");
   const modalGalleryImagePreviewContainer = document.getElementById("gallery-thumbnail-container");
 
   var image;
-  const urlListLength = photoUrlList.length;
+  
   for (image = 1; image <= urlListLength; image++) {
     const url = photoUrlList[image-1];
     imagePreviewGallery.appendChild(createThumbnailImageElement(url));
@@ -59,12 +63,26 @@ function populateImageGallery(photoUrlList) {
 
 function populateBusinessWriteup(business) {
   document.getElementById("businessDescr").innerHTML = business.description;
-  document.getElementById("menuUrl").href = business.menuUrl;
+  var menuUrlElement = document.getElementById("menuUrl");
+  if (business.menuUrl) {
+    
+    menuUrlElement.href = business.menuUrl;
+  } else {
+    var menuUrlContainer = document.getElementById("menuContainer");
+    menuUrlContainer.parentNode.removeChild(menuUrlContainer)
+  }
+  
 }
 
 function populateContactDetails() {
   document.getElementById("orderInfo").innerHTML = business.orderInformation;
-  document.getElementById("contactUrl").href = business.contactUrl;
+  var contactUrlElement = document.getElementById("contactUrl");
+  if (business.contactUrl) {
+    contactUrlElement.href = business.contactUrl;
+  } else {
+    var contactUrlContainer = document.getElementById("contactDetailsContainer");
+    contactUrlContainer.parentNode.removeChild(contactUrlContainer);
+  }
 }
 
 function createCategoryElement(categoryName) {
