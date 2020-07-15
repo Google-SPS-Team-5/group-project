@@ -91,9 +91,6 @@ public class EditBusinessDataServlet extends HttpServlet {
   */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Gson gson = new Gson();
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-
     try {
     Long businessId = Long.parseLong(request.getParameter(BUSINESS_ID));
     Key businessKey = KeyFactory.createKey("Business", businessId);
