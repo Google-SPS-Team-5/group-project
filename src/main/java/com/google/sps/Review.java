@@ -1,8 +1,5 @@
 package com.google.sps;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 /**
  * Holds all relevant data to a business review on the site.
  */
@@ -15,12 +12,15 @@ public final class Review {
   public Review(String userID,
                 String comment,
                 int rating,
-                LocalDateTime dateTime) {
+                String dateTime) {
     this.userID = userID;
     this.comment = comment;
     this.rating = rating;
-    DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-    this.dateTime = dateTime.format(format);
+    this.dateTime = dateTime;
+  }
+
+  public int getRating() {
+    return rating;
   }
 
   @Override

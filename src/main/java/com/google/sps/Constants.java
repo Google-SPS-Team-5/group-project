@@ -2,7 +2,7 @@ package com.google.sps;
 
 public final class Constants {
 
-  // For querying the bussiness entities
+  // For querying the business entities
   public static final String BUSINESS_ID = "businessID";
   public static final String BUSINESS_NAME = "name";
   public static final String BUSINESS_DESC = "desc";
@@ -21,4 +21,10 @@ public final class Constants {
   public static final String BUSINESS_RATING = "rating";
   public static final String BUSINESS_REVIEWS = "reviews";
   public static final float NOT_FOUND = (float) 404;
+
+  // For querying the review entities
+  public static final String REVIEW_USERID = "userID";
+  public static final String REVIEW_COMMENT = "comment";
+  public static final String REVIEW_DATETIME = "dateTime";
+  public static final String REVIEW_RATING = "rating";
 }
