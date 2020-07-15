@@ -49,7 +49,7 @@ public class DeleteBusinessDataServlet extends HttpServlet {
     Gson gson = new Gson();
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
-    Long businessId = Long.parseLong(request.getParameter("businessID-2"));
+    Long businessId = Long.parseLong(request.getParameter("businessID-delete-form"));
     Key businessKey = KeyFactory.createKey("Business", businessId);
     datastore.delete(businessKey);
 
