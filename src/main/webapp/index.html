@@ -17,10 +17,10 @@
 <script src="assets/js/mockdata.js"></script>
 
 <div id="search-container">
-    <form method="post" name="search" action="search">
+    <form name="search" onSubmit="handleSearch(); return false;">
         <label for="search">Search:</label>
         <input id="query" type="text" name="query" placeholder="Search listing...">
-        <button type="submit" onClick="return isEmpty()"><i class="fa fa-search"></i></button>
+        <button type="submit"><i class="fa fa-search"></i></button>
     </form>
 </div>
 <div id="featured-listing">

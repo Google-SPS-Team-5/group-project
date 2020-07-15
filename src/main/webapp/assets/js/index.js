@@ -70,17 +70,42 @@ function filterCategory(category) {
   }
 }
 
+async function fetchUrlData(url) {
+  let response = await fetch(url);
+  let mockdata = await response.json();
+  return mockdata;
+}
+
 /**
  * Prevents user from entering an empty search term.
  */
-function isEmpty() {
-  var x;
-  x = document.getElementById("query").value;
-  if (x == "") {
+async function handleSearch() {
+  let searchTerm = document.getElementById("query").value;
+
+  if (searchTerm == "") {
     alert("Enter a valid search term!");
     return false;
-  };
-  return true;
+  }
+
+  let url = new URL(`${window.location.href}search`);
+  let param = {'s': searchTerm}
+  url.search = new URLSearchParams(param).toString();
+
+  let searchData = await fetchUrlData(url.href);
+
+  if (searchData.length === 0) {
+    alert("No search result found!");
+    return false;
+  } else {
+    document.getElementById("product-listings-title").innerText = `Search Result for "${searchTerm}": `;
+    productListings = document.getElementById("product-listings");
+    productListings.innerHTML = '';
+
+    for (let i = 0; i < searchData.length; i++) {
+      console.log(searchData[i])
+      productListings.innerHTML += homePageListingTemplate(searchData[i]);
+    }
+  }
 }
 
 /**
