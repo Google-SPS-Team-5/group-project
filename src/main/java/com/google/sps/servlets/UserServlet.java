@@ -16,10 +16,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/** Servlet that returns a specific user */
 @WebServlet("/userinformation")
 public class UserServlet extends HttpServlet {
 
-  //retrieve user's entity based on user's name
+  /** Writes a JSON-ified of a specific user from the Datastore. The key is set to a default data as of now
+   */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     //dummy data for user
@@ -51,7 +53,8 @@ public class UserServlet extends HttpServlet {
     response.getWriter().println(userJson);
   }
 
-  //putting in user's data into Datastore
+  /** Inserting hardcoded user data into the Datastore
+  */
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
 
     Gson gson = new Gson();
