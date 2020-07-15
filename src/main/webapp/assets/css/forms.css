@@ -50,6 +50,10 @@ button {
   border-radius: 4px;
 }
 
+#delete-button {
+  background-color: red !important;
+}
+
 /*Customise input file buttons*/
 #pictures, #logo {
   opacity: 0;
