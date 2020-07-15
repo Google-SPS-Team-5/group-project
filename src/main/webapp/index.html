@@ -36,8 +36,15 @@
 <div class="product-listings-wrapper">
     <h2 id="product-listings-title">Popular Right Now</h2>
     <h3>Home-cooked, full of love and made just for you.</h3>
-    <div id="product-listings" class="product-listings-container">
+    <div id="search-container">
+        <form name="search" onSubmit="handleSearch(); return false;">
+            <label for="search">Search:</label>
+            <input id="query" type="text" name="query" placeholder="Search listing...">
+            <button type="submit"><i class="fa fa-search"></i></button>
+        </form>
     </div>
+    <div id="filter-buttons"></div>
+    <div id="product-listings" class="product-listings-container"></div>
 </div>
 <div id="map-container">
   <div id="map">
