@@ -88,6 +88,9 @@ public class ReviewsServlet extends HttpServlet {
    */
   private float recalculateRating(Entity businessEntity, int numReviews, int newRating) {
     float oldAggregate = Float.parseFloat((String) businessEntity.getProperty(BUSINESS_RATING));
+    if (oldAggregate == NOT_FOUND) { // a float (404) representing null value
+      return newRating;
+    }
     return (oldAggregate*(numReviews-1) + newRating) / numReviews;
   }
 
