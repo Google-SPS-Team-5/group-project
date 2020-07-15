@@ -119,8 +119,14 @@ function createEditBusinessLink(isAdmin) {
   
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
-  const businessId = urlParams.get("businessID");
-  editLink.href = `edit.html?businessID=${businessId}`;
-  editLink.innerHTML = "Edit this business";
+  if (urlParams.has("businessID")) {
+    const businessId = urlParams.get("businessID");
+    editLink.href = `edit.html?businessID=${businessId}`;
+    editLink.innerHTML = "Edit this business";
+  } else {
+    editLink.parentNode.removeChild(editLink);
+  }
+  
+  
   
 }
