@@ -46,9 +46,6 @@ public class DeleteBusinessDataServlet extends HttpServlet {
   /** Gets the business id from the form, creates key, and deletes the entity by key  */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Gson gson = new Gson();
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-
     Long businessId = Long.parseLong(request.getParameter("businessID-delete-form"));
     Key businessKey = KeyFactory.createKey("Business", businessId);
     datastore.delete(businessKey);
