@@ -25,16 +25,20 @@ async function isLoggedin() {
  * and a link to log out
  */
 function navBarUserLoggedIn(userEmail, logoutUrl, isAdmin) {
-    if (isAdmin === "true") {
-        return `
-        <a href="add.html" class="nav-link">Add New Business</a>
-        <a href="#" class="nav-link">${userEmail}</a>
-        <a href="${logoutUrl}" class="nav-link">Log Out</a>`;
-    } else {
-        return `
-        <a href="#" class="nav-link">${userEmail}</a>
-        <a href="${logoutUrl}" class="nav-link">Log Out</a>`;
-    }
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const businessId = urlParams.get("businessID");
+
+  if (isAdmin === "true") {
+      return `
+      <a href="add.html" class="nav-link">Add New Business</a>
+      <a href="#" class="nav-link">${userEmail}</a>
+      <a href="${logoutUrl}" class="nav-link">Log Out</a>`;
+  } else {
+      return `
+      <a href="#" class="nav-link">${userEmail}</a>
+      <a href="${logoutUrl}" class="nav-link">Log Out</a>`;
+  }
 
 }
 
