@@ -1,4 +1,8 @@
 async function populateProductDetails() {  
+  const response = await fetch("/authentication");
+  const userJson = await response.json();
+  createEditBusinessLink(userJson.isAdmin);
+
   business = await getBusinessData();
 
   populateBusinessDescription(business);
@@ -104,4 +108,19 @@ function createGalleryImagePreviewElement(imageUrl, index) {
                                             alt="Sea Salt Brownies"
                                           />`;
   return galleryImagePreviewElement;
+}
+
+function createEditBusinessLink(isAdmin) {
+  var editLink = document.getElementById("editBusinessLink");
+  if (isAdmin !== "true") {
+    editLink.parentNode.removeChild(editLink);
+    return;
+  }
+  
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const businessId = urlParams.get("businessID");
+  editLink.href = `edit.html?businessID=${businessId}`;
+  editLink.innerHTML = "Edit this business";
+  
 }
