@@ -31,6 +31,7 @@ import java.util.List;
 public class ReviewsServlet extends HttpServlet {
   Gson gson = new Gson();
   DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+  Long businessID = 404L;
 
   /** Get review from review form and store it in Datastore under its Business entity. */
   @Override
@@ -39,7 +40,7 @@ public class ReviewsServlet extends HttpServlet {
       // Get review input from review form.
       String userID = getParameter(request, "name", "anonymous"); // Accept input name for now, should be user Datastore key, to be implemented later
       String comment = getParameter(request, "review", "No comment provided.");
-      int rating = Integer.parseInt(request.getParameter("rating"));
+      int rating = Integer.parseInt((String) request.getParameter("star-rating"));
 
       // Get current timestamp for time when review is posted.
       LocalDateTime dateTimeObj = LocalDateTime.now();
@@ -47,11 +48,15 @@ public class ReviewsServlet extends HttpServlet {
       String dateTime = dateTimeObj.format(format);
 
       // Get existing reviews key list.
-      Long businessID = Long.parseLong(request.getParameter(BUSINESS_ID));
-      Key businessKey = KeyFactory.createKey("Business", businessID); // KIV url parameter
+      Key businessKey = KeyFactory.createKey("Business", this.businessID);
       Entity businessEntity = datastore.get(businessKey);
-      Key[] reviewsKeyArr = gson.fromJson((String) businessEntity.getProperty(BUSINESS_REVIEWS), Key[].class);
-      List<Key> reviewsKeyList = new ArrayList<Key>(Arrays.asList(reviewsKeyArr));
+      Long[] reviewsKeyArr = gson.fromJson((String) businessEntity.getProperty(BUSINESS_REVIEWS), Long[].class);
+      List<Long> reviewsKeyList;
+      if (reviewsKeyArr != null) {
+        reviewsKeyList = new ArrayList<Long>(Arrays.asList(reviewsKeyArr));
+      } else {
+        reviewsKeyList = new ArrayList<Long>();
+      }
 
       // Create review entity and get its key.
       Entity reviewEntity = new Entity("Review");
@@ -61,14 +66,16 @@ public class ReviewsServlet extends HttpServlet {
       reviewEntity.setProperty(REVIEW_DATETIME, dateTime);
       datastore.put(reviewEntity);
       Key reviewKey = reviewEntity.getKey();
+      Long reviewID = reviewKey.getId();
 
       // Append key to its Business entity.
-      reviewsKeyList.add(reviewKey);
+      reviewsKeyList.add(reviewID);
       businessEntity.setProperty(BUSINESS_REVIEWS, gson.toJson(reviewsKeyList));
+      datastore.put(businessEntity);
 
       // Recalculate and update aggregated rating.
-      float aggregatedRating = recalculateRating(businessEntity, reviewsKeyList.size(), rating);
-      businessEntity.setProperty(BUSINESS_RATING, aggregatedRating);
+    //   float aggregatedRating = recalculateRating(businessEntity, reviewsKeyList.size(), rating);
+    //   businessEntity.setProperty(BUSINESS_RATING, aggregatedRating);
 
       // Redirect back to the product page.
       response.sendRedirect("/product.html?businessID=" + businessID);
@@ -86,13 +93,13 @@ public class ReviewsServlet extends HttpServlet {
    * @param newRating the rating provided in the newest review
    * @return a float for the new aggregate rating
    */
-  private float recalculateRating(Entity businessEntity, int numReviews, int newRating) {
-    float oldAggregate = Float.parseFloat((String) businessEntity.getProperty(BUSINESS_RATING));
-    if (oldAggregate == NOT_FOUND) { // a float (404) representing null value
-      return newRating;
-    }
-    return (oldAggregate*(numReviews-1) + newRating) / numReviews;
-  }
+//   private float recalculateRating(Entity businessEntity, int numReviews, int newRating) {
+//     float oldAggregate = businessEntity.getProperty(BUSINESS_RATING).floatValue();
+//     if (oldAggregate == NOT_FOUND) { // a float (404) representing null value
+//       return newRating;
+//     }
+//     return (oldAggregate*(numReviews-1) + newRating) / numReviews;
+//   }
 
   /**
    * @return the String request parameter, or the default value if the parameter
@@ -106,21 +113,23 @@ public class ReviewsServlet extends HttpServlet {
     return value;
   }
 
+
   /** Get reviews from Datastore and send them as a Json to reviews.js. */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) {
     try {
       // Query Datastore for reviews under the appropriate Business entity.
-      List<Key> reviewsKeyList = getReviewsKeyList(request);
+      List<Long> reviewsKeyList = getReviewsKeyList(request);
       List<Review> reviews = new ArrayList<Review>();
 
       // Convert review entities to objects and add to the list.
-      for (Key reviewKey : reviewsKeyList) {
+      for (Long reviewID : reviewsKeyList) {
+        Key reviewKey = KeyFactory.createKey("Review", reviewID);
         Entity reviewEntity = datastore.get(reviewKey);
         String userID = (String) reviewEntity.getProperty(REVIEW_USERID);
         String comment = (String) reviewEntity.getProperty(REVIEW_COMMENT);
         String dateTime = (String) reviewEntity.getProperty(REVIEW_DATETIME);
-        int rating = Integer.parseInt((String) reviewEntity.getProperty(REVIEW_RATING));
+        int rating = Integer.parseInt(String.valueOf(reviewEntity.getProperty(REVIEW_RATING)));
         Review review = new Review(userID, comment, rating, dateTime);
         reviews.add(review);
       }
@@ -150,11 +159,16 @@ public class ReviewsServlet extends HttpServlet {
    * Gets a list of Datastore keys corresponding to the Review entities for the current Business listing.
    * @return List<Key> of keys for review entities
    */
-  private List<Key> getReviewsKeyList(HttpServletRequest request) throws EntityNotFoundException {
-    Key businessKey = KeyFactory.createKey("Business", Long.parseLong(request.getParameter(BUSINESS_ID))); // KIV url parameter
+  private List<Long> getReviewsKeyList(HttpServletRequest request) throws EntityNotFoundException {
+    this.businessID = Long.parseLong(request.getParameter(BUSINESS_ID));
+    Key businessKey = KeyFactory.createKey("Business", this.businessID);
+    System.out.println("Retrieved businessID: " + this.businessID);
     Entity businessEntity = datastore.get(businessKey);
-    Key[] reviewsKeyArr = gson.fromJson((String) businessEntity.getProperty(BUSINESS_REVIEWS), Key[].class);
-    List<Key> reviewsKeyList = new ArrayList<Key>(Arrays.asList(reviewsKeyArr));
+    Long[] reviewsKeyArr = gson.fromJson((String) businessEntity.getProperty(BUSINESS_REVIEWS), Long[].class);
+    List<Long> reviewsKeyList = new ArrayList<Long>();
+    if (reviewsKeyArr != null) {
+      reviewsKeyList = new ArrayList<Long>(Arrays.asList(reviewsKeyArr));
+    }
     return reviewsKeyList;
   }
 }
