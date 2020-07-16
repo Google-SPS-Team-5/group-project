@@ -6,7 +6,10 @@ import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
@@ -24,6 +27,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Date;
 import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 import java.text.SimpleDateFormat;  
 import javax.servlet.annotation.WebServlet;
@@ -31,63 +35,66 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that returns all businesses and lets you create a new business */
-@WebServlet("/business-data")
-public class BusinessDataServlet extends HttpServlet {
-    
-  /** Writes a JSON-ified list of all existing businesses from the Datastore
+/** Servlet that returns a specific business and lets you edit that specific business */
+@WebServlet("/edit-business-data")
+public class EditBusinessDataServlet extends HttpServlet {
+
+  Gson gson = new Gson();
+  DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+ 
+  /** Writes a JSON-ified of a specific from the Datastore. The key is taken from the URL parameter.
   */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Create gson for serializing and deserializing
-    Gson gson = new Gson();
+    try {
+        Long businessId = Long.parseLong(request.getParameter("businessID"));
+        Key businessKey = KeyFactory.createKey("Business", businessId);    
+        Entity businessEntity = getBusinessEntity(datastore, businessKey);
 
-    // Create query for Datastore.
-    Query query = new Query("Business");
+        // Get the input from the form
+        String name = (String) businessEntity.getProperty(BUSINESS_NAME);
+        String desc = (String) businessEntity.getProperty(BUSINESS_DESC);
+        String[] categoriesArr = gson.fromJson((String) businessEntity.getProperty(BUSINESS_CATEGORIES), String[].class);
+        List<String> categories = Arrays.asList(categoriesArr);
+        String address = (String) businessEntity.getProperty(BUSINESS_ADDRESS);
+        float addressLat = ((Double) businessEntity.getProperty(BUSINESS_ADDRESS_LAT)).floatValue();
+        float addressLng = ((Double) businessEntity.getProperty(BUSINESS_ADDRESS_LNG)).floatValue();
+        String contactDetails = (String) businessEntity.getProperty(BUSINESS_CONTACT_INFO);
+        String orderDetails = (String) businessEntity.getProperty(BUSINESS_ORDER_INFO);
+        float minPrice = ((Double) businessEntity.getProperty(BUSINESS_MIN_PRICE)).floatValue();
+        float maxPrice = ((Double) businessEntity.getProperty(BUSINESS_MAX_PRICE)).floatValue();
+        String businessLink = (String) businessEntity.getProperty(BUSINESS_LINK);
+        String menuLink = (String) businessEntity.getProperty(BUSINESS_MENU_LINK);
+        String logoUrl = (String) businessEntity.getProperty(BUSINESS_LOGO);
+        String[] picturesUrlsArr = gson.fromJson((String) businessEntity.getProperty(BUSINESS_PICTURES), String[].class);
+        List<String> picturesUrls = picturesUrlsArr == null ? new ArrayList<String>() : Arrays.asList(picturesUrlsArr);
+        float rating = ((Double) businessEntity.getProperty(BUSINESS_RATING)).floatValue();
+        String[] reviewsArr = gson.fromJson((String) businessEntity.getProperty(BUSINESS_REVIEWS), String[].class);
+        List<String> reviews = reviewsArr == null ? new ArrayList<String>() : Arrays.asList(reviewsArr);
 
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    PreparedQuery results = datastore.prepare(query);
 
-    // Iterate over results and add each business to the ArrayList.
-    List<String> businessesJson = new ArrayList<>();
-    for (Entity entity : results.asIterable()) {
-      String name = (String) entity.getProperty(BUSINESS_NAME);
-      String desc = (String) entity.getProperty(BUSINESS_DESC);
-      String[] categoriesArr = gson.fromJson((String) entity.getProperty(BUSINESS_CATEGORIES), String[].class);
-      List<String> categories = Arrays.asList(categoriesArr);
-      String address = (String) entity.getProperty(BUSINESS_ADDRESS);
-      float addressLat = ((Double) entity.getProperty(BUSINESS_ADDRESS_LAT)).floatValue();
-      float addressLng = ((Double) entity.getProperty(BUSINESS_ADDRESS_LNG)).floatValue();
-      String contactDetails = (String) entity.getProperty(BUSINESS_CONTACT_INFO);
-      String orderDetails = (String) entity.getProperty(BUSINESS_ORDER_INFO);
-      float minPrice = ((Double) entity.getProperty(BUSINESS_MIN_PRICE)).floatValue();
-      float maxPrice = ((Double) entity.getProperty(BUSINESS_MAX_PRICE)).floatValue();
-      String businessLink = (String) entity.getProperty(BUSINESS_LINK);
-      String menuLink = (String) entity.getProperty(BUSINESS_MENU_LINK);
-      String logoUrl = (String) entity.getProperty(BUSINESS_LOGO);
-      String[] picturesUrlsArr = gson.fromJson((String) entity.getProperty(BUSINESS_PICTURES), String[].class);
-      List<String> picturesUrls = picturesUrlsArr == null ? new ArrayList<String>() : Arrays.asList(picturesUrlsArr);
-      float rating = ((Double) entity.getProperty(BUSINESS_RATING)).floatValue();
-      String[] reviewsArr = gson.fromJson((String) entity.getProperty(BUSINESS_REVIEWS), String[].class);
-      List<String> reviews = reviewsArr == null ? new ArrayList<String>() : Arrays.asList(reviewsArr);
-  
-      Business business = new Business(name, categories, minPrice, maxPrice, rating, addressLat, addressLng, address, logoUrl, picturesUrls, desc, menuLink, orderDetails, contactDetails, businessLink);
-      String businessJson = String.format("{\"data\" : %s, \"id\": %s }", gson.toJson(business), entity.getKey().getId());
-      businessesJson.add(businessJson);
+        Business business = new Business(name, categories, minPrice, maxPrice, rating, addressLat, addressLng, address, logoUrl, picturesUrls, desc, menuLink, orderDetails, contactDetails, businessLink);
+        String businessJson = String.format("{\"data\" : %s, \"id\": %s }", gson.toJson(business), businessEntity.getKey().getId());
+        // Send the JSON as the response.
+        response.setContentType("application/json;");
+        response.getWriter().println(businessJson);
+    } catch (IOException err) {
+        System.out.println(err);
+    } catch (EntityNotFoundException err) {
+        System.out.println(err);
     }
-
-    // Send the JSON as the response.
-    response.setContentType("application/json;");
-    response.getWriter().println(gson.toJson(businessesJson));
   }
-  
-  /**
-  * Gets input from Add New Business form, creats a Business entity and stores it in the Datastore.
+
+
+  /** Gets input from the form, including the business key, retrieves the business matching the key
+  * and updates it with the fields from the form.
   */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Gson gson = new Gson();
-    // Get the input from the form.
+    try {
+    Long businessId = Long.parseLong(request.getParameter(BUSINESS_ID));
+    Key businessKey = KeyFactory.createKey("Business", businessId);
+     // Get the input from the form
     String name = request.getParameter(BUSINESS_NAME);
     String desc = request.getParameter(BUSINESS_DESC);
     String[] categoriesArr = request.getParameterValues(BUSINESS_CATEGORIES);
@@ -101,14 +108,11 @@ public class BusinessDataServlet extends HttpServlet {
     float maxPrice = getFloatParameter(request, BUSINESS_MAX_PRICE);
     String businessLink = request.getParameter(BUSINESS_LINK);
     String menuLink = request.getParameter(BUSINESS_MENU_LINK);
-    List<String> logoUrlBlobList = getUploadedPicturesUrlsFromBlobstore(request, BUSINESS_LOGO);
-    String logoUrl = logoUrlBlobList.isEmpty() ? "" : logoUrlBlobList.get(0);
+    String logoUrl = getUploadedPicturesUrlsFromBlobstore(request, BUSINESS_LOGO).get(0);
     List<String> picturesUrls = getUploadedPicturesUrlsFromBlobstore(request, BUSINESS_PICTURES);
-    // can't add reviews and rating when creating a new business
-    float rating = getFloatParameter(request, BUSINESS_RATING);
-    List<String> reviews = new ArrayList<String>();
 
-    Entity businessEntity = new Entity("Business");
+    Entity businessEntity = getBusinessEntity(datastore, businessKey);
+    
     businessEntity.setProperty(BUSINESS_NAME, name);
     businessEntity.setProperty(BUSINESS_DESC, desc);
     businessEntity.setProperty(BUSINESS_CATEGORIES, gson.toJson(categories));
@@ -123,27 +127,28 @@ public class BusinessDataServlet extends HttpServlet {
     businessEntity.setProperty(BUSINESS_MAX_PRICE, maxPrice);
     businessEntity.setProperty(BUSINESS_LOGO, logoUrl);
     businessEntity.setProperty(BUSINESS_PICTURES, gson.toJson(picturesUrls));
-    businessEntity.setProperty(BUSINESS_RATING, rating);
-    businessEntity.setProperty(BUSINESS_REVIEWS, reviews);
 
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    datastore.put(businessEntity);
+    storeBusinessEntity(datastore, businessEntity);
 
-    // Redirect back to the HTML page.
+    // Redirect back to the product page.
     response.sendRedirect("/index.html");
+    } catch (IOException err) {
+      System.out.println(err);
+    } catch (EntityNotFoundException err) {
+      System.out.println(err);
+    } 
   }
 
-  /** Gets the float value from the form, or 404 if none was inputted
-  */
-  private float getFloatParameter(HttpServletRequest request, String formElementName) {
-    String floatStr = request.getParameter(formElementName);
-    if (floatStr == null || floatStr.isEmpty()) {
-      return 404;
-    } else {
-      return Float.parseFloat(floatStr);
-    }
+  private Entity getBusinessEntity(DatastoreService datastore, Key businessKey) throws EntityNotFoundException {
+    Entity businessEntity = datastore.get(businessKey);
+    return businessEntity;
   }
- 
+
+
+  private void storeBusinessEntity(DatastoreService datastore, Entity businessEntity) throws EntityNotFoundException {
+    datastore.put(businessEntity);
+  }
+
   /** Gets the url of the business images from the blobstore, or empty string if no images were uploaded.
   */
   private List<String> getUploadedPicturesUrlsFromBlobstore(HttpServletRequest request, String formInputElementName) {
@@ -167,8 +172,6 @@ public class BusinessDataServlet extends HttpServlet {
       ImagesService imagesService = ImagesServiceFactory.getImagesService();
       ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
       String url = imagesService.getServingUrl(options);
-
-      System.out.println(url);
       // GCS's localhost preview is not actually on localhost,
       // so make the URL relative to the current domain.
       if(url.startsWith("http://localhost:8080/")){
@@ -179,6 +182,17 @@ public class BusinessDataServlet extends HttpServlet {
     }
 
     return urls;
+  }
+
+  /** Gets the float value from the form, or 404 if none was inputted
+  */
+  private float getFloatParameter(HttpServletRequest request, String formElementName) {
+    String floatStr = request.getParameter(formElementName);
+    if (floatStr == null || floatStr.isEmpty()) {
+      return 404;
+    } else {
+      return Float.parseFloat(floatStr);
+    }
   }
 
 }
