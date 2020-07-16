@@ -93,13 +93,13 @@ public class ReviewsServlet extends HttpServlet {
    * @param newRating the rating provided in the newest review
    * @return a float for the new aggregate rating
    */
-//   private float recalculateRating(Entity businessEntity, int numReviews, int newRating) {
-//     float oldAggregate = businessEntity.getProperty(BUSINESS_RATING).floatValue();
-//     if (oldAggregate == NOT_FOUND) { // a float (404) representing null value
-//       return newRating;
-//     }
-//     return (oldAggregate*(numReviews-1) + newRating) / numReviews;
-//   }
+  private float recalculateRating(Entity businessEntity, int numReviews, int newRating) {
+    float oldAggregate = Float.parseFloat((String) businessEntity.getProperty(BUSINESS_RATING));
+    if (oldAggregate == NOT_FOUND) { // a float (404) representing null value
+      return newRating;
+    }
+    return (oldAggregate*(numReviews-1) + newRating) / numReviews;
+  }
 
   /**
    * @return the String request parameter, or the default value if the parameter
