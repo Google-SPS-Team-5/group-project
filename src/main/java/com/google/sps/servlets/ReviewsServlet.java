@@ -50,12 +50,12 @@ public class ReviewsServlet extends HttpServlet {
       // Get existing reviews key list.
       Key businessKey = KeyFactory.createKey("Business", this.businessID);
       Entity businessEntity = datastore.get(businessKey);
-      Long[] reviewsKeyArr = gson.fromJson((String) businessEntity.getProperty(BUSINESS_REVIEWS), Long[].class);
-      List<Long> reviewsKeyList;
-      if (reviewsKeyArr != null) {
-        reviewsKeyList = new ArrayList<Long>(Arrays.asList(reviewsKeyArr));
+      Long[] reviewsIDArr = gson.fromJson((String) businessEntity.getProperty(BUSINESS_REVIEWS), Long[].class);
+      List<Long> reviewsIDList;
+      if (reviewsIDArr != null) {
+        reviewsIDList = new ArrayList<Long>(Arrays.asList(reviewsIDArr));
       } else {
-        reviewsKeyList = new ArrayList<Long>();
+        reviewsIDList = new ArrayList<Long>();
       }
 
       // Create review entity and get its key.
@@ -69,13 +69,13 @@ public class ReviewsServlet extends HttpServlet {
       Long reviewID = reviewKey.getId();
 
       // Append key to its Business entity.
-      reviewsKeyList.add(reviewID);
-      businessEntity.setProperty(BUSINESS_REVIEWS, gson.toJson(reviewsKeyList));
-      datastore.put(businessEntity);
+      reviewsIDList.add(reviewID);
+      businessEntity.setProperty(BUSINESS_REVIEWS, gson.toJson(reviewsIDList));
 
       // Recalculate and update aggregated rating.
-    //   float aggregatedRating = recalculateRating(businessEntity, reviewsKeyList.size(), rating);
-    //   businessEntity.setProperty(BUSINESS_RATING, aggregatedRating);
+      float aggregatedRating = recalculateRating(businessEntity, reviewsIDList.size(), rating);
+      businessEntity.setProperty(BUSINESS_RATING, aggregatedRating);
+      datastore.put(businessEntity);
 
       // Redirect back to the product page.
       response.sendRedirect("/product.html?businessID=" + businessID);
@@ -94,7 +94,7 @@ public class ReviewsServlet extends HttpServlet {
    * @return a float for the new aggregate rating
    */
   private float recalculateRating(Entity businessEntity, int numReviews, int newRating) {
-    float oldAggregate = Float.parseFloat((String) businessEntity.getProperty(BUSINESS_RATING));
+    float oldAggregate = Float.parseFloat(String.valueOf(businessEntity.getProperty(BUSINESS_RATING)));
     if (oldAggregate == NOT_FOUND) { // a float (404) representing null value
       return newRating;
     }
@@ -119,11 +119,11 @@ public class ReviewsServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) {
     try {
       // Query Datastore for reviews under the appropriate Business entity.
-      List<Long> reviewsKeyList = getReviewsKeyList(request);
+      List<Long> reviewsIDList = getReviewsIDList(request);
       List<Review> reviews = new ArrayList<Review>();
 
       // Convert review entities to objects and add to the list.
-      for (Long reviewID : reviewsKeyList) {
+      for (Long reviewID : reviewsIDList) {
         Key reviewKey = KeyFactory.createKey("Review", reviewID);
         Entity reviewEntity = datastore.get(reviewKey);
         String userID = (String) reviewEntity.getProperty(REVIEW_USERID);
@@ -159,16 +159,16 @@ public class ReviewsServlet extends HttpServlet {
    * Gets a list of Datastore keys corresponding to the Review entities for the current Business listing.
    * @return List<Key> of keys for review entities
    */
-  private List<Long> getReviewsKeyList(HttpServletRequest request) throws EntityNotFoundException {
+  private List<Long> getReviewsIDList(HttpServletRequest request) throws EntityNotFoundException {
     this.businessID = Long.parseLong(request.getParameter(BUSINESS_ID));
     Key businessKey = KeyFactory.createKey("Business", this.businessID);
     System.out.println("Retrieved businessID: " + this.businessID);
     Entity businessEntity = datastore.get(businessKey);
     Long[] reviewsKeyArr = gson.fromJson((String) businessEntity.getProperty(BUSINESS_REVIEWS), Long[].class);
-    List<Long> reviewsKeyList = new ArrayList<Long>();
+    List<Long> reviewsIDList = new ArrayList<Long>();
     if (reviewsKeyArr != null) {
-      reviewsKeyList = new ArrayList<Long>(Arrays.asList(reviewsKeyArr));
+      reviewsIDList = new ArrayList<Long>(Arrays.asList(reviewsKeyArr));
     }
-    return reviewsKeyList;
+    return reviewsIDList;
   }
 }
