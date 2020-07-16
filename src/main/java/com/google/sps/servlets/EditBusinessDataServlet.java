@@ -16,6 +16,7 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.images.ImagesService;
 import com.google.appengine.api.images.ImagesServiceFactory;
 import com.google.appengine.api.images.ServingUrlOptions;
+import com.google.appengine.api.images.ImagesServiceFailureException;
 import com.google.gson.Gson;
 import java.lang.reflect.Type;
 import com.google.gson.reflect.TypeToken;
@@ -193,37 +194,42 @@ public class EditBusinessDataServlet extends HttpServlet {
 
   /** Gets the url of the business images from the blobstore, or empty string if no images were uploaded.
   */
-  private List<String> getUploadedPicturesUrlsFromBlobstore(HttpServletRequest request, String formInputElementName) {
-    BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
-    Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
-    List<BlobKey> blobKeys = blobs.get(formInputElementName);
+  private List<String> getUploadedPicturesUrlsFromBlobstore(HttpServletRequest request, String formInputElementName) throws ImagesServiceFailureException {
+    try {
+        BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+        Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
+        List<BlobKey> blobKeys = blobs.get(formInputElementName);
 
-    // if no images were uploaded
-    if (blobKeys == null || blobKeys.size() == 0) {
-        return new ArrayList<String>();
+        // if no images were uploaded
+        if (blobKeys == null || blobKeys.isEmpty()) {
+            return new ArrayList<String>();
+        }
+
+        // Handle all blobkeys
+        List<String> urls = new ArrayList<String>();
+
+        for (BlobKey blobKey : blobKeys) {
+        // We could check the validity of the file here, e.g. to make sure it's an image file
+        // https://stackoverflow.com/q/10779564/873165
+
+        // Use ImagesService to get a URL that points to the uploaded file.
+        ImagesService imagesService = ImagesServiceFactory.getImagesService();
+        ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
+        String url = imagesService.getServingUrl(options);
+        // GCS's localhost preview is not actually on localhost,
+        // so make the URL relative to the current domain.
+        if(url.startsWith("http://localhost:8080/")){
+            url = url.replace("http://localhost:8080/", "/");
+        }
+        
+        urls.add(url);
+        }
+
+        return urls;
+    } catch (ImagesServiceFailureException err) {
+        // This exception is thrown when no images are uploaded. This exception is only thrown on the deployed server.
+         return new ArrayList<String>();
     }
-
-    // Handle all blobkeys
-    List<String> urls = new ArrayList<String>();
-
-    for (BlobKey blobKey : blobKeys) {
-      // We could check the validity of the file here, e.g. to make sure it's an image file
-      // https://stackoverflow.com/q/10779564/873165
-
-      // Use ImagesService to get a URL that points to the uploaded file.
-      ImagesService imagesService = ImagesServiceFactory.getImagesService();
-      ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
-      String url = imagesService.getServingUrl(options);
-      // GCS's localhost preview is not actually on localhost,
-      // so make the URL relative to the current domain.
-      if(url.startsWith("http://localhost:8080/")){
-        url = url.replace("http://localhost:8080/", "/");
-      }
-    
-      urls.add(url);
-    }
-
-    return urls;
   }
 
   /** Gets the float value from the form, or 404 if none was inputted
