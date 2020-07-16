@@ -152,7 +152,7 @@ public class BusinessDataServlet extends HttpServlet {
     List<BlobKey> blobKeys = blobs.get(formInputElementName);
 
     // if no images were uploaded
-    if (blobKeys == null) {
+    if (blobKeys == null || blobKeys.size() == 0) {
         return new ArrayList<String>();
     }
 

@@ -29,6 +29,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.*;
 import java.text.SimpleDateFormat;  
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -108,8 +109,13 @@ public class EditBusinessDataServlet extends HttpServlet {
     float maxPrice = getFloatParameter(request, BUSINESS_MAX_PRICE);
     String businessLink = request.getParameter(BUSINESS_LINK);
     String menuLink = request.getParameter(BUSINESS_MENU_LINK);
-    String logoUrl = getUploadedPicturesUrlsFromBlobstore(request, BUSINESS_LOGO).get(0);
-    List<String> picturesUrls = getUploadedPicturesUrlsFromBlobstore(request, BUSINESS_PICTURES);
+    String existingLogo = request.getParameter(BUSINESS_EXISTING_LOGO);
+    List<String> logoUrlBlobList = getUploadedPicturesUrlsFromBlobstore(request, BUSINESS_LOGO);
+    String logoUrl = logoUrlBlobList.isEmpty() ? existingLogo : logoUrlBlobList.get(0);
+    
+    String[] existingPicturesUrls = request.getParameter(BUSINESS_EXISTING_PICTURES).split(",");
+    List<String> newPicturesUrls = getUploadedPicturesUrlsFromBlobstore(request, BUSINESS_PICTURES);
+    List<String> picturesUrls = preparePicturesUrls(existingPicturesUrls, newPicturesUrls);
 
     Entity businessEntity = getBusinessEntity(datastore, businessKey);
     
@@ -147,6 +153,18 @@ public class EditBusinessDataServlet extends HttpServlet {
 
   private void storeBusinessEntity(DatastoreService datastore, Entity businessEntity) throws EntityNotFoundException {
     datastore.put(businessEntity);
+  }
+
+
+  /** Appends the newly uplaoded urls to the urls of existing images. 
+  */
+  private List<String> preparePicturesUrls(String[] existingUrls, List<String> newUrls) {
+      if (existingUrls == null || existingUrls.length == 0) {
+          return newUrls;
+      } else {
+          List<String> existingUrlsList = Arrays.asList(existingUrls);
+          return Stream.concat(existingUrlsList.stream(), newUrls.stream()).collect(Collectors.toList());
+      }
   }
 
   /** Gets the url of the business images from the blobstore, or empty string if no images were uploaded.

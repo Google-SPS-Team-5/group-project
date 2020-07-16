@@ -102,11 +102,15 @@
           </div>
         </div>
         <p>Logo:</p>
-        <label for="logo" id="upload-button">Upload Logo</label><br />
+        <div id="logoDiv"></div>
+        <input id="existingLogo" name="existingLogo" style="display: none" />
+        <label for="logo" id="upload-button">Upload New Logo</label><br />
         <input type="file" id="logo" name="logo"/><br />
         <label id="logo-file-name"></label>
         <p>Pictures:</p>
-        <label for="pictures" id="upload-button">Upload Pictures</label><br />
+        <div id="picturesDiv"></div>
+        <input type="text" id="existingPictures" name="existingPictures" style="display: none"/>
+        <label for="pictures" id="upload-button">Upload More Pictures</label><br />
         <input type="file" id="pictures" name="pictures" multiple/><br />
         <label id="pictures-file-names"></label>
         <div style="display: flex; justify-content: flex-end;">
