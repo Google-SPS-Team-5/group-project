@@ -55,8 +55,6 @@ async function populateForm() {
     document.getElementById("maxPrice").defaultValue = business.data.maxPrice;
     document.getElementById("existingLogo").defaultValue = business.data.logoBlobstoreUrl;
     document.getElementById("existingPictures").defaultValue = business.data.photoBlobstoreUrlList;
-    console.log(document.getElementById("existingLogo").defaultValue);
-    console.log(document.getElementById("existingPictures").defaultValue);
     populateImages(business.data.logoBlobstoreUrl, business.data.photoBlobstoreUrlList);
 }
 

@@ -109,10 +109,11 @@ public class EditBusinessDataServlet extends HttpServlet {
     float maxPrice = getFloatParameter(request, BUSINESS_MAX_PRICE);
     String businessLink = request.getParameter(BUSINESS_LINK);
     String menuLink = request.getParameter(BUSINESS_MENU_LINK);
+    
     String existingLogo = request.getParameter(BUSINESS_EXISTING_LOGO);
     List<String> logoUrlBlobList = getUploadedPicturesUrlsFromBlobstore(request, BUSINESS_LOGO);
-    String logoUrl = logoUrlBlobList.isEmpty() ? existingLogo : logoUrlBlobList.get(0);
-    
+    String logoUrl = prepareLogoUrl(existingLogo, logoUrlBlobList);
+
     String[] existingPicturesUrls = request.getParameter(BUSINESS_EXISTING_PICTURES).split(",");
     List<String> newPicturesUrls = getUploadedPicturesUrlsFromBlobstore(request, BUSINESS_PICTURES);
     List<String> picturesUrls = preparePicturesUrls(existingPicturesUrls, newPicturesUrls);
@@ -155,15 +156,38 @@ public class EditBusinessDataServlet extends HttpServlet {
     datastore.put(businessEntity);
   }
 
-
+  /** Determine which logo url to send back to the datastore
+  */
+  private String prepareLogoUrl(String existingUrl, List<String> newUrls) {
+      // Handle strange behaviour in dev server where the url always gets "/_cloudshellProxy" prepended to it upon form submission
+      // so the img src will eventually become something like "/_cloudshellProxy/_cloudshellProxy/_cloudshellProxy/_ah/blobKey".
+      // So I will just return the part after "/_cloudshellProxy"
+      // This issue does not happen on the deployed server.
+      return newUrls.isEmpty()
+        ? existingUrl.startsWith("/_cloudshellProxy")
+         ? existingUrl.substring(18)
+         : existingUrl
+      : newUrls.get(0);
+  }
+  
   /** Appends the newly uplaoded urls to the urls of existing images. 
   */
-  private List<String> preparePicturesUrls(String[] existingUrls, List<String> newUrls) {
-      if (existingUrls == null || existingUrls.length == 0) {
+  private List<String> preparePicturesUrls(String[] existingUrlsArr, List<String> newUrls) {
+      if (existingUrlsArr == null || existingUrlsArr.length == 0) {
           return newUrls;
       } else {
-          List<String> existingUrlsList = Arrays.asList(existingUrls);
-          return Stream.concat(existingUrlsList.stream(), newUrls.stream()).collect(Collectors.toList());
+          List<String> existingUrls = Arrays.asList(existingUrlsArr);
+          // Handle strange behaviour in dev server where the url always gets "/_cloudshellProxy" prepended to it upon form submission
+          // so the img src will eventually become something like "/_cloudshellProxy/_cloudshellProxy/_cloudshellProxy/_ah/blobKey".
+          // So I will just return the part after "/_cloudshellProxy"
+          // This issue does not happen on the deployed server.
+          List<String> sanitisedExistingUrls = existingUrls
+                                                .stream()
+                                                .map(s -> s.startsWith("/_cloudshellProxy")
+                                                    ? s.substring(18)
+                                                    : s)
+                                                .collect(Collectors.toList());
+          return Stream.concat(sanitisedExistingUrls.stream(), newUrls.stream()).collect(Collectors.toList());
       }
   }
 
@@ -175,7 +199,7 @@ public class EditBusinessDataServlet extends HttpServlet {
     List<BlobKey> blobKeys = blobs.get(formInputElementName);
 
     // if no images were uploaded
-    if (blobKeys == null) {
+    if (blobKeys == null || blobKeys.size() == 0) {
         return new ArrayList<String>();
     }
 
