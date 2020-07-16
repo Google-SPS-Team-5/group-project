@@ -171,7 +171,6 @@ public class BusinessDataServlet extends HttpServlet {
         ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
         String url = imagesService.getServingUrl(options);
 
-        System.out.println(url);
         // GCS's localhost preview is not actually on localhost,
         // so make the URL relative to the current domain.
         if(url.startsWith("http://localhost:8080/")){
