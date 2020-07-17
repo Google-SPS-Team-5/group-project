@@ -164,11 +164,15 @@ public class EditBusinessDataServlet extends HttpServlet {
       // so the img src will eventually become something like "/_cloudshellProxy/_cloudshellProxy/_cloudshellProxy/_ah/blobKey".
       // So I will just return the part after "/_cloudshellProxy"
       // This issue does not happen on the deployed server.
-      return newUrls.isEmpty()
-        ? existingUrl.startsWith("/_cloudshellProxy")
-         ? existingUrl.substring(18)
-         : existingUrl
-      : newUrls.get(0);
+      if (newUrls.isEmpty()) {
+        if (existingUrl.startsWith("/_cloudshellProxy") {
+          return existingUrl.substring(18)
+        } else {
+          return existingUrl
+        }
+      } else {
+        return newUrls.get(0);
+      }
   }
   
   /** Appends the newly uplaoded urls to the urls of existing images. 
