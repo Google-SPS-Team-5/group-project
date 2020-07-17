@@ -2,16 +2,21 @@
  * Fetches reviews from ReviewsServlet and displays them in sections under the appropriate business page.
  */
 async function getReviews() {
-  const response = await fetch('/mockdatareview'); // Fetching mock data for now, to be changed
-  var reviewsList = await response.text();
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  var businessID = urlParams.get("businessID");
+  const response = await fetch(`/reviews?businessID=${businessID}`); // Fetch from /mockdatareview to test with mock data instead
+  var reviewsList = await response.json();
 
   /** Display reviews in sections. */
-  reviewsList = JSON.parse(reviewsList);
-  var reviewsContainer = document.getElementById('review-grid');
-  for (let i=0; i<reviewsList.length; i++) {
-    var reviewSection = createReviewSection(reviewsList[i]);
-    reviewsContainer.appendChild(reviewSection);
+  if (reviewsList !== null) {
+    var reviewsContainer = document.getElementById('review-grid');
+    for (let i=0; i<reviewsList.length; i++) {
+      var reviewSection = createReviewSection(reviewsList[i]);
+      reviewsContainer.appendChild(reviewSection);
+    }
   }
+
 }
 
 /**
