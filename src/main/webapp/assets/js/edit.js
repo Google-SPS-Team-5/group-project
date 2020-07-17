@@ -13,7 +13,7 @@ async function showFormOrRedirectOut() {
     } else {
         document.getElementById("error-message").style.display = "block";
         document.getElementById("error-message").style.margin = "5rem";
-        setTimeout(function(){window.location.href = "/";}, 3000);
+        setTimeout(function() { window.location.href = "/"; }, 3000);
     }
 }
 
@@ -38,7 +38,7 @@ async function populateForm() {
     document.getElementById("desc").defaultValue = business.data.description;
     var categories = document.getElementById("categories");
     for (const category of business.data.categories) {
-        for (i = 0; i< categories.options.length; i++) {
+        for (i = 0; i < categories.options.length; i++) {
             if (categories.options[i].value == category) {
                 categories.options[i].selected = true;
             }
@@ -53,19 +53,40 @@ async function populateForm() {
     document.getElementById("menuLink").defaultValue = business.data.menuUrl;
     document.getElementById("minPrice").defaultValue = business.data.minPrice;
     document.getElementById("maxPrice").defaultValue = business.data.maxPrice;
-    document.getElementById("logo").defaultValue = business.data.logoBlobstoreUrl;
-    document.getElementById("pictures").defaultValue = business.data.photoBlobstoreUrlList;
+    document.getElementById("existingLogo").defaultValue = business.data.logoBlobstoreUrl;
+    document.getElementById("existingPictures").defaultValue = business.data.photoBlobstoreUrlList;
+    populateImages(business.data.logoBlobstoreUrl, business.data.photoBlobstoreUrlList);
 }
 
-document.querySelector("#logo").onchange = function(){
-  document.querySelector("#logo-file-name").textContent = this.files[0].name;
+function populateImages(logoUrl, picturesUrls) {
+    // show the existing logos
+    var logoImg = document.createElement("img");
+    logoImg.src = logoUrl;
+    logoImg.style.margin = "10px";
+    logoImg.height = "150";
+    var logoDiv = document.getElementById("logoDiv");
+    logoDiv.appendChild(logoImg);
+
+    // show the existing pictures
+    var picturesDiv = document.getElementById("picturesDiv");
+    for (i = 0; i < picturesUrls.length; i++) {
+        var img = document.createElement("img");
+        img.src = picturesUrls[i];
+        img.style.margin = "10px";
+        img.height = "150";
+        picturesDiv.appendChild(img);
+    }
 }
 
-document.querySelector("#pictures").onchange = function(){
-  var fileNames = "";
-  
-  for (i = 0; i < this.files.length; i++) {
-    fileNames += this.files[i].name + "\n";
-  }
-  document.querySelector("#pictures-file-names").textContent = fileNames;
+document.querySelector("#logo").onchange = function() {
+    document.querySelector("#logo-file-name").textContent = this.files[0].name;
+}
+
+document.querySelector("#pictures").onchange = function() {
+    var fileNames = "";
+
+    for (i = 0; i < this.files.length; i++) {
+        fileNames += this.files[i].name + "\n";
+    }
+    document.querySelector("#pictures-file-names").textContent = fileNames;
 }
