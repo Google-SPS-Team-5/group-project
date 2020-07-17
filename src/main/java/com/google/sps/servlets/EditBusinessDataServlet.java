@@ -165,10 +165,10 @@ public class EditBusinessDataServlet extends HttpServlet {
       // So I will just return the part after "/_cloudshellProxy"
       // This issue does not happen on the deployed server.
       if (newUrls.isEmpty()) {
-        if (existingUrl.startsWith("/_cloudshellProxy") {
-          return existingUrl.substring(18)
+        if (existingUrl.startsWith("/_cloudshellProxy")) {
+          return existingUrl.substring(18);
         } else {
-          return existingUrl
+          return existingUrl;
         }
       } else {
         return newUrls.get(0);
