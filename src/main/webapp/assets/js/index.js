@@ -1,5 +1,5 @@
 // default to load 6 product first
-const INITIAL_PRODUCT_LOAD = 6;
+const INITIAL_PRODUCT_LOAD = 8;
 const INITIAL_DESC_WORDS = 20;
 
 async function getBusinessData() {
@@ -44,19 +44,23 @@ async function getFilterCategories(business) {
 
   var categories = new Set(categories);
   var filterButtons = document.getElementById("filter-buttons");
-  filterButtons.appendChild(addCategoryFilters('All'));
+  filterButtons.appendChild(addCategoryFilters('All', true));
   for (let category of categories.values()) {
-    filterButtons.appendChild(addCategoryFilters(category));
+    filterButtons.appendChild(addCategoryFilters(category), false);
   }
 }
 
 /**
  * Add filter buttons in HTML.
  */
-function addCategoryFilters(category) {
+function addCategoryFilters(category, active) {
   let btn = document.createElement('button');
-  btn.setAttribute('class', 'btn');
+  btn.className = "filter-btn";
+  btn.setAttribute('id', `filter-btn-${category}`);
   btn.setAttribute('onclick', `filterCategory('${category}')`);
+  if (active) {
+    btn.className += " active"
+  }
   btn.innerText = category;
   return btn;
 }
@@ -66,7 +70,15 @@ function addCategoryFilters(category) {
  */
 function filterCategory(category) {
   let products = document.getElementsByClassName("product-listing-card");
+  
+  // set active classes for the tabs so they can change color
+  tablinks = document.getElementsByClassName("filter-btn");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(`filter-btn-${category}`).className += " active";
 
+  // filter for products
   for (let i = 0; i < products.length; i++) {
     existingCategories = products[i].getElementsByClassName('categories')[0].innerHTML.split(",")
     if (existingCategories.includes(category) || category == "All") {
@@ -164,13 +176,7 @@ function homePageListingTemplate(business) {
           <p class="categories">${product.categories}</p>
           <p class="price">Price: From \$${product.minPrice}</p>
           <p>${description}...</p>
-          <p class="rating">Rating: ${product.aggregatedRating}</p>
-          <span>
-            <button>
-              <i class="fa fa-cart-arrow-down"></i>
-              <a href=${product.contactUrl}>Contact Business</a>
-            </button>
-          </span>`
+          <p class="rating">Rating: ${product.aggregatedRating}</p>`
     return productListingCard;
 }
 
