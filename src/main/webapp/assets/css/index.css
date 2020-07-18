@@ -73,7 +73,6 @@
 
 #filter-buttons button:hover {
   background-color: #3f4441;
-  color: white;
 }
 
 #filter-buttons button.active {
@@ -89,6 +88,7 @@
   padding: 14px 16px;
   transition: 0.3s;
   font-size: 17px;
+  color: white;
 }
 
 /* Map section */
