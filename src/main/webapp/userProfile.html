@@ -11,28 +11,19 @@
     <body onload="getUserInformation()">
         <script src="assets/js/navbar.js"></script>
         <div class="user-information">
-            <div>
-                <img src = "images/stitchIcon.PNG" style = "height:140px; padding:10px;">
+          <div>
+            <p id="user-description" style = "text-align: left; margin-block-start: 25px; margin-block-end: 10px; font-size: 20px;">
+            </p>
+            <div style = "text-align: left;" id="user-email">
             </div>
-            <div>
-                <p id="user-description" style = "text-align: left; margin-block-start: 25px; margin-block-end: 10px; font-size: 20px;">
-                    &nbsp;&nbsp;
-                    <button class="edit-profile-button">Edit Profile</button>
-                </p>
-                <div style = "text-align: left;">
-                    name of user?<br />
-                    email of user?<br />
-                    bio?<br />
-                    number of favourite<br />
-                </div>
-            </div>
+          </div>
+          <div>
+            <button class="edit-profile-button">Edit Profile</button>
+          </div>
         </div>
         <div class="user-preference">
             <div id="favourites-business"> 
                 FAVOURITES
-            </div>
-            <div id="past-reviews">
-                PAST REVIEWS
             </div>
         </div>
     </body>
