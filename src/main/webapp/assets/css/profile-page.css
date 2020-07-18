@@ -1,7 +1,7 @@
 .user-information {
     display: grid;
-    height: 200px;
-    grid-template-columns: 20% 60%;
+    height: 100px;
+    grid-template-columns: 60% 10%;
     justify-content: center;
     align-content: center;
     padding: 10px;
@@ -11,17 +11,16 @@
     text-align : center;
     padding : 10px;
     font-size : 15px;
-    height : 160px;    
+    height : 60px;    
     position : relative;
 }
 
 .user-preference {
     display: grid;
     height: 600px;
-    grid-template-columns: 40% 40%;
+    grid-template-columns: 70%;
     justify-content: center;
     align-content: center;
-    grid-gap: 1vw;
     padding: 10px; 
 }
 
