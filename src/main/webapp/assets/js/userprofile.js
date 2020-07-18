@@ -2,9 +2,10 @@ async function getUserInformation() {
     const response = await fetch('/userinformation');
     var userinformation = await response.json();
 
-    var user = JSON.parse(userinformation);
-    var username = document.getElementById("user-description");
-    username.innerHTML = user.name;
+    console.log(userinformation.name);
+    var nameContainer = (document.getElementById("user-description"));
+    var name = userinformation.name.toUpperCase();
+    nameContainer.innerHTML = name;
 
-    return user;
+    return userinformation;
 }
