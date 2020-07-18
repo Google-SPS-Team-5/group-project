@@ -1,25 +1,27 @@
 package com.google.sps.servlets;
 
-import com.google.gson.Gson;
-import com.google.sps.MockUserData;
-
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.gson.Gson;
+import com.google.sps.User;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/** Servlet that returns a specific user */
 @WebServlet("/userinformation")
 public class UserServlet extends HttpServlet {
 
-  //retrieve user's entity based on user's name
+  /** Writes a JSON-ified of a specific user from the Datastore. The key is set to a default data as of now
+   */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     //dummy data for user
@@ -51,8 +53,12 @@ public class UserServlet extends HttpServlet {
     response.getWriter().println(userJson);
   }
 
-  //putting in user's data into Datastore
+  /** Inserting hardcoded user data into the Datastore
+  */
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
+
+    Gson gson = new Gson();
+
     List<String> favourites = Arrays.asList("1","2","3","4");
     List<String> pastReviews = Arrays.asList("5","6","7","8");
 
