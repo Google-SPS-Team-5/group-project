@@ -1,13 +1,14 @@
 /* Product Listing Section */
-
+#tab-content {
+  margin: 0 2rem 2rem 2rem;
+  background-color: #ba7967;
+}
 /* Mobile */
 .product-listings-container {
   max-width: 100%;
   display: grid;
   grid-gap: 2rem;
   padding: 5rem 2rem;
-  margin: 0 2rem;
-  background-color: #ba7967;
 }
 
 /* Medium Displays */
@@ -79,6 +80,10 @@
   background-color: #ba7967;
 }
 
+.map-btn {
+  float: right !important;
+}
+
 .filter-btn {
   background-color: inherit;
   float: left;
@@ -95,9 +100,8 @@
 
 #map-container {
   text-align: center;
-  height: 50%;
-  width: 100%;
-  padding: 50px 0px;
+  height: 500px;
+  padding: 2rem;
 }
 
 #map {

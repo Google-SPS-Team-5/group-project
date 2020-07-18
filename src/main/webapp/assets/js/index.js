@@ -69,8 +69,10 @@ function addCategoryFilters(category, active) {
  * Filter product listings based on the category selected.
  */
 function filterCategory(category) {
-  let products = document.getElementsByClassName("product-listing-card");
-  
+  // show products and hide map
+  document.getElementById("product-listings").style.display = "grid";
+  document.getElementById("map-container").style.display = "none";
+
   // set active classes for the tabs so they can change color
   tablinks = document.getElementsByClassName("filter-btn");
   for (i = 0; i < tablinks.length; i++) {
@@ -79,6 +81,8 @@ function filterCategory(category) {
   document.getElementById(`filter-btn-${category}`).className += " active";
 
   // filter for products
+  let products = document.getElementsByClassName("product-listing-card");
+
   for (let i = 0; i < products.length; i++) {
     existingCategories = products[i].getElementsByClassName('categories')[0].innerHTML.split(",")
     if (existingCategories.includes(category) || category == "All") {
@@ -87,6 +91,16 @@ function filterCategory(category) {
       products[i].style.display = "none";
     }
   }
+}
+
+/** Shows map tab and hide products
+ */
+
+function showMapTab() {
+    console.log("trigger");
+    document.getElementById("product-listings").style.display = "none";
+    document.getElementById("map-container").style.display = "block";
+    document.getElementById("map-btn").className += " active";
 }
 
 /**
