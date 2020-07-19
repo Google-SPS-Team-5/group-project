@@ -196,7 +196,13 @@ function homePageListingTemplate(business) {
           <p class="categories">${product.categories}</p>
           <p class="price">Price: From \$${product.minPrice}</p>
           <p>${description}...</p>
-          <p class="rating">Rating: ${product.aggregatedRating}</p>`
+          <p class="rating">Rating: ${product.aggregatedRating}</p>
+          <span>
+            <button>
+              <i class="fa fa-cart-arrow-down"></i>
+              <a href=${product.contactUrl}>Contact Business</a>
+            </button>
+          </span>`
     return productListingCard;
 }
 
