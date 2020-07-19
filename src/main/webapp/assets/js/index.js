@@ -1,7 +1,8 @@
 // default to load 6 product first
 const INITIAL_PRODUCT_LOAD = 6;
 const INITIAL_DESC_WORDS = 20;
-var businesses;
+var products;
+var categorySelected = "All"
 var numProductsLoaded = 0
 
 async function getBusinessData() {
@@ -14,7 +15,7 @@ async function getBusinessData() {
  * Initialize the home page with product listings.
  */
 async function initHomePage() {
-  businesses = await getBusinessData();
+  let businesses = await getBusinessData();
   loadCategories(businesses);
   let foodLocations = [];
 
@@ -28,19 +29,18 @@ async function initHomePage() {
 
   // Hide products more than the specified limit
   numProductsLoaded = Math.min(INITIAL_PRODUCT_LOAD, businesses.length);
-  let products = document.getElementsByClassName("product-listing-card");
+  products = document.getElementsByClassName("product-listing-card");
   for (i = numProductsLoaded; i < products.length; i++) {
     products[i].style.display = "none";
   }
 }
 
 function loadMoreProducts() {
-  let products = document.getElementsByClassName("product-listing-card");
-  const newProductsToLoad = Math.min(numProductsLoaded + INITIAL_PRODUCT_LOAD, businesses.length)
+  const newProductsToLoad = Math.min(numProductsLoaded + INITIAL_PRODUCT_LOAD, products.length);
   for (; numProductsLoaded < newProductsToLoad; numProductsLoaded++) {
     products[numProductsLoaded].style.display = "";
   }
-  if (numProductsLoaded == businesses.length) {
+  if (numProductsLoaded == products.length) {
     let constant = document.getElementById("loadMore").innerHTML = "";
   }
 }
@@ -77,11 +77,11 @@ function addCategoryFilters(category) {
  * Filter product listings based on the category selected.
  */
 function filterCategory(category) {
-  let products = document.getElementsByClassName("product-listing-card");
+  categorySelected = category
 
   for (let i = 0; i < products.length; i++) {
-    existingCategories = products[i].getElementsByClassName('categories')[0].innerHTML.split(",")
-    if (existingCategories.includes(category) || category == "All") {
+    existingCategories = products[i].getElementsByClassName('categories')[0].innerHTML.split(",");
+    if (existingCategories.includes(categorySelected) || categorySelected == "All") {
       products[i].style.display = "";
     } else {
       products[i].style.display = "none";
@@ -92,12 +92,17 @@ function filterCategory(category) {
 /**
  * Search businesses names based on search term.
  */
-function searchBusinesses(business, searchTerms) {
-  let filtered = new Set();
+function searchBusinesses(products, searchTerms) {
+
+  let searchedData = new Set();
   for (let i = 0; i < searchTerms.length; i++) {
-     filtered.add(business.filter(dict => dict.data.name.toLowerCase().includes(searchTerms[i].toLowerCase())));
+    for (let j = 0; j < products.length; j++) {
+      if (products[j].getElementsByTagName("h3")[0].innerText.toLowerCase().includes(searchTerms[i].toLowerCase())) {
+        searchedData.add(products[j]);
+      }
+    }
   }
-  return filtered;
+  return searchedData;
 }
 
 /**
@@ -111,21 +116,32 @@ async function handleSearch() {
     return false;
   }
 
-  // uses the initial businesses data retrieved when the page is loaded
-  let searchData = searchBusinesses(businesses, searchTerms.split(" "));
+  let productsToSearch = [];
+  if (categorySelected == "All") {
+    productsToSearch = products;
+  } else {
+    for (let product of products) {
+      existingCategories = product.getElementsByClassName('categories')[0].innerHTML.split(",");
+      if (existingCategories.includes(categorySelected)) {
+        productsToSearch.push(product);
+      }
+    }
+  }
 
-  if (searchData.length === 0) {
-    alert("No search result found!");
+  // uses the initial businesses data retrieved when the page is loaded
+  let searchData = searchBusinesses(productsToSearch, searchTerms.split(" "));
+  let notFoundResult = new Set([...productsToSearch].filter(x => !searchData.has(x)));
+
+  if (searchData.size === 0) {
+    alert(`No search result found within the products in ${categorySelected} category!`);
     return false;
   } else {
     document.getElementById("product-listings-title").innerText = `Search Result for "${searchTerms}": `;
-    productListings = document.getElementById("product-listings");
-    productListings.innerHTML = '';
-
     for (let result of searchData.values()) {
-      for (let i = 0; i < result.length; i++) {
-        productListings.appendChild(homePageListingTemplate(result[i]));
-      }
+      result.style.display = "";
+    }
+    for (let result of notFoundResult.values()) {
+      result.style.display = "none";
     }
   }
 }
