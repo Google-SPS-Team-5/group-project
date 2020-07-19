@@ -166,7 +166,9 @@ function homePageListingTemplate(business) {
               <img src=${baseImage}>
             </a>
           </div>
-          <h3>${product.name}</h3>
+          <a href="/product.html?businessID=${business.id}">
+              <h3>${product.name}</h3>
+          </a>
           <p class="categories">${product.categories}</p>
           <p class="price">Price: From \$${product.minPrice}</p>
           <p>${description}...</p>
