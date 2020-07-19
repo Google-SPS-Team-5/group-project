@@ -1,6 +1,7 @@
 // default to load 6 product first
 const INITIAL_PRODUCT_LOAD = 6;
 const INITIAL_DESC_WORDS = 20;
+var businesses;
 
 async function getBusinessData() {
   let response = await fetch("/business-data");
@@ -8,27 +9,21 @@ async function getBusinessData() {
   return businessData;
 }
 
-async function fetchUrlData(url) {
-  let response = await fetch(url);
-  let mockdata = await response.json();
-  return mockdata;
-}
-
 /**
  * Initialize the home page with product listings.
  */
 async function initHomePage() {
-  const business = await getBusinessData();
-  const productsToLoad = Math.min(INITIAL_PRODUCT_LOAD, business.length);
+  businesses = await getBusinessData();
+  const productsToLoad = Math.min(INITIAL_PRODUCT_LOAD, businesses.length);
   const productListings = document.getElementById("product-listings");
 
-  getFilterCategories(business);
+  getFilterCategories(businesses);
 
   let foodLocations = [];
 
   for (let i = 0; i < productsToLoad; i++) {
-    productListings.appendChild(homePageListingTemplate(business[i]));
-    foodLocations.push(createLocation(business[i].data));
+    productListings.appendChild(homePageListingTemplate(businesses[i]));
+    foodLocations.push(createLocation(businesses[i].data));
   }
   initMap(foodLocations);
 }
@@ -78,31 +73,42 @@ function filterCategory(category) {
 }
 
 /**
+ * Search businesses names based on search term.
+ */
+function searchBusinesses(business, searchTerms) {
+  let filtered = new Set();
+  for (let i = 0; i < searchTerms.length; i++) {
+     filtered.add(business.filter(dict => dict.data.name.toLowerCase().includes(searchTerms[i].toLowerCase())));
+  }
+  return filtered;
+}
+
+/**
  * Prevents user from entering an empty search term.
  */
 async function handleSearch() {
-  let searchTerm = document.getElementById("query").value;
+  let searchTerms = document.getElementById("query").value;
 
-  if (searchTerm == "") {
+  if (searchTerms == "") {
     alert("Enter a valid search term!");
     return false;
   }
 
-  let param = {'s': searchTerm}
-  let searchParams = new URLSearchParams(param).toString();
-
-  let searchData = await fetchUrlData(`/search?${searchParams}`);
+  // uses the initial businesses data retrieved when the page is loaded
+  let searchData = searchBusinesses(businesses, searchTerms.split(" "));
 
   if (searchData.length === 0) {
     alert("No search result found!");
     return false;
   } else {
-    document.getElementById("product-listings-title").innerText = `Search Result for "${searchTerm}": `;
+    document.getElementById("product-listings-title").innerText = `Search Result for "${searchTerms}": `;
     productListings = document.getElementById("product-listings");
     productListings.innerHTML = '';
 
-    for (let i = 0; i < searchData.length; i++) {
-      productListings.appendChild(homePageListingTemplate(searchData[i]));
+    for (let result of searchData.values()) {
+      for (let i = 0; i < result.length; i++) {
+        productListings.appendChild(homePageListingTemplate(result[i]));
+      }
     }
   }
 }
