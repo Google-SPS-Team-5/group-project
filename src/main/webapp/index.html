@@ -2,64 +2,62 @@
 <html>
 
 <head>
-	<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Page Title</title>
-	<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6iOYBZGWKFe57PlDBpThR9y9MhtZgrEw"></script>
-	<script src="assets/js/index.js"></script>
-	<script src="assets/js/authentication.js"></script>
-	<link rel="stylesheet" href="assets/css/global.css">
-	<link rel="stylesheet" href="assets/css/index.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Title</title>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6iOYBZGWKFe57PlDBpThR9y9MhtZgrEw"></script>
+  <script src="assets/js/index.js"></script>
+  <script src="assets/js/authentication.js"></script>
+  <link rel="stylesheet" href="assets/css/global.css">
+  <link rel="stylesheet" href="assets/css/index.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body onload="initHomePage();">
 
-	<script src="assets/js/navbar.js">
-		</div>
-<script src="assets/js/mockdata.js">
-	</script>
+  <script src="assets/js/navbar.js"></script>
+  <script src="assets/js/mockdata.js"></script>
 
-	<div id="featured-listing">
-		<h2 id='featured-listing-title'>
-			<i class="fa fa-heart" aria-hidden="true"></i>
-			Today's Featured Food
-			<i class="fa fa-heart" aria-hidden="true"></i>
-		</h2>
-		<div id='featured-listing-content'>
-			<h3>The Oven Bakes</h3>
-			<p>
-				Hungry for some cookies, brownies and other delectable desserts? This cozy home bakery offers all these
-				at an
-				affordable price. Islandwide delivery available.
-			</p>
-			<a href="product.html" class="featured-listing-link">Click to find out more!</a>
-			<img src="images/the-oven-bakes/the-oven-bakes-2.PNG">
+  <div id="featured-listing">
+  <h2 id='featured-listing-title'>
+    <i class="fa fa-heart" aria-hidden="true"></i>
+    Today's Featured Food
+    <i class="fa fa-heart" aria-hidden="true"></i>
+  </h2>
+  <div id='featured-listing-content'>
+    <h3>The Oven Bakes</h3>
+    <p>
+        Hungry for some cookies, brownies and other delectable desserts? This cozy home bakery offers all these
+        at an
+        affordable price. Islandwide delivery available.
+    </p>
+    <a href="product.html" class="featured-listing-link">Click to find out more!</a>
+    <img src="images/the-oven-bakes/the-oven-bakes-2.PNG">
+  </div>
+  </div>
+
+  <div class="product-listings-wrapper">
+    <h2 id="product-listings-title">Popular Right Now</h2>
+    <h3>Home-cooked, full of love and made just for you.</h3>
+    <div id="search-container">
+      <form name="search" onSubmit="handleSearch(); return false;">
+        <label for="search">Search:</label>
+        <input id="query" type="text" name="query" placeholder="Search listing...">
+        <button type="submit"><i class="fa fa-search"></i></button>
+      </form>
     </div>
-		</div>
-
-		<div class="product-listings-wrapper">
-			<h2 id="product-listings-title">Popular Right Now</h2>
-			<h3>Home-cooked, full of love and made just for you.</h3>
-			<div id="search-container">
-				<form name="search" onSubmit="handleSearch(); return false;">
-					<label for="search">Search:</label>
-					<input id="query" type="text" name="query" placeholder="Search listing...">
-					<button type="submit"><i class="fa fa-search"></i></button>
-				</form>
-			</div>
-			<div id="filter-buttons">
-				<button id="map-btn" class="filter-btn map-btn" onclick="showMapTab()">Map</button>
-			</div>
-            <div id="tab-content">
-			<div id="product-listings" class="product-listings-container"></div>
-			<div id="map-container" style="display: none">
-				<div id="map">
-				</div>
-			</div>
-            </div>
-		</div>
-		<script src="assets/js/footer.js"></script>
+    <div id="filter-buttons">
+      <button id="map-btn" class="filter-btn map-btn" onclick="showMapTab()">Map</button>
+    </div>
+    <div id="tab-content">
+    <div id="product-listings" class="product-listings-container"></div>
+    <div id="map-container" style="display: none">
+      <div id="map">
+      </div>
+    </div>
+    </div>
+  </div>
+  <script src="assets/js/footer.js"></script>
 </body>
 
 </html>
