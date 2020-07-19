@@ -1,5 +1,5 @@
 // default to load 6 product first
-const INITIAL_PRODUCT_LOAD = 6;
+const INITIAL_PRODUCT_LOAD = 8;
 const INITIAL_DESC_WORDS = 20;
 var businesses;
 
@@ -19,7 +19,7 @@ async function initHomePage() {
 
   getFilterCategories(businesses);
 
-  let foodLocations = [];
+    let foodLocations = [];
 
   for (let i = 0; i < productsToLoad; i++) {
     productListings.appendChild(homePageListingTemplate(businesses[i]));
@@ -39,19 +39,23 @@ async function getFilterCategories(business) {
 
   var categories = new Set(categories);
   var filterButtons = document.getElementById("filter-buttons");
-  filterButtons.appendChild(addCategoryFilters('All'));
+  filterButtons.appendChild(addCategoryFilters('All', true));
   for (let category of categories.values()) {
-    filterButtons.appendChild(addCategoryFilters(category));
+    filterButtons.appendChild(addCategoryFilters(category), false);
   }
 }
 
 /**
  * Add filter buttons in HTML.
  */
-function addCategoryFilters(category) {
+function addCategoryFilters(category, active) {
   let btn = document.createElement('button');
-  btn.setAttribute('class', 'btn');
+  btn.className = "filter-btn";
+  btn.setAttribute('id', `filter-btn-${category}`);
   btn.setAttribute('onclick', `filterCategory('${category}')`);
+  if (active) {
+    btn.className += " active"
+  }
   btn.innerText = category;
   return btn;
 }
@@ -60,6 +64,18 @@ function addCategoryFilters(category) {
  * Filter product listings based on the category selected.
  */
 function filterCategory(category) {
+  // show products and hide map
+  document.getElementById("product-listings").style.display = "grid";
+  document.getElementById("map-container").style.display = "none";
+
+  // set active classes for the tabs so they can change color
+  tablinks = document.getElementsByClassName("filter-btn");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(`filter-btn-${category}`).className += " active";
+
+  // filter for products
   let products = document.getElementsByClassName("product-listing-card");
 
   for (let i = 0; i < products.length; i++) {
@@ -70,6 +86,22 @@ function filterCategory(category) {
       products[i].style.display = "none";
     }
   }
+}
+
+/** Shows map tab and hide products
+ */
+
+function showMapTab() {
+  // set active classes for the tabs so they can change color
+  tablinks = document.getElementsByClassName("filter-btn");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById("map-btn").className += " active";
+
+  // hide products and show map
+  document.getElementById("product-listings").style.display = "none";
+  document.getElementById("map-container").style.display = "block";
 }
 
 /**
@@ -118,12 +150,12 @@ async function handleSearch() {
  */
 function createLocation(product) {
   return {
-            "position": {
-              lat: product.addressLat,
-              lng: product.addressLng
-            },
-            "desc": product.name
-          };
+    "position": {
+      lat: product.addressLat,
+      lng: product.addressLng
+    },
+    "desc": product.name
+  };
 }
 
 /**
@@ -137,14 +169,14 @@ function initMap(foodLocations) {
 
   var marker;
   for (i in foodLocations) {
-    marker = new google.maps.Marker({position: foodLocations[i].position, map: map});
+    marker = new google.maps.Marker({ position: foodLocations[i].position, map: map });
     (function(marker, i) {
       // add click event
       google.maps.event.addListener(marker, 'click', function() {
         infowindow = new google.maps.InfoWindow({
-            content: foodLocations[i].desc
-        });
-        infowindow.open(map, marker);
+        content: foodLocations[i].desc
+      });
+      infowindow.open(map, marker);
       });
     })(marker, i);
   }
@@ -161,28 +193,28 @@ function homePageListingTemplate(business) {
   const productListingCard = document.createElement("div");
   productListingCard.className = "product-listing-card";
   productListingCard.innerHTML =
-          `<div class='product-listing-image'>
-            <a href="/product.html?businessID=${business.id}">
-              <img src=${baseImage}>
-            </a>
-          </div>
-          <h3>${product.name}</h3>
-          <p class="categories">${product.categories}</p>
-          <p class="price">Price: From \$${product.minPrice}</p>
-          <p>${description}...</p>
-          <p class="rating">Rating: ${product.aggregatedRating}</p>
-          <span>
-            <button>
-              <i class="fa fa-cart-arrow-down"></i>
-              <a href=${product.contactUrl}>Contact Business</a>
-            </button>
-          </span>`
-    return productListingCard;
+    `<div class='product-listing-image'>
+      <a href="/product.html?businessID=${business.id}">
+        <img src=${baseImage}>
+      </a>
+    </div>
+      <h3>${product.name}</h3>
+      <p class="categories">${product.categories}</p>
+      <p class="price">Price: From \$${product.minPrice}</p>
+      <p>${description}...</p>
+      <p class="rating">Rating: ${product.aggregatedRating}</p>
+    <span>
+      <button>
+        <i class="fa fa-cart-arrow-down"></i>
+        <a href=${product.contactUrl}>Contact Business</a>
+      </button>
+    </span>`
+  return productListingCard;
 }
 
 /**
  * Truncates a string into a fixed number of words
  */
 function truncateWords(str, no_words) {
-    return str.split(" ").splice(0, no_words).join(" ");
+  return str.split(" ").splice(0, no_words).join(" ");
 }
