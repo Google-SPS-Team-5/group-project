@@ -48,7 +48,7 @@ public class ReviewsServlet extends HttpServlet {
       String dateTime = dateTimeObj.format(format);
 
       // Get existing reviews key list.
-      Key businessKey = KeyFactory.createKey("Business", this.businessID);
+      Key businessKey = KeyFactory.createKey("Business", Long.parseLong(request.getParameter(BUSINESS_ID)));
       Entity businessEntity = datastore.get(businessKey);
       Long[] reviewsIDArr = gson.fromJson((String) businessEntity.getProperty(BUSINESS_REVIEWS), Long[].class);
       List<Long> reviewsIDList;
@@ -162,7 +162,6 @@ public class ReviewsServlet extends HttpServlet {
   private List<Long> getReviewsIDList(HttpServletRequest request) throws EntityNotFoundException {
     this.businessID = Long.parseLong(request.getParameter(BUSINESS_ID));
     Key businessKey = KeyFactory.createKey("Business", this.businessID);
-    System.out.println("Retrieved businessID: " + this.businessID);
     Entity businessEntity = datastore.get(businessKey);
     Long[] reviewsKeyArr = gson.fromJson((String) businessEntity.getProperty(BUSINESS_REVIEWS), Long[].class);
     List<Long> reviewsIDList = new ArrayList<Long>();

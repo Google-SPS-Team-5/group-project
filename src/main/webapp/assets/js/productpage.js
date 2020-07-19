@@ -39,7 +39,7 @@ function populateBusinessDescription(business) {
   document.getElementById("businessUrl").href = business.websiteUrl;
 
   const ratingContainer = document.getElementById("aggregateRating");
-  //TODO: Fix star CSS and use CSS to set float rating
+  ratingContainer.innerHTML = generateRating(business.aggregatedRating);
 }
 
 function populateImageGallery(photoUrlList) {
@@ -147,4 +147,16 @@ function createEditBusinessLink(isAdmin) {
   
   
   
+}
+
+function generateRating(rating){
+  var starHTML = '';
+  for (let i=0; i<5; i++) {
+    if (i+0.5<=rating) {
+      starHTML += '<i class="fas fa-star yellow-star"></i>';
+    } else {
+      starHTML += '<i class="fas fa-star"></i>';
+    }
+  }
+  return parseFloat(rating).toFixed(2) + " " + starHTML;
 }
