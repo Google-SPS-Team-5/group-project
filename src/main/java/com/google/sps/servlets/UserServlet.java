@@ -29,37 +29,11 @@ public class UserServlet extends HttpServlet {
 
     Gson gson = new Gson();
 
-    //to insert the data into Datastore
-    List<String> favourites = Arrays.asList("1","2","3","4");
-    List<String> pastReviews = Arrays.asList("5","6","7","8");
-
-    Entity user1 = new Entity("User");
-    user1.setProperty("name", "Sam");
-    user1.setProperty("email", "sam@gmail.com");
-    user1.setProperty("favourites", gson.toJson(favourites));
-    user1.setProperty("pastReviews", gson.toJson(pastReviews));
-
-    Entity user2 = new Entity("User");
-    user2.setProperty("name", "Wendy");
-    user2.setProperty("email", "wendy@gmail.com");
-    user2.setProperty("favourites", gson.toJson(favourites));
-    user2.setProperty("pastReviews", gson.toJson(pastReviews));
-
-    Entity user3 = new Entity("User");
-    user3.setProperty("name", "Tiffany");
-    user3.setProperty("email", "tiffany@gmail.com");
-    user3.setProperty("favourites", gson.toJson(favourites));
-    user3.setProperty("pastReviews", gson.toJson(pastReviews));
-
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    datastore.put(user1);
-    datastore.put(user2);
-    datastore.put(user3);
-
     Query query = new Query("User");
     
     String userJson = "";
 
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
     for(Entity entity : results.asIterable()){
@@ -67,11 +41,9 @@ public class UserServlet extends HttpServlet {
       if(email.equals(authenticatedEmail)){
         String name = (String) entity.getProperty("name");
         String[] favouritesArr = gson.fromJson((String) entity.getProperty("favourites"), String[].class);
-        favourites = Arrays.asList(favouritesArr);
-        String[] pastReviewsArr = gson.fromJson((String) entity.getProperty("pastReviews"), String[].class);
-        pastReviews = Arrays.asList(pastReviewsArr);
+        List<String>favourites = Arrays.asList(favouritesArr);
 
-        User user = new User(name, email, favourites, pastReviews);
+        User user = new User(name, email, favourites);
         userJson = String.format(gson.toJson(user));
       }
     }
