@@ -2,6 +2,7 @@
 const INITIAL_PRODUCT_LOAD = 6;
 const INITIAL_DESC_WORDS = 20;
 var businesses;
+var numProductsLoaded = 0
 
 async function getBusinessData() {
   let response = await fetch("/business-data");
@@ -14,24 +15,40 @@ async function getBusinessData() {
  */
 async function initHomePage() {
   businesses = await getBusinessData();
-  const productsToLoad = Math.min(INITIAL_PRODUCT_LOAD, businesses.length);
-  const productListings = document.getElementById("product-listings");
-
-  getFilterCategories(businesses);
-
+  loadCategories(businesses);
   let foodLocations = [];
 
-  for (let i = 0; i < productsToLoad; i++) {
+  // Load all products
+  const productListings = document.getElementById("product-listings");
+  for (let i = 0; i < businesses.length; i++) {
     productListings.appendChild(homePageListingTemplate(businesses[i]));
     foodLocations.push(createLocation(businesses[i].data));
   }
   initMap(foodLocations);
+
+  // Hide products more than the specified limit
+  numProductsLoaded = Math.min(INITIAL_PRODUCT_LOAD, businesses.length);
+  let products = document.getElementsByClassName("product-listing-card");
+  for (i = numProductsLoaded; i < products.length; i++) {
+    products[i].style.display = "none";
+  }
+}
+
+function loadMoreProducts() {
+  let products = document.getElementsByClassName("product-listing-card");
+  const newProductsToLoad = Math.min(numProductsLoaded + INITIAL_PRODUCT_LOAD, businesses.length)
+  for (; numProductsLoaded < newProductsToLoad; numProductsLoaded++) {
+    products[numProductsLoaded].style.display = "";
+  }
+  if (numProductsLoaded == businesses.length) {
+    let constant = document.getElementById("loadMore").innerHTML = "";
+  }
 }
 
 /**
  * Obtain a list of filter categories to allow product listings to be filtered accordingly.
  */
-async function getFilterCategories(business) {
+function loadCategories(business) {
   var categories = [];
   for (let i = 0; i < business.length; i++) {
     categories = [...categories, ...business[i].data.categories];
