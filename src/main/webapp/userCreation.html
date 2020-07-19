@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Add New User</title>
+    <link rel="stylesheet" href="assets/css/forms.css" />
+    <link rel="stylesheet" href="assets/css/global.css" />
+  </head>
+  <body>
+    <script src="assets/js/navbar.js"></script>
+
+    <h1 id="page-title" style="margin: 2rem 5rem 2rem 5rem;">Add a New User</h1>
+
+    <div id="form-container" style="width: 40%; padding: 2rem;">
+      <form id="add-user-form" method="POST" action="/usercreation">
+        <label for="name">Name:</label><br />
+        <input type="text" id="name" name="name" required/><br />
+        <label for="email">Email:</label><br />
+        <input type="text" id="email" name="email" required/><br />
+        <div style="display: flex; justify-content: flex-end;">
+          <button type="submit" value="Submit">Add</button>
+        </div>
+      </form>
+    </div>
+    <script src="assets/js/footer.js"></script>
+  </body>
+</html>
