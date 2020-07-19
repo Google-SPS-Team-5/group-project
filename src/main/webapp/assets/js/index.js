@@ -30,8 +30,12 @@ async function initHomePage() {
   // Hide products more than the specified limit
   numProductsLoaded = Math.min(INITIAL_PRODUCT_LOAD, businesses.length);
   products = document.getElementsByClassName("product-listing-card");
-  for (i = numProductsLoaded; i < products.length; i++) {
-    products[i].style.display = "none";
+  if (numProductsLoaded >= products.length) {
+    let constant = document.getElementById("loadMore").innerHTML = "";
+  } else {
+    for (i = numProductsLoaded; i < products.length; i++) {
+      products[i].style.display = "none";
+    }
   }
 }
 
@@ -81,6 +85,7 @@ function addCategoryFilters(category, active) {
  * Filter product listings based on the category selected.
  */
 function filterCategory(category) {
+  categorySelected = category
   // show products and hide map
   document.getElementById("product-listings").style.display = "grid";
   document.getElementById("map-container").style.display = "none";
