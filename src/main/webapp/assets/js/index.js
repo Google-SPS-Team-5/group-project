@@ -142,6 +142,7 @@ async function handleSearch() {
         productListings.appendChild(homePageListingTemplate(result[i]));
       }
     }
+  }
 }
 
 /**
