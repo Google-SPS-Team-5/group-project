@@ -150,6 +150,10 @@ function createEditBusinessLink(isAdmin) {
 }
 
 function generateRating(rating){
+  if (rating == 404){
+    return "No ratings yet";
+  }
+  
   var starHTML = '';
   for (let i=0; i<5; i++) {
     if (i+0.5<=rating) {
