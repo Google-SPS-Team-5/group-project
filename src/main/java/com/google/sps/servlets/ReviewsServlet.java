@@ -10,6 +10,8 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import static com.google.sps.Constants.*;
 import com.google.sps.Review;
 import javax.servlet.annotation.WebServlet;
@@ -38,7 +40,7 @@ public class ReviewsServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) {
     try {
       // Get review input from review form.
-      String userID = getParameter(request, "name", "anonymous"); // Accept input name for now, should be user Datastore key, to be implemented later
+      String userID = getParameter(request, "name", "anonymous"); // Accept input name for now, to be removed
       String comment = getParameter(request, "review", "No comment provided.");
       int rating = Integer.parseInt((String) request.getParameter("star-rating"));
 
@@ -46,6 +48,14 @@ public class ReviewsServlet extends HttpServlet {
       LocalDateTime dateTimeObj = LocalDateTime.now();
       DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
       String dateTime = dateTimeObj.format(format);
+
+      // Get username, using email to retrieve user entity. Uncomment when storing of users is done.
+    //   UserService userService = UserServiceFactory.getUserService();
+    //   String username = "";
+    //   String userEmail = userService.getCurrentUser().getEmail();
+    //   Key userKey = KeyFactory.createKey("User", userEmail);
+    //   Entity userEntity = datastore.get(userKey);
+    //   username = (String) userEntity.getProperty(REVIEW_USERNAME);
 
       // Get existing reviews key list.
       Key businessKey = KeyFactory.createKey("Business", this.businessID);
@@ -60,7 +70,7 @@ public class ReviewsServlet extends HttpServlet {
 
       // Create review entity and get its key.
       Entity reviewEntity = new Entity("Review");
-      reviewEntity.setProperty(REVIEW_USERID, userID);
+      reviewEntity.setProperty(REVIEW_USERID, userID); // to be changed to REVIEW_USERNAME, username
       reviewEntity.setProperty(REVIEW_COMMENT, comment);
       reviewEntity.setProperty(REVIEW_RATING, rating);
       reviewEntity.setProperty(REVIEW_DATETIME, dateTime);
