@@ -193,23 +193,25 @@ function homePageListingTemplate(business) {
   const productListingCard = document.createElement("div");
   productListingCard.className = "product-listing-card";
   productListingCard.innerHTML =
-    `<div class='product-listing-image'>
-      <a href="/product.html?businessID=${business.id}">
-        <img src=${baseImage}>
-      </a>
-    </div>
-      <h3>${product.name}</h3>
-      <p class="categories">${product.categories}</p>
-      <p class="price">Price: From \$${product.minPrice}</p>
-      <p>${description}...</p>
-      <p class="rating">Rating: ${product.aggregatedRating}</p>
-    <span>
-      <button>
-        <i class="fa fa-cart-arrow-down"></i>
-        <a href=${product.contactUrl}>Contact Business</a>
-      </button>
-    </span>`
-  return productListingCard;
+          `<div class='product-listing-image'>
+            <a href="/product.html?businessID=${business.id}">
+              <img src=${baseImage}>
+            </a>
+          </div>
+          <a href="/product.html?businessID=${business.id}">
+              <h3>${product.name}</h3>
+          </a>
+          <p class="categories">${product.categories}</p>
+          <p class="price">Price: From \$${product.minPrice}</p>
+          <p>${description}...</p>
+          <p class="rating">Rating: ${product.aggregatedRating}</p>
+          <span>
+            <button>
+              <i class="fa fa-cart-arrow-down"></i>
+              <a href=${product.contactUrl}>Contact Business</a>
+            </button>
+          </span>`
+    return productListingCard;
 }
 
 /**
