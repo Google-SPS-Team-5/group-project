@@ -1,8 +1,9 @@
 html, body {
     font-family: "Trebuchet MS", Helvetica, sans-serif;
     height: 100%;
-    width: 100%;
-    background-color: #d2d2d2;
+    background-color: #FCFBF7;
+    box-sizing: border-box;
+    margin: 0;
   }
   
 
@@ -13,7 +14,7 @@ html, body {
   align-items: center;
   justify-content: space-between;
   overflow: hidden;
-  background-color: #333;
+  background-color: #2F586F;
   padding: 10px 0px;
 }
 
@@ -31,7 +32,7 @@ html, body {
 }
 
 .nav-link:hover {
-  background-color: #111;
+  background-color: #26485B;
 }
 
 #search-container input[type=text] {
@@ -59,7 +60,7 @@ html, body {
    left: 0;
    bottom: 0;
    width: 100%;
-   background-color: gray;
+   background-color: #2F586F;
    color: white;
    display: grid;
    grid-template-columns: repeat(2, 1fr); 
