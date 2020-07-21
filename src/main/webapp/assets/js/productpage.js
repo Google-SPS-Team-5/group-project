@@ -126,7 +126,7 @@ function createGalleryImagePreviewElement(imageUrl, index) {
                                             src=${imageUrl}
                                             style="height: 100px; width:auto"
                                             onclick="currentSlide(${index})"
-                                            alt="Sea Salt Brownies"
+                                            alt="Product Image ${index}"
                                           />`;
   return galleryImagePreviewElement;
 }
