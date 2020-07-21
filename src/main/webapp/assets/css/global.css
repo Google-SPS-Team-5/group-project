@@ -44,7 +44,7 @@ html, body {
    bottom: 0;
    width: 100%;
    background-color: #2F586F;
-   color: white !important;
+   color: white;
    display: grid;
    grid-template-columns: repeat(2, 1fr); 
    text-align: left;
@@ -52,4 +52,9 @@ html, body {
 
 #footer div {
     margin: 5rem;
+}
+
+#g-form {
+    color: white;
+    text-decoration: underline;
 }
