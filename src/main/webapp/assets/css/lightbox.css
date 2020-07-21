@@ -1,16 +1,26 @@
-.lightbox-row > .lightbox-column {
-  padding: 0px;
+/* Mobile */
+.lightbox-row{
+  max-width: 100%;
+  display: grid;
+  grid-gap: 1rem;
+  padding: 2rem;
+  grid-template-columns: repeat(2, 1fr); 
+}
+  
+/* Medium Displays */
+
+@media (min-width: 750px) {
+  .lightbox-row{ 
+    grid-template-columns: repeat(3, 1fr); 
+  }
 }
 
-.lightbox-row:after {
-  content: '';
-  display: table;
-  clear: both;
-}
+/* Large displays */
 
-.lightbox-column {
-  float: left;
-  width: 20%;
+@media (min-width: 1000px) {
+  .lightbox-row{ 
+    grid-template-columns: repeat(4, 1fr); 
+  }
 }
 
 /* The Modal (background) */
@@ -106,8 +116,8 @@
   top: 0;
 }
 
-.lightbox-column img {
-  margin-bottom: -4px;
+.lightbox-row img {
+  max-height: 200px;
 }
 
 .caption-container {

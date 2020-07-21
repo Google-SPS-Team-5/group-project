@@ -9,6 +9,7 @@ async function populateProductDetails() {
   populateImageGallery(business.photoBlobstoreUrlList);
   populateBusinessWriteup(business);
   populateContactDetails(business);
+  
 }
 
 async function getBusinessData() {
@@ -40,6 +41,9 @@ function populateBusinessDescription(business) {
 
   const ratingContainer = document.getElementById("aggregateRating");
   ratingContainer.innerHTML = generateRating(business.aggregatedRating);
+
+  initBusinessMap(business);
+
 }
 
 function populateImageGallery(photoUrlList) {
@@ -51,13 +55,13 @@ function populateImageGallery(photoUrlList) {
   const modalGalleryContainer = document.getElementById("slides-container");
   const modalGalleryImagePreviewContainer = document.getElementById("gallery-thumbnail-container");
 
-  var image;
+  var imageIndex;
   
-  for (image = 1; image <= urlListLength; image++) {
-    const url = photoUrlList[image-1];
-    imagePreviewGallery.appendChild(createThumbnailImageElement(url));
-    modalGalleryContainer.appendChild(createGalleryImageElement(url, image, urlListLength));
-    modalGalleryImagePreviewContainer.appendChild(createGalleryImagePreviewElement(url, image));
+  for (imageIndex = 1; imageIndex <= urlListLength; imageIndex++) {
+    const url = photoUrlList[imageIndex-1];
+    imagePreviewGallery.appendChild(createThumbnailImageElement(url, imageIndex));
+    modalGalleryContainer.appendChild(createGalleryImageElement(url, imageIndex, urlListLength));
+    modalGalleryImagePreviewContainer.appendChild(createGalleryImagePreviewElement(url, imageIndex));
   }  
 }
 
@@ -91,15 +95,14 @@ function createCategoryElement(categoryName) {
   return category;
 }
 
-function createThumbnailImageElement(imageUrl) {
-  var thumbnailImageElement = document.createElement("div");
-  thumbnailImageElement.className = "lightbox-column";
-  thumbnailImageElement.innerHTML = `<img
-                                        src=${imageUrl}
-                                        style="height: 250px; width:auto;"
-                                        onclick="openModal();currentSlide(1)"
-                                        class="hover-shadow cursor"
-                                      />`
+function createThumbnailImageElement(imageUrl, index) {
+  var thumbnailImageElement = document.createElement("img");
+  thumbnailImageElement.src = imageUrl;
+  thumbnailImageElement.onclick= function(){
+                                            openModal();
+                                            currentSlide(index);
+                                            };
+  thumbnailImageElement.className = "hover-shadow cursor";
   return thumbnailImageElement;
 }
 
@@ -143,10 +146,7 @@ function createEditBusinessLink(isAdmin) {
     editLink.innerHTML = "Edit this business";
   } else {
     editLink.parentNode.removeChild(editLink);
-  }
-  
-  
-  
+  }  
 }
 
 function generateRating(rating){
@@ -163,4 +163,19 @@ function generateRating(rating){
     }
   }
   return parseFloat(rating).toFixed(2) + " " + starHTML;
+}
+
+function initBusinessMap(business) {
+  const map = document.getElementById("map");
+  if(business.addressLng !== 404 || business.addressLat !== 404){
+    map.src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyD6iOYBZGWKFe57PlDBpThR9y9MhtZgrEw&zoom=11&q=${parseFloat(business.addressLng).toFixed(4)},${parseFloat(business.addressLat).toFixed(4)}`;
+    var marker = new google.maps.Marker({
+    position: {lat: business.addressLat, lng: business.addressLng},
+    map: map,
+    title: business.name
+  });
+  } else {
+    map.src = "https://www.google.com/maps/embed/v1/view?key=AIzaSyD6iOYBZGWKFe57PlDBpThR9y9MhtZgrEw&zoom=11&center=1.3521,103.8198";
+  }
+  
 }
