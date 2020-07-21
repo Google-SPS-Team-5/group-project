@@ -38,11 +38,9 @@ function populateBusinessDescription(business) {
   business.categories.forEach(category => categoryContainer.appendChild(createCategoryElement(category)));
 
   const businessUrlElement = document.getElementById("businessUrl")
-  if (business.websiteUrl !== null && business.websiteUrl !== "" && business.websiteUrl !== undefined){
-    console.log("not null");
+  if (business.websiteUrl){
     businessUrlElement.href = "//" + business.websiteUrl;
   } else {
-    console.log("null");
     businessUrlElement.target = "";
   }
   
