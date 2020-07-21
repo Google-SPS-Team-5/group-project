@@ -1,8 +1,9 @@
 html, body {
     font-family: "Trebuchet MS", Helvetica, sans-serif;
     height: 100%;
-    width: 100%;
-    background-color: #d2d2d2;
+    background-color: #FCFBF7;
+    box-sizing: border-box;
+    margin: 0;
   }
   
 
@@ -13,7 +14,7 @@ html, body {
   align-items: center;
   justify-content: space-between;
   overflow: hidden;
-  background-color: #333;
+  background-color: #2F586F;
   padding: 10px 0px;
 }
 
@@ -31,25 +32,7 @@ html, body {
 }
 
 .nav-link:hover {
-  background-color: #111;
-}
-
-#search-container input[type=text] {
-  border: none;
-  border-radius: 8px 0px 0px 8px;
-  padding: 5px 10px 4px 10px;
-}
-
-#search-container button {
-  float: right;
-  margin-right: 16px;
-  border: none;
-  cursor: pointer;
-}
-
-.fa.fa-search{
-  font-size: 22px;
-  border-radius: 0px 8px 8px 0px;
+  background-color: #26485B;
 }
 
 /*Footer*/
@@ -59,7 +42,7 @@ html, body {
    left: 0;
    bottom: 0;
    width: 100%;
-   background-color: gray;
+   background-color: #2F586F;
    color: white;
    display: grid;
    grid-template-columns: repeat(2, 1fr); 
@@ -68,4 +51,9 @@ html, body {
 
 #footer div {
     margin: 2rem;
+}
+
+#g-form {
+  text-decoration: none;
+  color: white;
 }

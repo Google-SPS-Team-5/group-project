@@ -1,4 +1,15 @@
 /**
+ * Display the review form if the user is logged in.
+ */
+async function displayReviewForm() {
+  const response = await fetch("/authentication");
+  const userJson = await response.json();
+  if (userJson.userEmail != "") {
+    document.getElementsByClassName("review-form")[0].style.visibility = "visible";
+  }
+}
+
+/**
  * Fetches reviews from ReviewsServlet and displays them in sections under the appropriate business page.
  */
 async function getReviews() {
