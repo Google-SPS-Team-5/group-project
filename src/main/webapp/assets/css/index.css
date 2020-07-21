@@ -192,6 +192,10 @@
   transition: all 0.25s ease-out;
 }
 
+.listing-name {
+  color: black;
+}
+
 /* Map section */
 #map-container {
   text-align: center;
