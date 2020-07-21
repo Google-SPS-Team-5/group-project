@@ -30,11 +30,6 @@
           <div id="businessCategories" style="text-align: left;">
           </div>
           <div id="aggregateRating" style="position:absolute; bottom:10px; right:10px;">
-            <i class="fas fa-star yellow-star"></i
-            ><i class="fas fa-star yellow-star"></i
-            ><i class="fas fa-star yellow-star"></i
-            ><i class="fas fa-star yellow-star"></i
-            ><i class="fas fa-star yellow-star"></i>
           </div>
         </div>
       </div>
@@ -90,8 +85,8 @@
           Reviews for 
         </h2>
       </div>
-      <div class="review-form" style="visibility: hidden;">
-        <form action="/reviews" method="POST">
+      <div class="review-form">
+        <form id="review-form-container" method="POST">
           <label for="name">Name:</label><br />
           <input
             required
@@ -109,7 +104,12 @@
           ></textarea
           ><br />
           <label for="star-rating">Rate (1-5): </label>
-          <input type="range" class="star-rating" name="star-rating" min="1" max="5">
+            <i id="rating-1" class="fas fa-star yellow-star" aria-hidden="true" style="cursor: pointer"></i>
+            <i id="rating-2" class="fas fa-star yellow-star" aria-hidden="true" style="cursor: pointer"></i>
+            <i id="rating-3" class="fas fa-star yellow-star" aria-hidden="true" style="cursor: pointer"></i>
+            <i id="rating-4" class="fas fa-star" aria-hidden="true" style="cursor: pointer"></i>
+            <i id="rating-5" class="fas fa-star" aria-hidden="true" style="cursor: pointer"></i>
+          <input id="star-rating" type="range" class="star-rating" name="star-rating" min="1" max="5" style="visibility: hidden">
           <br /><br />
           <button type="submit">Submit</button>
         </form>

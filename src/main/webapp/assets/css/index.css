@@ -160,7 +160,23 @@
 }
 
 /* Map section */
+#loadMore {
+  padding-bottom: 30px;
+  padding-top: 30px;
+  text-align: center;
+  width: 100%;
+}
 
+#loadMore a {
+  background: #042a63;
+  border-radius: 3px;
+  color: white;
+  display: inline-block;
+  padding: 10px 30px;
+  transition: all 0.25s ease-out;
+}
+
+/* Map section */
 #map-container {
   text-align: center;
   height: 500px;
