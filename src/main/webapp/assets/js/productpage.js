@@ -37,8 +37,15 @@ function populateBusinessDescription(business) {
   const categoryContainer = document.getElementById("businessCategories");
   business.categories.forEach(category => categoryContainer.appendChild(createCategoryElement(category)));
 
-  document.getElementById("businessUrl").href = business.websiteUrl;
-
+  const businessUrlElement = document.getElementById("businessUrl")
+  if (business.websiteUrl !== null && business.websiteUrl !== "" && business.websiteUrl !== undefined){
+    console.log("not null");
+    businessUrlElement.href = "//" + business.websiteUrl;
+  } else {
+    console.log("null");
+    businessUrlElement.target = "";
+  }
+  
   const ratingContainer = document.getElementById("aggregateRating");
   ratingContainer.innerHTML = generateRating(business.aggregatedRating);
 
