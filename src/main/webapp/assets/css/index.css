@@ -112,6 +112,18 @@
     position: absolute; 
     bottom: 20%; 
     left: 55%;
+    background-color: #00b5ad;
+    color: white;
+    text-transform: uppercase;
+    font-weight: bold;
+    border: none;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 4px;
 }
 
 .carousel-text{
