@@ -33,24 +33,30 @@ public class AuthenticationServlet extends HttpServlet {
     if (userService.isUserLoggedIn()) {
       String userEmail = userService.getCurrentUser().getEmail();
       String urlToRedirectToAfterUserLogsOut = request.getHeader("referer");
+      if (urlToRedirectToAfterUserLogsOut == "" || urlToRedirectToAfterUserLogsOut == null){
+        urlToRedirectToAfterUserLogsOut = "/";
+      }
       String username = userService.getCurrentUser().getNickname();
       Boolean isAdmin = userService.isUserAdmin();
       String logoutUrl = userService.createLogoutURL(urlToRedirectToAfterUserLogsOut);
 
-      CheckForUserProfile(userEmail, username);
-      String json = String.format(USER_JSON_DETAILS, userEmail, logoutUrl, isAdmin, username);
+      Entity user = CheckForUserProfile(userEmail, username);
+      String json = String.format(USER_JSON_DETAILS, userEmail, logoutUrl, isAdmin, username, Arrays.asList(gson.fromJson((String)user.getProperty(USER_FAVOURITES), String[].class)));
       
       response.getWriter().println(json);
     } else {
       String urlToRedirectToAfterUserLogsIn = request.getHeader("referer");
+      if (urlToRedirectToAfterUserLogsIn == "" || urlToRedirectToAfterUserLogsIn == null){
+        urlToRedirectToAfterUserLogsIn = "/";
+      }
       String loginUrl = userService.createLoginURL(urlToRedirectToAfterUserLogsIn);
 
-      String json = String.format(USER_JSON_DETAILS, "", loginUrl, "", "");
+      String json = String.format(USER_JSON_DETAILS, "", loginUrl, "", "", "");
       response.getWriter().println(json);
     }
   }
 
-  private void CheckForUserProfile(String userEmail, String username) {
+  private Entity CheckForUserProfile(String userEmail, String username) {
     Entity userEntity;
     try {
       userEntity = getUserEntity(userEmail);
@@ -60,6 +66,8 @@ public class AuthenticationServlet extends HttpServlet {
       userEntity.setProperty(USER_FAVOURITES, gson.toJson(Arrays.asList("")));
       datastore.put(userEntity);
     }
+
+    return userEntity;
   }
 
   private Entity getUserEntity(String userEmail) throws EntityNotFoundException {
