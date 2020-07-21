@@ -249,8 +249,9 @@ function homePageListingTemplate(business) {
             <div class="rating" style="position: absolute; top: 5%; right: 5%;">${stars}</div>
           </div>
           <a href="/product.html?businessID=${business.id}">
-              <h3>${product.name}</h3>
+            <h3>${product.name}</h3>
           </a>
+          <p style="margin: 0 2rem;">${description}${description != '' ? '...' : ''}<p>
           <div style="margin: 2rem;">${subtitle}</div>`
     return productListingCard;
 }
