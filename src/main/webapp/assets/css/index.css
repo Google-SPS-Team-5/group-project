@@ -1,6 +1,6 @@
 /* Product Listing Section */
 #tab-content {
-  margin: 0 2rem 2rem 2rem;
+  margin: 0 2rem 5rem 2rem;
   background-color: #ff98a1;
 }
 /* Mobile */
@@ -100,6 +100,28 @@
   transition: 0.3s;
   font-size: 17px;
   color: white;
+}
+
+/* Carousel */
+.carousel-image {
+    width: 100%;
+    height: 100%;
+}
+
+.find-out-more-btn {
+    position: absolute; 
+    bottom: 20%; 
+    left: 55%;
+}
+
+.carousel-text{
+    position: absolute; 
+    top: 10%;
+    left: 55%;
+}
+
+.carousel-container {
+    position: relative;
 }
 /* Search Bar */
 

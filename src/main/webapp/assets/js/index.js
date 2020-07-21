@@ -1,4 +1,4 @@
-// default to load 6 product first
+// default to load 8 product first
 const INITIAL_PRODUCT_LOAD = 8;
 const INITIAL_DESC_WORDS = 20;
 var businesses;
