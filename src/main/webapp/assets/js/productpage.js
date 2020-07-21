@@ -39,7 +39,7 @@ function populateBusinessDescription(business) {
 
   const businessUrlElement = document.getElementById("businessUrl")
   if (business.websiteUrl){
-    businessUrlElement.href = "//" + business.websiteUrl;
+    businessUrlElement.href = business.websiteUrl;
   } else {
     businessUrlElement.target = "";
   }
@@ -71,7 +71,7 @@ function populateImageGallery(photoUrlList) {
 }
 
 function populateBusinessWriteup(business) {
-  document.getElementById("businessDescr").innerHTML = business.description;
+  document.getElementById("businessDescr").innerHTML = nullOrPlaceholderString(business.description, "<i>Sorry, this business doesn't have a description yet!</i>");
   var menuUrlElement = document.getElementById("menuUrl");
   if (business.menuUrl) {
     
@@ -84,7 +84,7 @@ function populateBusinessWriteup(business) {
 }
 
 function populateContactDetails() {
-  document.getElementById("orderInfo").innerHTML = business.orderInformation;
+  document.getElementById("orderInfo").innerHTML = nullOrPlaceholderString(business.orderInformation, "<i>Sorry, this business doesn't have order information yet!</i>");
   var contactUrlElement = document.getElementById("contactUrl");
   if (business.contactUrl) {
     contactUrlElement.href = business.contactUrl;
@@ -183,4 +183,12 @@ function initBusinessMap(business) {
     map.src = "https://www.google.com/maps/embed/v1/view?key=AIzaSyD6iOYBZGWKFe57PlDBpThR9y9MhtZgrEw&zoom=11&center=1.3521,103.8198";
   }
   
+}
+
+function nullOrPlaceholderString(string, placeHolder) {
+  if (string) {
+    return string;
+  } else {
+    return placeHolder;
+  }
 }
