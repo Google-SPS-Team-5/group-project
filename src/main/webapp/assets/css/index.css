@@ -7,8 +7,8 @@
 .product-listings-container {
   max-width: 100%;
   display: grid;
-  grid-gap: 2rem;
-  padding: 5rem 2rem;
+  grid-gap: 3rem;
+  padding: 5rem 3rem;
 }
 
 /* Medium Displays */
@@ -32,7 +32,7 @@
 }
 
 .product-listing-card {
-  background-color: #dddddd;
+  background-color: #FCFBF7;
   width: 100%;
   text-align: center;
   border-radius: 2px;
@@ -47,13 +47,8 @@
   transform: scale(1.2);
 }
 
-.price {
-  color: #2c2c2c;
-  font-size: 18px;
-}
-
 .product-listing-image {
-  border-radius: 5px 5px 0px 0px;
+  border-radius: 2px 2px 0px 0px;
   overflow: hidden;
   padding: 0;
 }
@@ -102,6 +97,13 @@
   color: white;
 }
 
+.category-pill {
+  padding: 5px 8px;
+  margin: 0 2px;
+  background-color: lightgray;
+  border-radius: 50px;
+}
+
 /* Carousel */
 .carousel-image {
     width: 100%;
@@ -123,7 +125,7 @@
     display: inline-block;
     font-size: 12px;
     cursor: pointer;
-    border-radius: 4px;
+    border-radius: 50px;
 }
 
 .carousel-text{
@@ -171,7 +173,6 @@
   font-size: 1rem;
 }
 
-/* Map section */
 #loadMore {
   padding-bottom: 30px;
   padding-top: 30px;
@@ -180,11 +181,13 @@
 }
 
 #loadMore a {
-  background: #042a63;
-  border-radius: 3px;
+  background: #2F586F;
+  border-radius: 50px;
   color: white;
+  font-weight: bold;
+  text-transform: uppercase;
   display: inline-block;
-  padding: 10px 30px;
+  padding: 15px 32px;
   transition: all 0.25s ease-out;
 }
 

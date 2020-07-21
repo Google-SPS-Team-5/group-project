@@ -101,7 +101,11 @@ function filterCategory(category) {
   let products = document.getElementsByClassName("product-listing-card");
 
   for (let i = 0; i < products.length; i++) {
-    existingCategories = products[i].getElementsByClassName('categories')[0].innerHTML.split(",");
+    let existingCategories = [];
+    categoryPills = products[i].getElementsByClassName('category-pill');
+    for (let i = 0; i < categoryPills.length; i++) {
+      existingCategories.push(categoryPills[i].innerHTML);
+    }
     if (existingCategories.includes(categorySelected) || categorySelected == "All") {
       products[i].style.display = "";
     } else {
@@ -158,7 +162,11 @@ async function handleSearch() {
     productsToSearch = products;
   } else {
     for (let product of products) {
-      existingCategories = product.getElementsByClassName('categories')[0].innerHTML.split(",");
+      let existingCategories = [];
+      categoryPills = products[i].getElementsByClassName('category-pill');
+      for (let i = 0; i < categoryPills.length; i++) {
+        existingCategories.push(categoryPills[i].innerHTML);
+      }
       if (existingCategories.includes(categorySelected)) {
         productsToSearch.push(product);
       }
@@ -228,28 +236,54 @@ function homePageListingTemplate(business) {
   const baseImage = product.logoBlobstoreUrl;
   const description = truncateWords(product.description, INITIAL_DESC_WORDS)
 
+  let stars = createStars(product.aggregatedRating);
+  let subtitle = createListingSubtitle(product.categories, product.minPrice);
+
   const productListingCard = document.createElement("div");
   productListingCard.className = "product-listing-card";
   productListingCard.innerHTML =
-          `<div class='product-listing-image'>
+          `<div class='product-listing-image' style="position: relative">
             <a href="/product.html?businessID=${business.id}">
-              <img src=${baseImage}>
+              <img style="height: 300px; object-fit: cover;" src=${baseImage}>
             </a>
+            <div class="rating" style="position: absolute; top: 5%; right: 5%;">${stars}</div>
           </div>
           <a href="/product.html?businessID=${business.id}">
               <h3>${product.name}</h3>
           </a>
-          <p class="categories">${product.categories}</p>
-          <p class="price">Price: From \$${product.minPrice}</p>
-          <p>${description}...</p>
-          <p class="rating">Rating: ${product.aggregatedRating}</p>
-          <span>
-            <button>
-              <i class="fa fa-cart-arrow-down"></i>
-              <a href=${product.contactUrl}>Contact Business</a>
-            </button>
-          </span>`
+          <div style="margin: 2rem;">${subtitle}</div>`
     return productListingCard;
+}
+
+function createListingSubtitle(categories, minPrice) {
+  var categoriesHTML = createCategoryPills(categories);
+  var minPriceHTML = minPrice == 404 ? '' : `From: \$${minPrice}`;
+  var divider = categoriesHTML == '' || minPriceHTML == '' ? '' : ' | ';
+  return `<p>${categoriesHTML}${divider}${minPriceHTML}</p>`;
+}
+
+function createCategoryPills(categories) {
+  var categoryPills = '';
+  for (let i = 0; i < categories.length; i++) {
+    categoryPills += `<span class="category-pill">${categories[i]}</span>`;
+  }
+  return categoryPills;
+}
+
+function createStars(rating) {
+  var starHTML = '';
+
+  if (rating == 404) {
+    rating = 0;
+  }
+  for (let i = 0; i < 5; i++) {
+    if (i < rating) {
+      starHTML += '<i class="fas fa-star yellow-star medium-star"></i>';
+    } else {
+      starHTML += '<i class="fas fa-star gray-star medium-star"></i>';
+    }
+  }
+  return starHTML;
 }
 
 /**

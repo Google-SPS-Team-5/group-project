@@ -1,10 +1,10 @@
 html, body {
-    font-family: "Trebuchet MS", Helvetica, sans-serif;
-    height: 100%;
-    background-color: #FCFBF7 !important;
-    box-sizing: border-box;
-    margin: 0;
-  }
+  font-family: "Trebuchet MS", Helvetica, sans-serif !important;
+  height: 100%;
+  background-color: #FCFBF7 !important;
+  box-sizing: border-box;
+  margin: 0;
+}
   
 
 /* Nav bar section */
@@ -57,4 +57,18 @@ html, body {
 #g-form {
     color: white;
     text-decoration: underline;
+}
+
+/*star rating*/
+.yellow-star {
+  color: #fce205;
+}
+
+.gray-star {
+  color: lightgray;
+}
+
+.medium-star {
+  font-size: 20px;
+  margin: 2px;
 }
