@@ -30,7 +30,7 @@
   margin: 2rem;
 }
 .review-card {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
   background-color: white;
   border-radius: 4px;
   transition: 0.3s;
