@@ -8,6 +8,7 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.gson.Gson;
 import com.google.sps.User;
+import static com.google.sps.Constants.*;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -24,6 +25,7 @@ public class UserServlet extends HttpServlet {
    */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
     //dummy data for user
     String authenticatedEmail = "sam@gmail.com";
 
@@ -37,10 +39,10 @@ public class UserServlet extends HttpServlet {
     PreparedQuery results = datastore.prepare(query);
 
     for(Entity entity : results.asIterable()){
-      String email = (String) entity.getProperty("email");
+      String email = (String) entity.getProperty(USER_EMAIL);
       if(email.equals(authenticatedEmail)){
-        String name = (String) entity.getProperty("name");
-        String[] favouritesArr = gson.fromJson((String) entity.getProperty("favourites"), String[].class);
+        String name = (String) entity.getProperty(USER_NAME);
+        String[] favouritesArr = gson.fromJson((String) entity.getProperty(USER_FAVOURITES), String[].class);
         List<String>favourites = Arrays.asList(favouritesArr);
 
         User user = new User(name, email, favourites);
@@ -52,35 +54,24 @@ public class UserServlet extends HttpServlet {
     response.getWriter().println(userJson);
   }
 
-  /** Inserting hardcoded user data into the Datastore
+  /** Retrieve user's data from form and inserting into Datastore
   */
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
-    // Gson gson = new Gson();
+    Gson gson = new Gson();
 
-    // List<String> favourites = Arrays.asList("1","2","3","4");
-    // List<String> pastReviews = Arrays.asList("5","6","7","8");
+    //Get input from form
+    String name = request.getParameter(USER_NAME);
+    String email = request.getParameter(USER_EMAIL);
+    List<String> favourites = Arrays.asList("");
 
-    // Entity user1 = new Entity("User");
-    // user1.setProperty("name", "Sam");
-    // user1.setProperty("email", "sam@gmail.com");
-    // user1.setProperty("favourites", gson.toJson(favourites));
-    // user1.setProperty("pastReviews", gson.toJson(pastReviews));
+    Entity userEntity = new Entity("User");
+    userEntity.setProperty(USER_NAME, name);
+    userEntity.setProperty(USER_EMAIL, email);
+    userEntity.setProperty(USER_FAVOURITES, gson.toJson(favourites));
 
-    // Entity user2 = new Entity("User");
-    // user2.setProperty("name", "Wendy");
-    // user2.setProperty("email", "wendy@gmail.com");
-    // user2.setProperty("favourites", gson.toJson(favourites));
-    // user2.setProperty("pastReviews", gson.toJson(pastReviews));
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(userEntity);
 
-    // Entity user3 = new Entity("User");
-    // user3.setProperty("name", "Tiffany");
-    // user3.setProperty("email", "tiffany@gmail.com");
-    // user3.setProperty("favourites", gson.toJson(favourites));
-    // user3.setProperty("pastReviews", gson.toJson(pastReviews));
-
-    // DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    // datastore.put(user1);
-    // datastore.put(user2);
-    // datastore.put(user3);
+    response.sendRedirect("/index.html");
   }
 }
