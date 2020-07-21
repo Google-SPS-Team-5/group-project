@@ -16,6 +16,7 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.images.ImagesService;
 import com.google.appengine.api.images.ImagesServiceFactory;
 import com.google.appengine.api.images.ServingUrlOptions;
+import com.google.appengine.api.images.ImagesServiceFailureException;
 import com.google.gson.Gson;
 import java.lang.reflect.Type;
 import com.google.gson.reflect.TypeToken;
@@ -29,6 +30,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.*;
 import java.text.SimpleDateFormat;  
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -91,9 +93,6 @@ public class EditBusinessDataServlet extends HttpServlet {
   */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Gson gson = new Gson();
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-
     try {
     Long businessId = Long.parseLong(request.getParameter(BUSINESS_ID));
     Key businessKey = KeyFactory.createKey("Business", businessId);
@@ -111,8 +110,14 @@ public class EditBusinessDataServlet extends HttpServlet {
     float maxPrice = getFloatParameter(request, BUSINESS_MAX_PRICE);
     String businessLink = request.getParameter(BUSINESS_LINK);
     String menuLink = request.getParameter(BUSINESS_MENU_LINK);
-    String logoUrl = getUploadedPicturesUrlsFromBlobstore(request, BUSINESS_LOGO).get(0);
-    List<String> picturesUrls = getUploadedPicturesUrlsFromBlobstore(request, BUSINESS_PICTURES);
+    
+    String existingLogo = request.getParameter(BUSINESS_EXISTING_LOGO);
+    List<String> logoUrlBlobList = getUploadedPicturesUrlsFromBlobstore(request, BUSINESS_LOGO);
+    String logoUrl = prepareLogoUrl(existingLogo, logoUrlBlobList);
+
+    String[] existingPicturesUrls = request.getParameter(BUSINESS_EXISTING_PICTURES).split(",");
+    List<String> newPicturesUrls = getUploadedPicturesUrlsFromBlobstore(request, BUSINESS_PICTURES);
+    List<String> picturesUrls = preparePicturesUrls(existingPicturesUrls, newPicturesUrls);
 
     Entity businessEntity = getBusinessEntity(datastore, businessKey);
     
@@ -152,39 +157,83 @@ public class EditBusinessDataServlet extends HttpServlet {
     datastore.put(businessEntity);
   }
 
+  /** Determine which logo url to send back to the datastore
+  */
+  private String prepareLogoUrl(String existingUrl, List<String> newUrls) {
+      // Handle strange behaviour in dev server where the url always gets "/_cloudshellProxy" prepended to it upon form submission
+      // so the img src will eventually become something like "/_cloudshellProxy/_cloudshellProxy/_cloudshellProxy/_ah/blobKey".
+      // So I will just return the part after "/_cloudshellProxy"
+      // This issue does not happen on the deployed server.
+      if (newUrls.isEmpty()) {
+        if (existingUrl.startsWith("/_cloudshellProxy")) {
+          return existingUrl.substring(18);
+        } else {
+          return existingUrl;
+        }
+      } else {
+        return newUrls.get(0);
+      }
+  }
+  
+  /** Appends the newly uplaoded urls to the urls of existing images. 
+  */
+  private List<String> preparePicturesUrls(String[] existingUrlsArr, List<String> newUrls) {
+      if (existingUrlsArr == null || existingUrlsArr.length == 0) {
+          return newUrls;
+      } else {
+          List<String> existingUrls = Arrays.asList(existingUrlsArr);
+          // Handle strange behaviour in dev server where the url always gets "/_cloudshellProxy" prepended to it upon form submission
+          // so the img src will eventually become something like "/_cloudshellProxy/_cloudshellProxy/_cloudshellProxy/_ah/blobKey".
+          // So I will just return the part after "/_cloudshellProxy"
+          // This issue does not happen on the deployed server.
+          List<String> sanitisedExistingUrls = existingUrls
+                                                .stream()
+                                                .map(s -> s.startsWith("/_cloudshellProxy")
+                                                    ? s.substring(18)
+                                                    : s)
+                                                .collect(Collectors.toList());
+          return Stream.concat(sanitisedExistingUrls.stream(), newUrls.stream()).collect(Collectors.toList());
+      }
+  }
+
   /** Gets the url of the business images from the blobstore, or empty string if no images were uploaded.
   */
-  private List<String> getUploadedPicturesUrlsFromBlobstore(HttpServletRequest request, String formInputElementName) {
-    BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
-    Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
-    List<BlobKey> blobKeys = blobs.get(formInputElementName);
+  private List<String> getUploadedPicturesUrlsFromBlobstore(HttpServletRequest request, String formInputElementName) throws ImagesServiceFailureException {
+    try {
+        BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+        Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
+        List<BlobKey> blobKeys = blobs.get(formInputElementName);
 
-    // if no images were uploaded
-    if (blobKeys == null) {
-        return new ArrayList<String>();
+        // if no images were uploaded
+        if (blobKeys == null || blobKeys.isEmpty()) {
+            return new ArrayList<String>();
+        }
+
+        // Handle all blobkeys
+        List<String> urls = new ArrayList<String>();
+
+        for (BlobKey blobKey : blobKeys) {
+        // We could check the validity of the file here, e.g. to make sure it's an image file
+        // https://stackoverflow.com/q/10779564/873165
+
+        // Use ImagesService to get a URL that points to the uploaded file.
+        ImagesService imagesService = ImagesServiceFactory.getImagesService();
+        ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
+        String url = imagesService.getServingUrl(options);
+        // GCS's localhost preview is not actually on localhost,
+        // so make the URL relative to the current domain.
+        if(url.startsWith("http://localhost:8080/")){
+            url = url.replace("http://localhost:8080/", "/");
+        }
+        
+        urls.add(url);
+        }
+
+        return urls;
+    } catch (ImagesServiceFailureException err) {
+        // This exception is thrown when no images are uploaded. This exception is only thrown on the deployed server.
+         return new ArrayList<String>();
     }
-
-    // Handle all blobkeys
-    List<String> urls = new ArrayList<String>();
-
-    for (BlobKey blobKey : blobKeys) {
-      // We could check the validity of the file here, e.g. to make sure it's an image file
-      // https://stackoverflow.com/q/10779564/873165
-
-      // Use ImagesService to get a URL that points to the uploaded file.
-      ImagesService imagesService = ImagesServiceFactory.getImagesService();
-      ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
-      String url = imagesService.getServingUrl(options);
-      // GCS's localhost preview is not actually on localhost,
-      // so make the URL relative to the current domain.
-      if(url.startsWith("http://localhost:8080/")){
-        url = url.replace("http://localhost:8080/", "/");
-      }
-    
-      urls.add(url);
-    }
-
-    return urls;
   }
 
   /** Gets the float value from the form, or 404 if none was inputted

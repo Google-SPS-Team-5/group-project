@@ -13,7 +13,10 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.images.ImagesService;
 import com.google.appengine.api.images.ImagesServiceFactory;
 import com.google.appengine.api.images.ServingUrlOptions;
+import com.google.appengine.api.images.ImagesServiceFailureException;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import java.lang.reflect.Type;
 import com.google.gson.reflect.TypeToken;
 import com.google.sps.Business;
@@ -34,22 +37,20 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that returns all businesses and lets you create a new business */
 @WebServlet("/business-data")
 public class BusinessDataServlet extends HttpServlet {
-    
+  // Create gson for serializing and deserializing
+  Gson gson = new Gson();
+  // Create query for Datastore.
+  DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+  Query query = new Query("Business");
+
   /** Writes a JSON-ified list of all existing businesses from the Datastore
   */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Create gson for serializing and deserializing
-    Gson gson = new Gson();
-
-    // Create query for Datastore.
-    Query query = new Query("Business");
-
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
     // Iterate over results and add each business to the ArrayList.
-    List<String> businessesJson = new ArrayList<>();
+    List<BusinessData> businessList = new ArrayList<>();
     for (Entity entity : results.asIterable()) {
       String name = (String) entity.getProperty(BUSINESS_NAME);
       String desc = (String) entity.getProperty(BUSINESS_DESC);
@@ -72,13 +73,13 @@ public class BusinessDataServlet extends HttpServlet {
       List<String> reviews = reviewsArr == null ? new ArrayList<String>() : Arrays.asList(reviewsArr);
   
       Business business = new Business(name, categories, minPrice, maxPrice, rating, addressLat, addressLng, address, logoUrl, picturesUrls, desc, menuLink, orderDetails, contactDetails, businessLink);
-      String businessJson = String.format("{\"data\" : %s, \"id\": %s }", gson.toJson(business), entity.getKey().getId());
-      businessesJson.add(businessJson);
+      BusinessData businessData = new BusinessData(gson.toJson(business), entity.getKey().getId());
+      businessList.add(businessData);
     }
 
     // Send the JSON as the response.
     response.setContentType("application/json;");
-    response.getWriter().println(gson.toJson(businessesJson));
+    response.getWriter().println(gson.toJson(businessList));
   }
   
   /**
@@ -101,7 +102,8 @@ public class BusinessDataServlet extends HttpServlet {
     float maxPrice = getFloatParameter(request, BUSINESS_MAX_PRICE);
     String businessLink = request.getParameter(BUSINESS_LINK);
     String menuLink = request.getParameter(BUSINESS_MENU_LINK);
-    String logoUrl = getUploadedPicturesUrlsFromBlobstore(request, BUSINESS_LOGO).get(0);
+    List<String> logoUrlBlobList = getUploadedPicturesUrlsFromBlobstore(request, BUSINESS_LOGO);
+    String logoUrl = logoUrlBlobList.isEmpty() ? "" : logoUrlBlobList.get(0);
     List<String> picturesUrls = getUploadedPicturesUrlsFromBlobstore(request, BUSINESS_PICTURES);
     // can't add reviews and rating when creating a new business
     float rating = getFloatParameter(request, BUSINESS_RATING);
@@ -145,39 +147,57 @@ public class BusinessDataServlet extends HttpServlet {
  
   /** Gets the url of the business images from the blobstore, or empty string if no images were uploaded.
   */
-  private List<String> getUploadedPicturesUrlsFromBlobstore(HttpServletRequest request, String formInputElementName) {
-    BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
-    Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
-    List<BlobKey> blobKeys = blobs.get(formInputElementName);
+  private List<String> getUploadedPicturesUrlsFromBlobstore(HttpServletRequest request, String formInputElementName)
+    throws ImagesServiceFailureException {
+    try {
+        BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+        Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
+        List<BlobKey> blobKeys = blobs.get(formInputElementName);
 
-    // if no images were uploaded
-    if (blobKeys == null) {
-        return new ArrayList<String>();
+        // if no images were uploaded
+        if (blobKeys == null || blobKeys.size() == 0) {
+            return new ArrayList<String>();
+        }
+
+        // Handle all blobkeys
+        List<String> urls = new ArrayList<String>();
+
+        for (BlobKey blobKey : blobKeys) {
+        // We could check the validity of the file here, e.g. to make sure it's an image file
+        // https://stackoverflow.com/q/10779564/873165
+
+        // Use ImagesService to get a URL that points to the uploaded file.
+        ImagesService imagesService = ImagesServiceFactory.getImagesService();
+        ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
+        String url = imagesService.getServingUrl(options);
+
+        // GCS's localhost preview is not actually on localhost,
+        // so make the URL relative to the current domain.
+        if(url.startsWith("http://localhost:8080/")){
+            url = url.replace("http://localhost:8080/", "/");
+        }
+        
+        urls.add(url);
+        }
+
+        return urls;
+    } catch (ImagesServiceFailureException err) {
+        // This exception is thrown when no images are uploaded. This exception is only thrown on the deployed server.
+         return new ArrayList<String>();
     }
+  }
 
-    // Handle all blobkeys
-    List<String> urls = new ArrayList<String>();
+  public class BusinessData {
+    private final JsonElement data;
+    private final Long id;
 
-    for (BlobKey blobKey : blobKeys) {
-      // We could check the validity of the file here, e.g. to make sure it's an image file
-      // https://stackoverflow.com/q/10779564/873165
+    JsonParser parser = new JsonParser();
 
-      // Use ImagesService to get a URL that points to the uploaded file.
-      ImagesService imagesService = ImagesServiceFactory.getImagesService();
-      ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
-      String url = imagesService.getServingUrl(options);
-
-      System.out.println(url);
-      // GCS's localhost preview is not actually on localhost,
-      // so make the URL relative to the current domain.
-      if(url.startsWith("http://localhost:8080/")){
-        url = url.replace("http://localhost:8080/", "/");
-      }
-    
-      urls.add(url);
+    public BusinessData(String business, Long ID)
+    {
+      data = parser.parse(business);
+      id = ID;
     }
-
-    return urls;
   }
 
 }
