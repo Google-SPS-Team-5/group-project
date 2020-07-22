@@ -69,3 +69,25 @@ html, body {
 #footer div {
     margin: 2rem;
 }
+
+/*custom scrollbar*/
+
+/* width */
+::-webkit-scrollbar {
+	width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: #d2d2d2;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #26485B;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #2F586F;
+}
