@@ -58,22 +58,17 @@ html, body {
 
 /* width */
 ::-webkit-scrollbar {
-	width: 10px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-	background: #d2d2d2;
+	width: 12px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-	background: #26485B;
+	background: lightgray;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-	background: #2F586F;
+	background: silver;
 }
 
 #g-form {
