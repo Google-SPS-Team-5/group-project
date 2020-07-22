@@ -1,3 +1,35 @@
+/*favourite feature*/
+#fav {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  font-size: 1rem;
+}
+
+.fav-checkbox input[type="checkbox"],
+.fav-checkbox .checked {
+    display: none;
+}
+ 
+.fav-checkbox input[type="checkbox"]:checked ~ .checked
+{
+    display: inline-block;
+}
+ 
+.fav-checkbox input[type="checkbox"]:checked ~ .unchecked
+{
+    display: none;
+}
+
+.gray {
+  color: grey;
+}
+
+.pink {
+  color: #ff98a1;
+}
+
+/*rest of page*/
 .product-page-content {
   padding: 18px;
 }
@@ -39,6 +71,7 @@
 #business-logo-container {
   display: flex;
   justify-content: center;
+  position: relative;
 }
 
 #businessLogo {
