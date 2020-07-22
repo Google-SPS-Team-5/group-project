@@ -1,0 +1,29 @@
+#title {
+  margin: 5rem;
+  text-align: center;
+}
+
+#about-us {
+  margin: 5rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.team-member-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 30%;
+  margin: 1rem;
+}
+
+.team-member-container img{
+  height: 250px;
+  width: 250px;
+  object-fit: cover;
+  border-radius: 50%;
+}
