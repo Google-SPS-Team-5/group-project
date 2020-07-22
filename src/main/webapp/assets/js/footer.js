@@ -1,7 +1,7 @@
 document.write('\
 <div id="footer">\
   <div>\
-  <h2>TuckShop</h2>\
+  <h2>Tuckshop</h2>\
   </div>\
   <div>\
     <h3>Contact Us</h3>\

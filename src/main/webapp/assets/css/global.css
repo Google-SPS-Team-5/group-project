@@ -54,6 +54,23 @@ html, body {
     margin: 5rem;
 }
 
+/*custom scrollbar*/
+
+/* width */
+::-webkit-scrollbar {
+	width: 12px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: lightgray;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: silver;
+}
+
 #g-form {
     color: white;
     text-decoration: underline;

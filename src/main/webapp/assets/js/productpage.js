@@ -9,6 +9,7 @@ async function populateProductDetails() {
   populateImageGallery(business.photoBlobstoreUrlList);
   populateBusinessWriteup(business);
   populateContactDetails(business);
+  
 }
 
 async function getBusinessData() {
@@ -28,6 +29,7 @@ async function getBusinessData() {
 }
 
 function populateBusinessDescription(business) {
+  document.getElementById('businessName-title').innerHTML = `Tuckshop | ${business.name}`;
   Array.from(document.getElementsByClassName('businessName')).forEach(element => element.innerHTML += business.name);
   document.getElementById("review").placeholder = `What do you like about ${business.name}?`;
 
@@ -36,33 +38,49 @@ function populateBusinessDescription(business) {
   const categoryContainer = document.getElementById("businessCategories");
   business.categories.forEach(category => categoryContainer.appendChild(createCategoryElement(category)));
 
-  document.getElementById("businessUrl").href = business.websiteUrl;
+  const businessUrlElement = document.getElementById("businessUrl")
+  if (business.websiteUrl){
+    businessUrlElement.href = business.websiteUrl;
+  } else {
+    businessUrlElement.target = "";
+  }
+  
+  generateRating(business);
 
-  const ratingContainer = document.getElementById("aggregateRating");
-  ratingContainer.innerHTML = generateRating(business.aggregatedRating);
+  initBusinessMap(business);
+
 }
 
 function populateImageGallery(photoUrlList) {
   const urlListLength = photoUrlList.length;
-  if (urlListLength == 0) {
-    Array.from(document.getElementsByClassName('image-gallery')).forEach(element => element.style.display = "none");
-  }
   const imagePreviewGallery = document.getElementById("image-thumbnail-gallery");
+  if (urlListLength == 1) {
+    if (photoUrlList[0] == ""){
+      Array.from(document.getElementsByClassName('image-gallery')).forEach(element => element.style.display = "none");
+      return;
+    }
+  }
+
+  if (urlListLength == 0){
+    Array.from(document.getElementsByClassName('image-gallery')).forEach(element => element.style.display = "none");
+    return;
+  }
+  
   const modalGalleryContainer = document.getElementById("slides-container");
   const modalGalleryImagePreviewContainer = document.getElementById("gallery-thumbnail-container");
 
-  var image;
+  var imageIndex;
   
-  for (image = 1; image <= urlListLength; image++) {
-    const url = photoUrlList[image-1];
-    imagePreviewGallery.appendChild(createThumbnailImageElement(url));
-    modalGalleryContainer.appendChild(createGalleryImageElement(url, image, urlListLength));
-    modalGalleryImagePreviewContainer.appendChild(createGalleryImagePreviewElement(url, image));
+  for (imageIndex = 1; imageIndex <= urlListLength; imageIndex++) {
+    const url = photoUrlList[imageIndex-1];
+    imagePreviewGallery.appendChild(createThumbnailImageElement(url, imageIndex));
+    modalGalleryContainer.appendChild(createGalleryImageElement(url, imageIndex, urlListLength));
+    modalGalleryImagePreviewContainer.appendChild(createGalleryImagePreviewElement(url, imageIndex));
   }  
 }
 
 function populateBusinessWriteup(business) {
-  document.getElementById("businessDescr").innerHTML = business.description;
+  document.getElementById("businessDescr").innerHTML = nullOrPlaceholderString(business.description, "<i>Sorry, this business doesn't have a description yet!</i>");
   var menuUrlElement = document.getElementById("menuUrl");
   if (business.menuUrl) {
     
@@ -75,7 +93,7 @@ function populateBusinessWriteup(business) {
 }
 
 function populateContactDetails() {
-  document.getElementById("orderInfo").innerHTML = business.orderInformation;
+  document.getElementById("orderInfo").innerHTML = nullOrPlaceholderString(business.orderInformation, "<i>Sorry, this business doesn't have order information yet!</i>");
   var contactUrlElement = document.getElementById("contactUrl");
   if (business.contactUrl) {
     contactUrlElement.href = business.contactUrl;
@@ -91,15 +109,14 @@ function createCategoryElement(categoryName) {
   return category;
 }
 
-function createThumbnailImageElement(imageUrl) {
-  var thumbnailImageElement = document.createElement("div");
-  thumbnailImageElement.className = "lightbox-column";
-  thumbnailImageElement.innerHTML = `<img
-                                        src=${imageUrl}
-                                        style="height: 250px; width:auto;"
-                                        onclick="openModal();currentSlide(1)"
-                                        class="hover-shadow cursor"
-                                      />`
+function createThumbnailImageElement(imageUrl, index) {
+  var thumbnailImageElement = document.createElement("img");
+  thumbnailImageElement.src = imageUrl;
+  thumbnailImageElement.onclick= function(){
+                                            openModal();
+                                            currentSlide(index);
+                                            };
+  thumbnailImageElement.className = "hover-shadow cursor";
   return thumbnailImageElement;
 }
 
@@ -108,7 +125,7 @@ function createGalleryImageElement(imageUrl, index, length) {
   slide.className = "mySlides";
   slide.innerHTML = `<div class="numbertext">${index} / ${length}</div>
                       <img
-                        src=${imageUrl}
+                        src="${imageUrl}"
                         style="height: 400px; width:auto;"
                       />
                     `;
@@ -120,10 +137,10 @@ function createGalleryImagePreviewElement(imageUrl, index) {
   galleryImagePreviewElement.className = "lightbox-column";
   galleryImagePreviewElement.innerHTML = `<img
                                             class="demo cursor"
-                                            src=${imageUrl}
+                                            src="${imageUrl}"
                                             style="height: 100px; width:auto"
                                             onclick="currentSlide(${index})"
-                                            alt="Sea Salt Brownies"
+                                            alt="Product Image ${index}"
                                           />`;
   return galleryImagePreviewElement;
 }
@@ -143,24 +160,49 @@ function createEditBusinessLink(isAdmin) {
     editLink.innerHTML = "Edit this business";
   } else {
     editLink.parentNode.removeChild(editLink);
-  }
-  
-  
-  
+  }  
 }
 
-function generateRating(rating){
-  if (rating == 404){
-    return "No ratings yet";
+function generateRating(business){
+  const ratingContainer = document.getElementById("aggregateRating");
+
+  if (business.aggregatedRating == 404){
+    ratingContainer.style.fontSize = "14px";
+    ratingContainer.style.fontStyle = "italic"
+    ratingContainer.innerHTML = "No ratings yet";
+    return;
   }
   
   var starHTML = '';
   for (let i=0; i<5; i++) {
-    if (i+0.5<=rating) {
+    if (i+0.5<=business.aggregatedRating) {
       starHTML += '<i class="fas fa-star yellow-star"></i>';
     } else {
       starHTML += '<i class="fas fa-star"></i>';
     }
   }
-  return parseFloat(rating).toFixed(2) + " " + starHTML;
+  ratingContainer.innerHTML = parseFloat(business.aggregatedRating).toFixed(2) + " " + starHTML;
+}
+
+function initBusinessMap(business) {
+  const map = document.getElementById("map");
+  if(business.addressLng !== 404 || business.addressLat !== 404){
+    map.src = `https://www.google.com/maps/embed/v1/view?key=AIzaSyD6iOYBZGWKFe57PlDBpThR9y9MhtZgrEw&zoom=11&center=${parseFloat(business.addressLng).toFixed(4)},${parseFloat(business.addressLat).toFixed(4)}`;
+    var marker = new google.maps.Marker({
+    position: {lat: business.addressLat, lng: business.addressLng},
+    map: map,
+    title: business.name
+  });
+  } else {
+    map.src = "https://www.google.com/maps/embed/v1/view?key=AIzaSyD6iOYBZGWKFe57PlDBpThR9y9MhtZgrEw&zoom=11&center=1.3521,103.8198";
+  }
+  
+}
+
+function nullOrPlaceholderString(string, placeHolder) {
+  if (string) {
+    return string;
+  } else {
+    return placeHolder;
+  }
 }
