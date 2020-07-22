@@ -29,7 +29,7 @@ async function getBusinessData() {
 }
 
 function populateBusinessDescription(business) {
-  document.getElementById('businessName-title').innerHTML = `TuckShop | ${business.name}`;
+  document.getElementById('businessName-title').innerHTML = `Tuckshop | ${business.name}`;
   Array.from(document.getElementsByClassName('businessName')).forEach(element => element.innerHTML += business.name);
   document.getElementById("review").placeholder = `What do you like about ${business.name}?`;
 
