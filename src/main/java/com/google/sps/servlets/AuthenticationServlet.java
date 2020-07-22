@@ -51,7 +51,7 @@ public class AuthenticationServlet extends HttpServlet {
       }
       String loginUrl = userService.createLoginURL(urlToRedirectToAfterUserLogsIn);
 
-      String json = String.format(USER_JSON_DETAILS, "", loginUrl, "", "", "");
+      String json = String.format(USER_JSON_DETAILS, "", loginUrl, "", "", null);
       response.getWriter().println(json);
     }
   }
@@ -63,7 +63,7 @@ public class AuthenticationServlet extends HttpServlet {
     } catch (EntityNotFoundException err){
       userEntity = new Entity("User", userEmail);
       userEntity.setProperty(USER_NAME, username);
-      userEntity.setProperty(USER_FAVOURITES, gson.toJson(Arrays.asList("")));
+      userEntity.setProperty(USER_FAVOURITES, gson.toJson(Arrays.asList()));
       datastore.put(userEntity);
     }
 

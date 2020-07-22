@@ -21,6 +21,10 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/userinformation")
 public class UserServlet extends HttpServlet {
 
+  DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+  Gson gson = new Gson();
+  Query query = new Query("User");
+  
   /** Writes a JSON-ified of a specific user from the Datastore. The key is set to a default data as of now
    */
   @Override
@@ -29,9 +33,9 @@ public class UserServlet extends HttpServlet {
     //dummy data for user
     String authenticatedEmail = "sam@gmail.com";
 
-    Gson gson = new Gson();
+    
 
-    Query query = new Query("User");
+    
     
     String userJson = "";
 
@@ -62,14 +66,14 @@ public class UserServlet extends HttpServlet {
     //Get input from form
     String name = request.getParameter(USER_NAME);
     String email = request.getParameter(USER_EMAIL);
-    List<String> favourites = Arrays.asList("");
+    List<String> favourites = Arrays.asList();
 
     Entity userEntity = new Entity("User");
     userEntity.setProperty(USER_NAME, name);
     userEntity.setProperty(USER_EMAIL, email);
     userEntity.setProperty(USER_FAVOURITES, gson.toJson(favourites));
 
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    
     datastore.put(userEntity);
 
     response.sendRedirect("/index.html");

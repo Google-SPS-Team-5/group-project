@@ -1,6 +1,7 @@
 async function populateProductDetails() {  
   const response = await fetch("/authentication");
   const userJson = await response.json();
+  await setupFavouriting(userJson);
   createEditBusinessLink(userJson.isAdmin);
 
   business = await getBusinessData();
@@ -9,12 +10,15 @@ async function populateProductDetails() {
   populateImageGallery(business.photoBlobstoreUrlList);
   populateBusinessWriteup(business);
   populateContactDetails(business);
+
   
 }
 
 async function getBusinessData() {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
+
+  
 
   if (urlParams.has("businessID")) {
     var businessId = urlParams.get("businessID");
@@ -205,4 +209,29 @@ function nullOrPlaceholderString(string, placeHolder) {
   } else {
     return placeHolder;
   }
+}
+
+async function setupFavouriting(userJson) {
+
+  if (userJson.userEmail) {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+
+    if (urlParams.has("businessID")) {
+      const checkbox = document.getElementById("did_favourite");
+      const businessId = urlParams.get("businessID");
+      const emailField = document.getElementById("form-email");
+      const businessIDField =  document.getElementById("form-businessID");
+      if (userJson.favourites.includes(businessId)) {
+        checkbox.checked = true;
+      } else {
+        checkbox.checked = false;
+      }
+      emailField.value = userJson.userEmail;
+      businessIDField.value = businessId;
+      return;
+    }
+  }
+
+  document.getElementById("fav").style.display = "none";  
 }

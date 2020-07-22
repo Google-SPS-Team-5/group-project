@@ -14,6 +14,8 @@ import static com.google.sps.Constants.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Set;
+import java.util.HashSet;
 import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,41 +24,50 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/favourite-a-business")
 public class FavouriteABusinessServlet extends HttpServlet {
-
-  @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-  }
+  Gson gson = new Gson();
+  DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException  {
-    try{
-      Gson gson = new Gson();
-
-      String businessID = request.getParameter("businessID"); 
+    
+    try {
+      
+      String businessID = request.getParameter(BUSINESS_ID); 
       String email = request.getParameter(USER_EMAIL);
-
-      DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-
-      Key userKey = KeyFactory.stringToKey(email);
-      Entity userEntity = getUserEntity(datastore, userKey); //retrieve by user's key
+      boolean userDidFavourite = request.getParameter(USER_DID_FAVOURITE) == null ? false : true;
+      Key userKey = KeyFactory.createKey("User", email);
+      Entity userEntity = getUserEntity(userKey); //retrieve by user's key
       String[] favouritesArr = gson.fromJson((String) userEntity.getProperty(USER_FAVOURITES), String[].class);
-      List<String> favouritesList;
+      List<String> favouritesList = new ArrayList<String>(Arrays.asList(favouritesArr));
+
+      Set<String> uniqueBusinessesList;
 
       if (favouritesArr != null) {
-        favouritesList = new ArrayList<String>(Arrays.asList(favouritesArr));
+        uniqueBusinessesList = new HashSet<String>(favouritesList);
       } else {
-        favouritesList = new ArrayList<String>();
+        uniqueBusinessesList = new HashSet<String>();
       }
       
-      favouritesList.add(businessID);
+      if (userDidFavourite) {
+        uniqueBusinessesList.add(businessID);
+      } else {
+        uniqueBusinessesList.remove(businessID);
+      }
+
+      favouritesList = new ArrayList<String>(uniqueBusinessesList);
+      
       userEntity.setProperty(USER_FAVOURITES, gson.toJson(favouritesList));
+      datastore.put(userEntity);
     } catch (EntityNotFoundException err) {
-        System.out.println(err);
+      System.out.println(err);
+    } catch (Exception err) {
+      System.out.println(err);
     }
+
+    response.sendRedirect(request.getHeader("referer"));
   }
 
-  private Entity getUserEntity(DatastoreService datastore, Key userKey) throws EntityNotFoundException {
+  private Entity getUserEntity(Key userKey) throws EntityNotFoundException {
     Entity userEntity = datastore.get(userKey);
     return userEntity;
   }

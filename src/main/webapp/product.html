@@ -36,12 +36,14 @@
           <div id="fav">
             <form id="fav-form" action="/favourite-a-business" method="POST">
               <label class="fav-checkbox">
-                <input type="checkbox" onchange="this.form.submit()"/>
+                <input type="checkbox" id="did_favourite" name="did_favourite" onclick="this.form.submit();"/>
                 <i class="fas fa-heart pink checked"></i>
                 <i class="far fa-heart gray unchecked"></i>
                 <span class="checked pink">Favourited</span>
                 <span class="unchecked gray">Favourite</span>
               </label>
+              <input id="form-email" type="email" id="email" name="email" style="display: none">
+              <input id="form-businessID" type="businessID" id="businessID" name="businessID" style="display: none">
             </form>     
           </div>
         </div>

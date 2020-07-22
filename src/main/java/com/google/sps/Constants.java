@@ -35,4 +35,5 @@ public final class Constants {
   public static final String USER_NAME = "name";
   public static final String USER_EMAIL = "email";
   public static final String USER_FAVOURITES = "favourites";
+  public static final String USER_DID_FAVOURITE = "did_favourite";
 }
