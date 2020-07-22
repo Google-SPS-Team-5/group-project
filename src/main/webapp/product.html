@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title class="businessName"></title>
+    <title id="businessName-title"></title>
     <link rel="stylesheet" href="assets/css/global.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/css/product-page.css" />
@@ -13,75 +13,87 @@
     <script src="https://kit.fontawesome.com/bf05d78857.js" crossorigin="anonymous"></script>
     <script type="text/javascript" src="assets/js/productpage.js"></script>
     <script type="text/javascript" src="assets/js/authentication.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6iOYBZGWKFe57PlDBpThR9y9MhtZgrEw"></script>
   </head>
   <body onload ="populateProductDetails(); getReviews(); displayReviewForm();">
     <script src="assets/js/navbar.js"></script>
-    <div class="business-description">
-      <div class="layout">
-        <div>
-          <a id="businessUrl" target="_blank">
-            <img id="businessLogo" style="height:140px; padding:10px;"/>
-          </a>
-        </div>
-        <div style="text-align:right;">
-          <p class="businessName " style="text-align: left; margin-block-start: 30px; margin-block-end: 10px;">
-          </p>
-          <a id="editBusinessLink" style="text-align: left; font-size: 20px; color: grey;"></a>
-          <div id="businessCategories" style="text-align: left;">
-          </div>
-          <div id="aggregateRating" style="position:absolute; bottom:10px; right:10px;">
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="image-gallery">
-      <div id="image-thumbnail-gallery" class="lightbox-row">
-      </div>
-
-      <div id="myModal" class="modal">
-        <span class="close cursor" onclick="closeModal()">&times;</span>
-        <div class="modal-content">
-          <div id="slides-container">
-          </div>
-
-          <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-          <a class="next" onclick="plusSlides(1)">&#10095;</a>
-
-          <div class="caption-container">
-            <p id="caption"></p>
-          </div>
-          
-          <div id="gallery-thumbnail-container">
-          </div>
-
-        </div>
-      </div>
-    </div>
-    <div class="business-writeup">
-      <div>
-        <h2 class="businessName">About </h2>
-        <p id="businessDescr">
-        </p>
-        <p id="menuContainer">
-          View the menu <a target="_blank" id="menuUrl">here</a>.
-        </p>
-      </div>
-      <div>
-        <h2>Order Information</h2>
-        <p id="orderInfo">
-        <div id="contactDetailsContainer">
-          <h3>Contact Details:</h3>
-          <p>
-            <a target="_blank" id="contactUrl">
-              Contact link
+    <div class="product-page-content">
+      <div class="business-description page-content">
+        <div id="business-header" class="drop-shadow">
+          <div id="business-logo-container">
+            <a id="businessUrl" target="_blank" style="display: flex;justify-content: center; align-items: center; width: 90%; height: 90%">
+              <img id="businessLogo"/>
             </a>
+          </div>
+          <div>
+            <div style="display:flex;">
+              <div class="businessName" style="padding: 10px 8px"></div>
+              <a id="editBusinessLink" style="font-size: 12px; color: grey; display: contents;"></a>
+            </div>
+            <div id="businessCategories" style="display: inline-block"></div>
+            <div id="aggregateRating" style="position:absolute; bottom:10px;"></div>
+          </div>
+        </div>
+        <div id="map-container" style="height: 100%; width: 100%;">
+          <iframe
+              id="map"
+              width=100%
+              height=100%
+              style="box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);"
+              frameborder="0" style="border:0"
+              allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+      <div class="image-gallery page-content drop-shadow" style="overflow: overlay; margin-top: 30px; margin-bottom: 30px;">
+        <div id="image-thumbnail-gallery" class="lightbox-row">
+        </div>
+
+        <div id="myModal" class="modal">
+          <span class="close cursor" onclick="closeModal()">&times;</span>
+          <div class="modal-content">
+            <div id="slides-container" style="text-align: center;"">
+            </div>
+
+            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+            <div class="caption-container">
+              <p id="caption"></p>
+            </div>
+            
+            <div id="gallery-thumbnail-container" style="display: flex; justify-content: space-between;">
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="business-writeup page-content">
+        <div class="drop-shadow" style="overflow: overlay">
+          <h2 class="businessName">About </h2>
+          <p id="businessDescr">
           </p>
+          <p id="menuContainer">
+            View the menu <a target="_blank" id="menuUrl">here</a>.
+          </p>
+        </div>
+        <div class="drop-shadow">
+          <h2>Order Information</h2>
+          <p id="orderInfo">
+          <div id="contactDetailsContainer">
+            <h3>Contact Details:</h3>
+            <p>
+              <a target="_blank" id="contactUrl">
+                Contact link
+              </a>
+            </p>
+          </div>
         </div>
       </div>
     </div>
-    <div class="reviews">
+    <div class="reviews page-content drop-shadow">
       <div style="text-align: center">
-        <h2 class="businessName">
+        <h2 class="businessName" style="padding: 2rem ">
           Reviews for 
         </h2>
       </div>
@@ -114,8 +126,8 @@
           <button type="submit">Submit</button>
         </form>
       </div>
-      <div id="review-grid"></div>
-    </div>
+        <div id="review-grid"></div>
+      </div>
   <script src="assets/js/footer.js"></script>
   </body>
 </html>
