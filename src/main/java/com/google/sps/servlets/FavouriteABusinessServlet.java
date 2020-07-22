@@ -2,6 +2,7 @@ package com.google.sps.servlets;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -27,17 +28,18 @@ public class FavouriteABusinessServlet extends HttpServlet {
 
   }
 
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException  {
     try{
       Gson gson = new Gson();
 
-      String businessID = request.getParameter(businessID); 
+      String businessID = request.getParameter("businessID"); 
       String email = request.getParameter(USER_EMAIL);
 
       DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
       Key userKey = KeyFactory.stringToKey(email);
-      Entity userEntity = datastore.get(userKey); //retrieve by user's key
+      Entity userEntity = getUserEntity(datastore, userKey); //retrieve by user's key
       String[] favouritesArr = gson.fromJson((String) userEntity.getProperty(USER_FAVOURITES), String[].class);
       List<String> favouritesList;
 
@@ -49,10 +51,13 @@ public class FavouriteABusinessServlet extends HttpServlet {
       
       favouritesList.add(businessID);
       userEntity.setProperty(USER_FAVOURITES, gson.toJson(favouritesList));
-    } catch (IOException err) {
-        System.out.println(err);
     } catch (EntityNotFoundException err) {
         System.out.println(err);
     }
+  }
+
+  private Entity getUserEntity(DatastoreService datastore, Key userKey) throws EntityNotFoundException {
+    Entity userEntity = datastore.get(userKey);
+    return userEntity;
   }
 }
