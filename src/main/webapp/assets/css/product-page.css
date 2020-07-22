@@ -67,9 +67,11 @@ mark {
 }
 
 #image-thumbnail-gallery {
+  display: flex;
+  overflow-x: auto;
   justify-content: space-evenly;
   align-items: center;
-  text-align: -webkit-center;
+  margin: 2rem;
 }
 
 .business-writeup {
