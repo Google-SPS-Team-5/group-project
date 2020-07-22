@@ -1,13 +1,12 @@
 document.write('\
 <div id="footer">\
   <div>\
-  <h2>Placeholder</h2>\
+  <h2>TuckShop</h2>\
   </div>\
   <div>\
-    <p>Contact Us</p>\
-    <p>General enquiries: test@testmail.com</p>\
-    <p>Interested in listing your business?</p>\
-    <p>Let us know here!</p>\
+    <h3>Contact Us</h3>\
+    <h4>Interested in listing your business?</h4>\
+    <p>Let us know <a id="g-form" href="https://docs.google.com/forms/d/e/1FAIpQLSdq8M3cse7ak1NDdrnZ0nfUz9PCXepse-g-PyKRlRatpAKMtw/viewform?usp=sf_link" target="_blank">here</a>!</p>\
   </div>\
 </div>'
 );
