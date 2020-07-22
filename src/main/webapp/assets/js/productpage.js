@@ -44,8 +44,7 @@ function populateBusinessDescription(business) {
     businessUrlElement.target = "";
   }
   
-  const ratingContainer = document.getElementById("aggregateRating");
-  ratingContainer.innerHTML = generateRating(business.aggregatedRating);
+  generateRating(business);
 
   initBusinessMap(business);
 
@@ -53,10 +52,19 @@ function populateBusinessDescription(business) {
 
 function populateImageGallery(photoUrlList) {
   const urlListLength = photoUrlList.length;
-  if (urlListLength == 0) {
-    Array.from(document.getElementsByClassName('image-gallery')).forEach(element => element.style.display = "none");
-  }
   const imagePreviewGallery = document.getElementById("image-thumbnail-gallery");
+  if (urlListLength == 1) {
+    if (photoUrlList[0] == ""){
+      Array.from(document.getElementsByClassName('image-gallery')).forEach(element => element.style.display = "none");
+      return;
+    }
+  }
+
+  if (urlListLength == 0){
+    Array.from(document.getElementsByClassName('image-gallery')).forEach(element => element.style.display = "none");
+    return;
+  }
+  
   const modalGalleryContainer = document.getElementById("slides-container");
   const modalGalleryImagePreviewContainer = document.getElementById("gallery-thumbnail-container");
 
@@ -116,7 +124,7 @@ function createGalleryImageElement(imageUrl, index, length) {
   slide.className = "mySlides";
   slide.innerHTML = `<div class="numbertext">${index} / ${length}</div>
                       <img
-                        src=${imageUrl}
+                        src="${imageUrl}"
                         style="height: 400px; width:auto;"
                       />
                     `;
@@ -128,7 +136,7 @@ function createGalleryImagePreviewElement(imageUrl, index) {
   galleryImagePreviewElement.className = "lightbox-column";
   galleryImagePreviewElement.innerHTML = `<img
                                             class="demo cursor"
-                                            src=${imageUrl}
+                                            src="${imageUrl}"
                                             style="height: 100px; width:auto"
                                             onclick="currentSlide(${index})"
                                             alt="Product Image ${index}"
@@ -154,26 +162,31 @@ function createEditBusinessLink(isAdmin) {
   }  
 }
 
-function generateRating(rating){
-  if (rating == 404){
-    return "No ratings yet";
+function generateRating(business){
+  const ratingContainer = document.getElementById("aggregateRating");
+
+  if (business.aggregatedRating == 404){
+    ratingContainer.style.fontSize = "14px";
+    ratingContainer.style.fontStyle = "italic"
+    ratingContainer.innerHTML = "No ratings yet";
+    return;
   }
   
   var starHTML = '';
   for (let i=0; i<5; i++) {
-    if (i+0.5<=rating) {
+    if (i+0.5<=business.aggregatedRating) {
       starHTML += '<i class="fas fa-star yellow-star"></i>';
     } else {
       starHTML += '<i class="fas fa-star"></i>';
     }
   }
-  return parseFloat(rating).toFixed(2) + " " + starHTML;
+  ratingContainer.innerHTML = parseFloat(business.aggregatedRating).toFixed(2) + " " + starHTML;
 }
 
 function initBusinessMap(business) {
   const map = document.getElementById("map");
   if(business.addressLng !== 404 || business.addressLat !== 404){
-    map.src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyD6iOYBZGWKFe57PlDBpThR9y9MhtZgrEw&zoom=11&q=${parseFloat(business.addressLng).toFixed(4)},${parseFloat(business.addressLat).toFixed(4)}`;
+    map.src = `https://www.google.com/maps/embed/v1/view?key=AIzaSyD6iOYBZGWKFe57PlDBpThR9y9MhtZgrEw&zoom=11&center=${parseFloat(business.addressLng).toFixed(4)},${parseFloat(business.addressLat).toFixed(4)}`;
     var marker = new google.maps.Marker({
     position: {lat: business.addressLat, lng: business.addressLng},
     map: map,

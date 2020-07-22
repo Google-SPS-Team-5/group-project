@@ -17,7 +17,6 @@
   grid-template-columns: 65% 34%;
   grid-gap: 1vw;
   padding: 10px;
-  height: 200px;
 }
 
 .business-description .layout {
@@ -43,7 +42,9 @@
 }
 
 #businessLogo {
-  min-width: 90%;
+  object-fit: contain;
+  width: 100%;
+  padding: 5%;
 }
 
 #aggregateRating {
