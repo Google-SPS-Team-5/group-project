@@ -163,7 +163,7 @@ async function handleSearch() {
   } else {
     for (let product of products) {
       let existingCategories = [];
-      categoryPills = products[i].getElementsByClassName('category-pill');
+      categoryPills = product.getElementsByClassName('category-pill');
       for (let i = 0; i < categoryPills.length; i++) {
         existingCategories.push(categoryPills[i].innerHTML);
       }
@@ -209,8 +209,8 @@ function createLocation(product) {
  */
 function initMap(foodLocations) {
   const map = new google.maps.Map(document.getElementById("map"), {
-    center: { lat: 1.3521, lng: 103.8198 },
-    zoom: 14
+    center: { lat: 1.294015, lng: 103.842999 },
+    zoom: 13
   });
 
   var marker;
