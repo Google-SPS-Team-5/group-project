@@ -209,8 +209,8 @@ function createLocation(product) {
  */
 function initMap(foodLocations) {
   const map = new google.maps.Map(document.getElementById("map"), {
-    center: { lat: 1.3521, lng: 103.8198 },
-    zoom: 14
+    center: { lat: 1.294015, lng: 103.842999 },
+    zoom: 13
   });
 
   var marker;
