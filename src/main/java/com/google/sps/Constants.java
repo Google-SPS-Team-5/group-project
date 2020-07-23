@@ -26,7 +26,7 @@ public final class Constants {
 
   // For querying the review entities
   public static final String REVIEW_USERID = "userID";
-  public static final String REVIEW_USERNAME = "username";
+  public static final String REVIEW_USERNAME = "name";
   public static final String REVIEW_COMMENT = "comment";
   public static final String REVIEW_DATETIME = "dateTime";
   public static final String REVIEW_RATING = "rating";
