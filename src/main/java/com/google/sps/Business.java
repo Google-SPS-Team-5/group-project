@@ -54,8 +54,8 @@ public final class Business {
     minPrice = businessMinPrice;
     maxPrice = businessMaxPrice;
     aggregatedRating = rating;
-    addressLng = businessLat;
-    addressLat = businessLong;
+    addressLng = businessLong;
+    addressLat = businessLat;
     address = businessAddr;
     logoBlobstoreUrl = businessLogoUrl;
     photoBlobstoreUrlList = businessPhotoUrlList;
