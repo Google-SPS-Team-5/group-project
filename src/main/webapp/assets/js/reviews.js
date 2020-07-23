@@ -37,7 +37,6 @@ async function getReviewData() {
   const urlParams = new URLSearchParams(queryString);
 
   if (urlParams.has("businessID")) {
-
     const response = await fetch(`/reviews?businessID=${urlParams.get("businessID")}`);
     var reviewsList = await response.json();
     return reviewsList;
