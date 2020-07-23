@@ -10,23 +10,20 @@ public final class MockUserData {
         String name = "Sam";
         String email = "sam@gmail.com";
         List<String> favourites = Arrays.asList("1","2","3","4");
-        List<String> pastReviews = Arrays.asList("5","6","7","8");
         
-        User user1 = new User(name, email, favourites, pastReviews);
+        User user1 = new User(name, email, favourites);
 
         name = "Wendy";
         email = "wendy@gmail.com";
         favourites = Arrays.asList("1","2","3","4");
-        pastReviews = Arrays.asList("5","6","7","8");
         
-        User user2 = new User(name, email, favourites, pastReviews);
+        User user2 = new User(name, email, favourites);
 
         name = "Tiffany";
         email = "tiffany@gmail.com";
         favourites = Arrays.asList("1","2","3","4");
-        pastReviews = Arrays.asList("5","6","7","8");
         
-        User user3 = new User(name, email, favourites, pastReviews);
+        User user3 = new User(name, email, favourites);
 
         mockUserDataList = Arrays.asList(user1, user2, user3);
     }

@@ -30,4 +30,10 @@ public final class Constants {
   public static final String REVIEW_COMMENT = "comment";
   public static final String REVIEW_DATETIME = "dateTime";
   public static final String REVIEW_RATING = "rating";
+
+  // For querying the user entities
+  public static final String USER_NAME = "name";
+  public static final String USER_EMAIL = "email";
+  public static final String USER_FAVOURITES = "favourites";
+  public static final String USER_DID_FAVOURITE = "did_favourite";
 }

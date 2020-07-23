@@ -7,16 +7,14 @@ public final class User {
     private String name;
     private String email;
     private List<String> favourites;
-    private List<String> pastReviews;
 
     /**
      * Default constructor for class
      */
-    public User(String userName, String userEmail, List<String> userFavourites, List<String> userPastReviews){
+    public User(String userName, String userEmail, List<String> userFavourites){
         name = userName;
         email = userEmail;
         favourites = userFavourites;
-        pastReviews = userPastReviews;
     }
     
     @Override

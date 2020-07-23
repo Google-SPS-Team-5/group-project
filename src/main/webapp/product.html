@@ -20,7 +20,7 @@
     <div class="product-page-content">
       <div class="business-description page-content">
         <div id="business-header" class="drop-shadow">
-          <div id="business-logo-container">
+          <div id="business-logo-container" style="position: relative">
             <a id="businessUrl" target="_blank" style="display: flex;justify-content: center; align-items: center; width: 90%; height: 90%">
               <img id="businessLogo"/>
             </a>
@@ -32,6 +32,19 @@
             </div>
             <div id="businessCategories" style="display: inline-block"></div>
             <div id="aggregateRating" style="position:absolute; bottom:10px;"></div>
+          </div>
+          <div id="fav">
+            <form id="fav-form" action="/favourite-a-business" method="POST">
+              <label class="fav-checkbox">
+                <input type="checkbox" id="did_favourite" name="did_favourite" onclick="this.form.submit();"/>
+                <i class="fas fa-heart pink checked"></i>
+                <i class="far fa-heart gray unchecked"></i>
+                <span class="checked pink">Favourited</span>
+                <span class="unchecked gray">Favourite</span>
+              </label>
+              <input id="form-email" type="email" id="email" name="email" style="display: none">
+              <input id="form-businessID" type="businessID" id="businessID" name="businessID" style="display: none">
+            </form>     
           </div>
         </div>
         <div id="map-container" style="height: 100%; width: 100%;">
