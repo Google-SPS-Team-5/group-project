@@ -84,7 +84,7 @@ function createStars(rating) {
     if (i<rating) {
       starHTML += '<i class="fas fa-star yellow-star"></i>';
     } else {
-      starHTML += '<i class="fas fa-star"></i>';
+      starHTML += '<i class="fas fa-star gray-star"></i>';
     }
   }
   return starHTML;
