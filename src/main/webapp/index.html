@@ -1,135 +1,105 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page Title</title>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6iOYBZGWKFe57PlDBpThR9y9MhtZgrEw"></script>
-    <script src="assets/js/index.js"></script>
-    <link rel="stylesheet" href="assets/css/global.css">
-    <link rel="stylesheet" href="assets/css/index.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tuckshop | Home</title>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6iOYBZGWKFe57PlDBpThR9y9MhtZgrEw"></script>
+  <script src="assets/js/index.js"></script>
+  <script src="assets/js/authentication.js"></script>
+  <link rel="stylesheet" href="assets/css/global.css">
+  <link rel="stylesheet" href="assets/css/index.css">
+  <!-- icons -->
+  <script src="https://kit.fontawesome.com/bf05d78857.js" crossorigin="anonymous"></script>
+  <!-- import Bootstrap -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
-<body onload="initMap();">
 
-<script src="assets/js/navbar.js"></script>
+<body onload="initHomePage();">
 
-<div id="featured-listing">
-    <h2 id='featured-listing-title'>
-      <i class="fa fa-heart" aria-hidden="true"></i> 
-      Today's Featured Food 
-      <i class="fa fa-heart" aria-hidden="true"></i>
-    </h2>
-    <div id='featured-listing-content'>
-      <h3>The Oven Bakes</h3>
-      <p>
-          Hungry for some cookies, brownies and other delectable desserts? This cozy home bakery offers all these at an 
-          affordable price. Islandwide delivery available.
-      </p>
-      <a href="product.html" class="featured-listing-link">Click to find out more!</a>
-      <img src="images/the-oven-bakes/the-oven-bakes-2.PNG">
+  <script src="assets/js/navbar.js"></script>
+  <script src="assets/js/mockdata.js"></script>
+
+  <!-- Bootstrap carousel -->
+  <div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+      <li data-target="#myCarousel" data-slide-to="1"></li>
+      <li data-target="#myCarousel" data-slide-to="2"></li>
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner">
+      <div class="item active">
+        <div class="carousel-container">
+          <div class="carousel-text">
+            <h2>Paparch Burnt Cheesecake</h2>
+            <br />
+            <p>Spoil yourself and your loved ones with some sweet melted ooze goodness.</p>
+            <p>Singaporean based home baker, Halal, and Muslim owned.</p>
+          </div>
+          <button onclick="location.href='/product.html?businessID=5642368648740864'" class="find-out-more-btn">Find Out More</button>
+          <img height="300px" src="images/featured-paparch.png" alt="Paparch Sg"class="carousel-image">
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="carousel-container">
+          <div class="carousel-text">
+            <h2>Roti Kirai Delights</h2>
+            <br />
+            <p>Tastiest roti kirai (Malay net crepe) in town!</p>
+            <p>Perfectly soft, fluffy roti kirai with savoury delicious curry.</p>
+          </div>
+          <button onclick="location.href='/product.html?businessID=5632499082330112'" class="find-out-more-btn">Find Out More</button>
+          <img height="300px" src="images/featured-roti-kirai.png" alt="Roti Kirai" class="carousel-image">
+        </div>
+      </div>
+    
+      <div class="item">
+        <div class="carousel-container">
+          <div class="carousel-text">
+            <h2>HomeSweetOven</h2>
+            <br />
+            <p>Delectable Hala macarons for any occasion.</p>
+            <p>Macaron towers, cooking classes, and other sweet treats are also available!</p>
+          </div>
+          <button onclick="location.href='/product.html?businessID=5712837116690432'" class="find-out-more-btn">Find Out More</button>
+          <img height="300px" src="images/featured-homesweetoven.png" alt="HomeSweetOven" class="carousel-image">
+        </div>
+      </div>
     </div>
-</div>
-
-<div id="product-listings-wrapper">
-    <h2 id='product-listings-title'>Popular Right Now</h2><br>
-    <h3 >Home-cooked, full of love and made just for you.</h2>
-    <div class="product-listings-container">
-        <div class="product-listing-card">
-            <div class='product-listing-image'>
-            <img src="https://sethlui.com/wp-content/uploads/2015/03/candlenut-peranakan-singapore-1580.jpg" alt="Peranakan Candlenut">
-            </div>
-            <h3>Candlenut</h3>
-            <p class="price">$24.99</p>
-            <p>Candlenut is a Peranakan icon of sorts! It has brought a refined take on Pernakan classics. You will love it!</p>
-            <p class="delivery">Delivery cost not included</p>
-            <span>
-              <button>
-                <i class="fa fa-cart-arrow-down"></i>
-                Add to Cart
-              </button>
-            </span>
-        </div>
-        <div class="product-listing-card">
-            <div class='product-listing-image'>
-            <img src="https://sethlui.com/wp-content/uploads/2018/12/Soon-Soon-Huat-Curry-Puff-9-800x533.jpg" alt="Curry Puffs">
-            </div>
-            <h3>Home Made Curry Puffs</h3>
-            <p class="price">$7.99 for 6</p>
-            <p>Each batch of curry puffs are made meticulously using freshly kneaded dough filled with diced curried chicken and potato chunks. Get yours today</p>
-            <p class="delivery">Delivery cost not included</p>
-            <span>
-              <button>
-                <i class="fa fa-cart-arrow-down"></i>
-                Add to Cart
-              </button>
-            </span>
-        </div>
-        <div class="product-listing-card">
-            <div class='product-listing-image'>
-            <img src="https://sethlui.com/wp-content/uploads/2015/12/crepe-cake-celebrate.jpg" alt="Crepe Cakes">
-            </div>
-            <h3>Home Made Crepe Cakes</h3>
-            <p class="price">$5.99</p>
-            <p>25 layers of thin crepe layered with creamy pastry cream made from Madagascan vanilla, you’ll be so spoiled.</p>
-            <p class="delivery">Delivery cost not included</p>
-            <span>
-              <button>
-                <i class="fa fa-cart-arrow-down"></i>
-                Add to Cart
-              </button>
-            </span>
-        </div>
-        <div class="product-listing-card">
-            <div class='product-listing-image'>
-            <img src="https://sethlui.com/wp-content/uploads/2020/03/Ah-Hua-Teochew-Fishball-Noodles-31.jpg" alt="Fishball Noodles">
-            </div>
-            <h3>Fishball Noodles</h3>
-            <p class="price">$4.99</p>
-            <p>A play on textures and flavours using handmade noodles and fishballs. You will love it!</p>
-            <p class="delivery">Delivery cost not included</p>
-            <span>
-              <button>
-                <i class="fa fa-cart-arrow-down"></i>
-                Add to Cart
-              </button>
-            </span>
-        </div>
-        <div class="product-listing-card">
-            <div class='product-listing-image'>
-            <img src="https://sethlui.com/wp-content/uploads/2020/04/Tiong-Bahru-Galicier-Pastry-3.jpg" alt="Pastries">
-            </div>
-            <h3>Home Made Pastries</h3>
-            <p class="price">$10.99 for a set of 6</p>
-            <p>We offer a wide variety of old-school pastries, cakes, and cookies that are all freshly made. Get yours today</p>
-            <p class="delivery">Delivery cost not included</p>
-            <span>
-              <button>
-                <i class="fa fa-cart-arrow-down"></i>
-                Add to Cart
-              </button>
-            </span>
-        </div>
-        <div class="product-listing-card">
-            <div class='product-listing-image'>
-            <img src="https://sethlui.com/wp-content/uploads/2019/12/Mamas-Boy-Bakes-14.jpg" alt="Mozzarella Bombshells">
-            </div>
-            <h3>Home Made Mozzarella Bombshells</h3>
-            <p class="price">$6.99 for 4</p>
-            <p>The Mozzarella Bombshells are filled with a scrumptious mixture of gooey mozzarella and spinach (excellent companion to the mac and cheese).</p>
-            <p class="delivery">Delivery cost not included</p>
-            <span>
-              <button>
-                <i class="fa fa-cart-arrow-down"></i>
-                Add to Cart
-              </button>
-            </span>
-        </div>
-    </div>
-</div>
-<div id="map-container">
-  <div id="map">
   </div>
-</div>
+
+  <!-- Listings section -->
+  <div class="product-listings-wrapper">
+    <h1 id="product-listings-title">Browse Listings</h1>
+    <h4>Home-cooked, full of love and made just for you from the hearts of Singapore.</h4>
+    <div id="search-container">
+      <form name="search" onSubmit="handleSearch(); return false;">
+        <input id="query" type="text" name="query" placeholder="Search">
+        <button type="submit"><i class="fa fa-search"></i></button>
+      </form>
+    </div>
+    <div id="filter-buttons">
+      <button id="map-btn" class="filter-btn map-btn" onclick="showMapTab()">Map</button>
+    </div>
+    <div id="tab-content">
+    <div id="product-listings" class="product-listings-container"></div>
+    <div id="map-container" style="display: none">
+      <div id="map">
+      </div>
+    </div>
+    <div id="loadMore">
+      <a href="javascript:void(0);" onclick="loadMoreProducts();">Load More</a>
+    </div>
+    </div>
+  </div>
+  <script src="assets/js/footer.js"></script>
 </body>
+
 </html>

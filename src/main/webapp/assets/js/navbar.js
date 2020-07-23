@@ -1,12 +1,10 @@
 document.write('\
 <div id="nav-container">\
-    <a href="index.html" class="nav-link">Home</a>\
-    <a href="about.html" class="nav-link">About us</a>\
-    <div id="search-container">\
-        <form action="/placeholder.js">\
-            <input type="text" placeholder="Search listing...">\
-            <button type="submit"><i class="fa fa-search"></i></button>\
-        </form>\
+    <div id="nav-pages">\
+        <a href="index.html"><img src="images/TuckshopLogo.PNG" alt="TuckShop logo" height="100px"></a>\
+        <a href="index.html" class="nav-link">Home</a>\
+        <a href="about.html" class="nav-link">About Us</a>\
     </div>\
+    <div id="authentication"></div>\
 </div>'
 );

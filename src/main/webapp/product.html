@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Product Listing</title>
+    <title id="businessName-title"></title>
     <link rel="stylesheet" href="assets/css/global.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/css/product-page.css" />
@@ -9,234 +9,109 @@
     <link rel="stylesheet" href="assets/css/forms.css" />
     <link rel="stylesheet" href="assets/css/reviews.css" />
     <script type="text/javascript" src="assets/js/lightbox.js"></script>
-    <script
-      src="https://kit.fontawesome.com/bf05d78857.js"
-      crossorigin="anonymous"
-    ></script>
+    <script type="text/javascript" src="assets/js/reviews.js"></script>
+    <script src="https://kit.fontawesome.com/bf05d78857.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="assets/js/productpage.js"></script>
+    <script type="text/javascript" src="assets/js/authentication.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6iOYBZGWKFe57PlDBpThR9y9MhtZgrEw"></script>
   </head>
-  <body>
+  <body onload ="populateProductDetails(); getReviews(); displayReviewForm();">
     <script src="assets/js/navbar.js"></script>
-    <div class="business-description">
-      <div class="layout">
-        <div>
-          <img
-            src="images/the-oven-bakes/the-oven-bakes-logo.PNG"
-            style="height:140px; padding:10px;"
-          />
+    <div class="product-page-content">
+      <div class="business-description page-content">
+        <div id="business-header" class="drop-shadow">
+          <div id="business-logo-container" style="position: relative">
+            <a id="businessUrl" target="_blank" style="display: flex;justify-content: center; align-items: center; width: 90%; height: 90%">
+              <img id="businessLogo"/>
+            </a>
+          </div>
+          <div>
+            <div style="display:flex;">
+              <div class="businessName" style="padding: 10px 8px"></div>
+              <a id="editBusinessLink" style="font-size: 12px; color: grey; display: contents;"></a>
+            </div>
+            <div id="businessCategories" style="display: inline-block"></div>
+            <div id="aggregateRating" style="position:absolute; bottom:10px;"></div>
+          </div>
+          <div id="fav">
+            <form id="fav-form" action="/favourite-a-business" method="POST">
+              <label class="fav-checkbox">
+                <input type="checkbox" id="did_favourite" name="did_favourite" onclick="this.form.submit();"/>
+                <i class="fas fa-heart pink checked"></i>
+                <i class="far fa-heart gray unchecked"></i>
+                <span class="checked pink">Favourited</span>
+                <span class="unchecked gray">Favourite</span>
+              </label>
+              <input id="form-email" type="email" id="email" name="email" style="display: none">
+              <input id="form-businessID" type="businessID" id="businessID" name="businessID" style="display: none">
+            </form>     
+          </div>
         </div>
-        <div style="text-align:right;">
-          <p
-            style="text-align: left; margin-block-start: 30px; margin-block-end: 10px;"
-          >
-            The Oven Bakes
+        <div id="map-container" style="height: 100%; width: 100%;">
+          <iframe
+              id="map"
+              width=100%
+              height=100%
+              style="box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);"
+              frameborder="0" style="border:0"
+              allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+      <div class="image-gallery page-content drop-shadow" style="overflow: overlay; margin-top: 30px; margin-bottom: 30px;">
+        <div id="image-thumbnail-gallery" class="lightbox-row">
+        </div>
+
+        <div id="myModal" class="modal">
+          <span class="close cursor" onclick="closeModal()">&times;</span>
+          <div class="modal-content">
+            <div id="slides-container" style="text-align: center;"">
+            </div>
+
+            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+            <div class="caption-container">
+              <p id="caption"></p>
+            </div>
+            
+            <div id="gallery-thumbnail-container" style="display: flex; justify-content: space-between;">
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="business-writeup page-content">
+        <div class="drop-shadow" style="overflow: overlay">
+          <h2 class="businessName">About </h2>
+          <p id="businessDescr">
           </p>
-          <div style="text-align: left;">
-            <mark>Dessert</mark>
-            <mark>Brownies</mark>
-            <mark>Cookies</mark>
-          </div>
-          <div style="position:absolute; bottom:10px; right:10px;">
-            <i class="fas fa-star yellow-star"></i
-            ><i class="fas fa-star yellow-star"></i
-            ><i class="fas fa-star yellow-star"></i
-            ><i class="fas fa-star yellow-star"></i
-            ><i class="fas fa-star yellow-star"></i>
+          <p id="menuContainer">
+            View the menu <a target="_blank" id="menuUrl">here</a>.
+          </p>
+        </div>
+        <div class="drop-shadow">
+          <h2>Order Information</h2>
+          <p id="orderInfo">
+          <div id="contactDetailsContainer">
+            <h3>Contact Details:</h3>
+            <p>
+              <a target="_blank" id="contactUrl">
+                Contact link
+              </a>
+            </p>
           </div>
         </div>
       </div>
     </div>
-    <div class="image-gallery">
-      <div class="lightbox-row">
-        <div class="lightbox-column">
-          <img
-            src="images/the-oven-bakes/the-oven-bakes-2.PNG"
-            style="height: 250px; width:100%"
-            onclick="openModal();currentSlide(1)"
-            class="hover-shadow cursor"
-          />
-        </div>
-        <div class="lightbox-column">
-          <img
-            src="images/the-oven-bakes/the-oven-bakes-3.PNG"
-            style="height: 250px; width:100%"
-            onclick="openModal();currentSlide(2)"
-            class="hover-shadow cursor"
-          />
-        </div>
-        <div class="lightbox-column">
-          <img
-            src="images/the-oven-bakes/the-oven-bakes-1.PNG"
-            style="height: 250px; width:100%"
-            onclick="openModal();currentSlide(3)"
-            class="hover-shadow cursor"
-          />
-        </div>
-        <div class="lightbox-column">
-          <img
-            src="images/the-oven-bakes/the-oven-bakes-4.PNG"
-            style="height: 250px; width:100%"
-            onclick="openModal();currentSlide(4)"
-            class="hover-shadow cursor"
-          />
-        </div>
-        <div class="lightbox-column">
-          <img
-            src="images/the-oven-bakes/the-oven-bakes-5.PNG"
-            style="height: 250px; width:100%"
-            onclick="openModal();currentSlide(5)"
-            class="hover-shadow cursor"
-          />
-        </div>
-      </div>
-
-      <div id="myModal" class="modal">
-        <span class="close cursor" onclick="closeModal()">&times;</span>
-        <div class="modal-content">
-          <div class="mySlides">
-            <div class="numbertext">1 / 5</div>
-            <img
-              src="images/the-oven-bakes/the-oven-bakes-2.PNG"
-              style="height: 400px; width:auto"
-            />
-          </div>
-
-          <div class="mySlides">
-            <div class="numbertext">2 / 5</div>
-            <img
-              src="images/the-oven-bakes/the-oven-bakes-3.PNG"
-              style="height: 400px; width:auto"
-            />
-          </div>
-
-          <div class="mySlides">
-            <div class="numbertext">3 / 5</div>
-            <img
-              src="images/the-oven-bakes/the-oven-bakes-1.PNG"
-              style="height: 400px; width:auto"
-            />
-          </div>
-
-          <div class="mySlides">
-            <div class="numbertext">4 / 5</div>
-            <img
-              src="images/the-oven-bakes/the-oven-bakes-4.PNG"
-              style="height: 400px; width:auto"
-            />
-          </div>
-
-          <div class="mySlides">
-            <div class="numbertext">5 / 5</div>
-            <img
-              src="images/the-oven-bakes/the-oven-bakes-5.PNG"
-              style="height: 400px; width:auto"
-            />
-          </div>
-
-          <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-          <a class="next" onclick="plusSlides(1)">&#10095;</a>
-
-          <div class="caption-container">
-            <p id="caption"></p>
-          </div>
-
-          <div class="lightbox-column">
-            <img
-              class="demo cursor"
-              src="images/the-oven-bakes/the-oven-bakes-2.PNG"
-              style="height: 100px; width:auto"
-              onclick="currentSlide(1)"
-              alt="Sea Salt Brownies"
-            />
-          </div>
-          <div class="lightbox-column">
-            <img
-              class="demo cursor"
-              src="images/the-oven-bakes/the-oven-bakes-3.PNG"
-              style="height: 100px; width:auto"
-              onclick="currentSlide(2)"
-              alt="Biscoff Brownies"
-            />
-          </div>
-          <div class="lightbox-column">
-            <img
-              class="demo cursor"
-              src="images/the-oven-bakes/the-oven-bakes-1.PNG"
-              style="height: 100px; width:auto"
-              onclick="currentSlide(3)"
-              alt="The Oven Bakes Cover"
-            />
-          </div>
-          <div class="lightbox-column">
-            <img
-              class="demo cursor"
-              src="images/the-oven-bakes/the-oven-bakes-4.PNG"
-              style="height: 100px; width:auto"
-              onclick="currentSlide(4)"
-              alt="Oreo Brownies"
-            />
-          </div>
-          <div class="lightbox-column">
-            <img
-              class="demo cursor"
-              src="images/the-oven-bakes/the-oven-bakes-5.PNG"
-              style="height: 100px; width:auto"
-              onclick="currentSlide(5)"
-              alt="Chocolate Chip Cookie"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="business-writeup">
-      <div>
-        <h2>About The Oven Bakes</h2>
-        <p>
-          The Oven Bakes is a local home business that makes mouth-watering
-          brownies and cookies. These homemade treats are sure going to sweeten
-          your day. Baked goodies are limited in stock and only available for
-          pre-order. Grab yours soon!
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
-        </p>
-        <p>
-          View the menu
-          <a href="https://www.instagram.com/theovenbakes/" target="_blank"
-            >here</a
-          >.
-        </p>
-      </div>
-      <div>
-        <h2>Order Information</h2>
-        <p>
-          Minimum Order(for delivery): $15
-        </p>
-        <p>Islandwide Delivery: $10</p>
-        <p>
-          Contact Details:
-        </p>
-        <p>
-          <i class="fab fa-instagram" style="margin-right: 0.5rem"></i
-          ><a href="https://www.instagram.com/theovenbakes/" target="_blank"
-            >@theovenbakes</a
-          >
-        </p>
-      </div>
-    </div>
-    <div class="reviews">
+    <div class="reviews page-content drop-shadow">
       <div style="text-align: center">
-        <h2>
-          Reviews for The Oven Bakes
+        <h2 class="businessName" style="padding: 2rem ">
+          Reviews for 
         </h2>
       </div>
       <div class="review-form">
-        <form action="#">
+        <form id="review-form-container" method="POST">
           <label for="name">Name:</label><br />
           <input
             required
@@ -250,153 +125,22 @@
             required
             id="review"
             name="review"
-            placeholder="What do you like about The Oven Bakes?"
+            maxlength="5000"
           ></textarea
-          ><br /><br />
+          ><br />
+          <label for="star-rating">Rate (1-5): </label>
+            <i id="rating-1" class="fas fa-star yellow-star" aria-hidden="true" style="cursor: pointer"></i>
+            <i id="rating-2" class="fas fa-star yellow-star" aria-hidden="true" style="cursor: pointer"></i>
+            <i id="rating-3" class="fas fa-star yellow-star" aria-hidden="true" style="cursor: pointer"></i>
+            <i id="rating-4" class="fas fa-star" aria-hidden="true" style="cursor: pointer"></i>
+            <i id="rating-5" class="fas fa-star" aria-hidden="true" style="cursor: pointer"></i>
+          <input id="star-rating" type="range" class="star-rating" name="star-rating" min="1" max="5" style="visibility: hidden">
+          <br /><br />
           <button type="submit">Submit</button>
         </form>
       </div>
-      <div class="review-grid">
-        <div class="review-card">
-          <div class="review-card-container">
-            <div class="name-and-date">
-              <p>Valerie Ng</p>
-              <div class="rating">
-                <i class="fas fa-star yellow-star"></i
-                ><i class="fas fa-star yellow-star"></i
-                ><i class="fas fa-star yellow-star"></i
-                ><i class="fas fa-star yellow-star"></i
-                ><i class="fas fa-star yellow-star"></i>
-              </div>
-              <p>2:55pm 12/06/2020</p>
-            </div>
-            <p>
-              There are many variations of passages of Lorem Ipsum available,
-              but the majority have suffered alteration in some form, by
-              injected humour, or randomised words which don't look even
-              slightly believable.
-            </p>
-          </div>
-        </div>
-        <div class="review-card">
-          <div class="review-card-container">
-            <div class="name-and-date">
-              <p>Valerie Ng</p>
-              <div class="rating">
-                <i class="fas fa-star yellow-star"></i
-                ><i class="fas fa-star yellow-star"></i
-                ><i class="fas fa-star yellow-star"></i
-                ><i class="fas fa-star yellow-star"></i
-                ><i class="fas fa-star yellow-star"></i>
-              </div>
-              <p>2:55pm 12/06/2020</p>
-            </div>
-            <p>
-              I love the sea salt brownies! My first time having sea salt on a
-              dessert and I was mind blown!
-            </p>
-          </div>
-        </div>
-        <div class="review-card">
-          <div class="review-card-container">
-            <div class="name-and-date">
-              <p>Valerie Ng</p>
-              <div class="rating">
-                <i class="fas fa-star yellow-star"></i
-                ><i class="fas fa-star yellow-star"></i
-                ><i class="fas fa-star yellow-star"></i
-                ><i class="fas fa-star yellow-star"></i
-                ><i class="fas fa-star yellow-star"></i>
-              </div>
-              <p>2:55pm 12/06/2020</p>
-            </div>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
-          </div>
-        </div>
-        <div class="review-card">
-          <div class="review-card-container">
-            <div class="name-and-date">
-              <p>Valerie Ng</p>
-              <div class="rating">
-                <i class="fas fa-star yellow-star"></i
-                ><i class="fas fa-star yellow-star"></i
-                ><i class="fas fa-star yellow-star"></i
-                ><i class="fas fa-star yellow-star"></i
-                ><i class="fas fa-star yellow-star"></i>
-              </div>
-              <p>2:55pm 12/06/2020</p>
-            </div>
-            <p>
-              Quam nulla porttitor massa id neque aliquam. Ultrices mi tempus
-              imperdiet nulla malesuada. Eros in cursus turpis massa tincidunt
-              dui ut ornare lectus.
-            </p>
-          </div>
-        </div>
-        <div class="review-card">
-          <div class="review-card-container">
-            <div class="name-and-date">
-              <p>Valerie Ng</p>
-              <div class="rating">
-                <i class="fas fa-star yellow-star"></i
-                ><i class="fas fa-star yellow-star"></i
-                ><i class="fas fa-star yellow-star"></i
-                ><i class="fas fa-star yellow-star"></i
-                ><i class="fas fa-star yellow-star"></i>
-              </div>
-              <p>2:55pm 12/06/2020</p>
-            </div>
-            <p>
-              Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-              accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
-              quae ab illo inventore veritatis et quasi architecto beatae vitae
-              dicta sunt explicabo.
-            </p>
-          </div>
-        </div>
-        <div class="review-card">
-          <div class="review-card-container">
-            <div class="name-and-date">
-              <p>Valerie Ng</p>
-              <div class="rating">
-                <i class="fas fa-star yellow-star"></i
-                ><i class="fas fa-star yellow-star"></i
-                ><i class="fas fa-star yellow-star"></i
-                ><i class="fas fa-star yellow-star"></i
-                ><i class="fas fa-star yellow-star"></i>
-              </div>
-              <p>2:55pm 12/06/2020</p>
-            </div>
-            <p>
-              Ut enim ad minima veniam, quis nostrum exercitationem ullam
-              corporis suscipit laboriosam, nisi ut aliquid ex ea commodi
-              consequatur?
-            </p>
-          </div>
-        </div>
-        <div class="review-card">
-          <div class="review-card-container">
-            <div class="name-and-date">
-              <p>Valerie Ng</p>
-              <div class="rating">
-                <i class="fas fa-star yellow-star"></i
-                ><i class="fas fa-star yellow-star"></i
-                ><i class="fas fa-star yellow-star"></i
-                ><i class="fas fa-star yellow-star"></i
-                ><i class="fas fa-star yellow-star"></i>
-              </div>
-              <p>2:55pm 12/06/2020</p>
-            </div>
-            <p>
-              I love the sea salt brownies! My first time having sea salt on a
-              dessert and I was mind blown!
-            </p>
-          </div>
-        </div>
+        <div id="review-grid"></div>
       </div>
-    </div>
+  <script src="assets/js/footer.js"></script>
   </body>
 </html>
