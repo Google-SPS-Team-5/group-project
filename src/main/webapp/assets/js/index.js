@@ -163,7 +163,7 @@ async function handleSearch() {
   } else {
     for (let product of products) {
       let existingCategories = [];
-      categoryPills = products[i].getElementsByClassName('category-pill');
+      categoryPills = product.getElementsByClassName('category-pill');
       for (let i = 0; i < categoryPills.length; i++) {
         existingCategories.push(categoryPills[i].innerHTML);
       }

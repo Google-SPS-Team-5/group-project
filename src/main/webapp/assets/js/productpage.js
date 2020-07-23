@@ -18,8 +18,6 @@ async function getBusinessData() {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
 
-  
-
   if (urlParams.has("businessID")) {
     var businessId = urlParams.get("businessID");
     let response = await fetch(`/edit-business-data?businessID=${businessId}`);
@@ -144,7 +142,6 @@ function createGalleryImagePreviewElement(imageUrl, index) {
                                             src="${imageUrl}"
                                             style="height: 100px; width:auto"
                                             onclick="currentSlide(${index})"
-                                            alt="Product Image ${index}"
                                           />`;
   return galleryImagePreviewElement;
 }
