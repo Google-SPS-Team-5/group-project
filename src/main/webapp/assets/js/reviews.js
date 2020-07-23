@@ -4,7 +4,9 @@
 async function displayReviewForm() {
   const response = await fetch("/authentication");
   const userJson = await response.json();
-  if (userJson.userEmail != "") {
+  if (userJson.userEmail.length == 0) {
+    document.getElementsByClassName("review-form")[0].style.visibility = "hidden";
+  } else {
     document.getElementsByClassName("review-form")[0].style.visibility = "visible";
   }
 }
@@ -35,7 +37,6 @@ async function getReviewData() {
   const urlParams = new URLSearchParams(queryString);
 
   if (urlParams.has("businessID")) {
-
     const response = await fetch(`/reviews?businessID=${urlParams.get("businessID")}`);
     var reviewsList = await response.json();
     return reviewsList;
