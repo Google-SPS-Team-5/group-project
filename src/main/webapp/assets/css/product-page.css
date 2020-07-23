@@ -126,3 +126,15 @@ mark {
   width: 80%;
 }
 
+/*Hover on stars*/
+.form-star {
+  float: left;
+}
+
+.form-star {
+  float: right;
+}
+
+.form-star:hover, .form-star:hover ~ .form-star{
+  color:#fce205;
+}
