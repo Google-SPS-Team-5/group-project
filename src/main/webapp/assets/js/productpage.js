@@ -188,12 +188,9 @@ function generateRating(business){
 function initBusinessMap(business) {
   const map = document.getElementById("map");
   if(business.addressLng !== 404 || business.addressLat !== 404){
-    map.src = `https://www.google.com/maps/embed/v1/view?key=AIzaSyD6iOYBZGWKFe57PlDBpThR9y9MhtZgrEw&zoom=11&center=${parseFloat(business.addressLng).toFixed(4)},${parseFloat(business.addressLat).toFixed(4)}`;
-    var marker = new google.maps.Marker({
-    position: {lat: business.addressLat, lng: business.addressLng},
-    map: map,
-    title: business.name
-  });
+    let lat = parseFloat(business.addressLat)
+    let lng = parseFloat(business.addressLng)
+    map.src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyD6iOYBZGWKFe57PlDBpThR9y9MhtZgrEw&zoom=13&q=${lat},${lng}&center=${lat},${lng}`;
   } else {
     map.src = "https://www.google.com/maps/embed/v1/view?key=AIzaSyD6iOYBZGWKFe57PlDBpThR9y9MhtZgrEw&zoom=11&center=1.3521,103.8198";
   }
