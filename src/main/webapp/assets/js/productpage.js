@@ -179,7 +179,7 @@ function generateRating(business){
     if (i+0.5<=business.aggregatedRating) {
       starHTML += '<i class="fas fa-star yellow-star"></i>';
     } else {
-      starHTML += '<i class="fas fa-star"></i>';
+      starHTML += '<i class="fas fa-star gray-star"></i>';
     }
   }
   ratingContainer.innerHTML = parseFloat(business.aggregatedRating).toFixed(2) + " " + starHTML;
