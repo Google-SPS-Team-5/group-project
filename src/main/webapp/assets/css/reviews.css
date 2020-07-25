@@ -55,3 +55,47 @@
 .rating {
     align-self: center;
 }
+
+/** Star rating input with hover effect */
+
+.star-rating {
+  font-family: 'FontAwesome';
+  margin: auto;
+}
+.star-rating > fieldset {
+  border: none;
+  display: inline-block;
+}
+.star-rating > fieldset:not(:checked) > input {
+  position: absolute;
+  clip: rect(0, 0, 0, 0);
+}
+.star-rating > fieldset:not(:checked) > label {
+  float: right;
+  width: 1em;
+  padding: 0 0.05em;
+  overflow: hidden;
+  white-space: nowrap;
+  cursor: pointer;
+  font-size: 150%;
+  color: #ffdd1a;
+}
+.star-rating > fieldset:not(:checked) > label:before {
+  content: '\f006';
+}
+.star-rating > fieldset:not(:checked) > label:hover,
+.star-rating > fieldset:not(:checked) > label:hover ~ label {
+  color: #ffdd1a;
+  text-shadow: 0 0 2px #ffaf1a;
+}
+.star-rating > fieldset:not(:checked) > label:hover:before,
+.star-rating > fieldset:not(:checked) > label:hover ~ label:before {
+  content: '\f069'
+}
+.star-rating > fieldset > input:checked ~ label:before {
+  content: '\f069';
+}
+.star-rating > fieldset > label:active {
+  position: relative;
+  top: 2px;
+}
