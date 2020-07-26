@@ -26,7 +26,6 @@ async function getReviews() {
   }
 
   setReviewsActionUrl();
-  setupRatingActions();
 }
 
 /**
@@ -90,22 +89,3 @@ function createStars(rating) {
   }
   return starHTML;
 }
-
-// function setupRatingActions(){
-//   for (let i=1; i<=5; i++) {
-//     document.getElementById("rating-" + i).addEventListener("click", function(){ rateReview(i);});
-//   }
-
-// }
-
-// function rateReview(rating){
-//   document.getElementById("star-rating").value = rating;
-//   for (let i=1; i<=5; i++) {
-//     if (i <= rating){
-//       document.getElementById("rating-" + i).className = "fas fa-star yellow-star";
-//     } else {
-//       document.getElementById("rating-" + i).className = "fas fa-star";
-//     }
-    
-//   }
-// }

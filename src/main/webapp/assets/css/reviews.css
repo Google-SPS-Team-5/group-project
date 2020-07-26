@@ -59,7 +59,7 @@
 /** Star rating input with hover effect */
 
 .star-rating {
-  font-family: 'FontAwesome';
+  font-family: "Font Awesome 5 Free";
   margin: auto;
 }
 .star-rating > fieldset {
@@ -81,7 +81,7 @@
   color: #ffdd1a;
 }
 .star-rating > fieldset:not(:checked) > label:before {
-  content: '\f006';
+  content: '\f005';
 }
 .star-rating > fieldset:not(:checked) > label:hover,
 .star-rating > fieldset:not(:checked) > label:hover ~ label {
@@ -90,10 +90,12 @@
 }
 .star-rating > fieldset:not(:checked) > label:hover:before,
 .star-rating > fieldset:not(:checked) > label:hover ~ label:before {
-  content: '\f069'
+  content: '\f005';
+  font-weight: bolder;
 }
 .star-rating > fieldset > input:checked ~ label:before {
-  content: '\f069';
+  content: '\f005';
+  font-weight: bolder;
 }
 .star-rating > fieldset > label:active {
   position: relative;
