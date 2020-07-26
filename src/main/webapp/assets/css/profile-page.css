@@ -1,27 +1,33 @@
+#avatar {
+    height: 100%;
+    width: auto;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
 .user-information {
     display: grid;
     height: 200px;
-    grid-template-columns: 20% 60%;
+    grid-template-columns: 40% 60%;
+    grid-gap: 2rem;
     justify-content: center;
     align-content: center;
-    padding: 10px;
 }
 
 .user-information > div {
     text-align : center;
     padding : 10px;
     font-size : 15px;
-    height : 160px;    
+    height : 60px;    
     position : relative;
 }
 
 .user-preference {
     display: grid;
     height: 600px;
-    grid-template-columns: 40% 40%;
+    grid-template-columns: 70%;
     justify-content: center;
     align-content: center;
-    grid-gap: 1vw;
     padding: 10px; 
 }
 

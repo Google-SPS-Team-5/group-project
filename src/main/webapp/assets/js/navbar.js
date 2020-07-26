@@ -1,9 +1,9 @@
 document.write('\
 <div id="nav-container">\
     <div id="nav-pages">\
-        <h3 href="index.html" class="nav-link">Placeholder</h3>\
+        <a href="index.html"><img src="images/TuckshopLogo.PNG" alt="TuckShop logo" height="100px"></a>\
         <a href="index.html" class="nav-link">Home</a>\
-        <a href="about.html" class="nav-link">About us</a>\
+        <a href="about.html" class="nav-link">About Us</a>\
     </div>\
     <div id="authentication"></div>\
 </div>'

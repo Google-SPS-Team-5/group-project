@@ -13,7 +13,7 @@ async function isLoggedin() {
     const userJson = await response.json();
     var navBarContainer = document.getElementById("authentication");
     if (userJson.userEmail) {
-        navBarContainer.innerHTML = navBarUserLoggedIn(userJson.userEmail, userJson.url, userJson.isAdmin)
+        navBarContainer.innerHTML = navBarUserLoggedIn(userJson.username, userJson.url, userJson.isAdmin)
     } else {
         navBarContainer.innerHTML = navBarUserLoggedOut(userJson.url)
     }

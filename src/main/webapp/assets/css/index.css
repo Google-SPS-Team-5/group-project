@@ -1,17 +1,21 @@
 /* Product Listing Section */
-
+#tab-content {
+  margin: 0 2rem 10rem 2rem;
+  background-color: #ff98a1;
+}
 /* Mobile */
 .product-listings-container {
   max-width: 100%;
   display: grid;
-  grid-gap: 1rem;
+  grid-gap: 3rem;
+  padding: 5rem 3rem;
 }
 
 /* Medium Displays */
 
 @media (min-width: 600px) {
   .product-listings-container { 
-    grid-template-columns: repeat(2, 1fr); 
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -19,16 +23,17 @@
 
 @media (min-width: 900px) {
   .product-listings-container { 
-    grid-template-columns: repeat(3, 1fr); 
+    grid-template-columns: repeat(4, 1fr); 
   }
 }
 
 .product-listings-wrapper {
   text-align: center;
+  margin-top: 5rem;
 }
 
 .product-listing-card {
-  background-color: #dddddd;
+  background-color: #FCFBF7;
   width: 100%;
   text-align: center;
   border-radius: 5px;
@@ -36,17 +41,11 @@
 
 .product-listing-card img {
   transition: transform 0.5s, filter 1s cubic-bezier(0, 0, 0.2, 1);
-  transform: scale(1.2);
-
-}
-
-.product-listing-card:hover img {
   transform: scale(1);
 }
 
-.price {
-  color: #2c2c2c;
-  font-size: 18px;
+.product-listing-card:hover img {
+  transform: scale(1.1);
 }
 
 .product-listing-image {
@@ -63,13 +62,145 @@
   font-size: 16px;
 }
 
-/* Map section */
+#featured-listing {
+  background-color: #FFE6A6;
+}
 
+#filter-buttons {
+  overflow: hidden;
+  background-color: #2F586F ;
+  margin: 0 2rem;
+}
+
+#filter-buttons button:hover {
+  background-color: #26485B;
+}
+
+#filter-buttons button.active {
+  background-color: #ff98a1;
+  color: #2F586F;
+  font-weight: bold;
+}
+
+.map-btn {
+  float: right !important;
+}
+
+.filter-btn {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+  color: white;
+}
+
+.category-pill {
+  padding: 5px 8px;
+  margin: 0 2px;
+  background-color: lightgray;
+  border-radius: 50px;
+}
+
+/* Carousel */
+.carousel-image {
+    width: 100%;
+    height: 100%;
+}
+
+.find-out-more-btn {
+    position: absolute; 
+    bottom: 20%; 
+    left: 55%;
+    background-color: #00b5ad;
+    color: white;
+    text-transform: uppercase;
+    font-weight: bold;
+    border: none;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 50px;
+}
+
+.carousel-text{
+    position: absolute; 
+    top: 10%;
+    left: 55%;
+}
+
+.carousel-container {
+    position: relative;
+}
+/* Search Bar */
+
+#search-container {
+  display: flex;
+  justify-content: center;
+  margin: 5rem 0 2rem 0;
+}
+
+#search-container input[type=text] {
+  border: 1px solid grey;
+  border-radius: 50px;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  outline: 0;
+  background-color: #fff;
+}
+
+#search-container form {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 60%;
+}
+
+
+#search-container button {
+  background-color: transparent;
+  border: none;
+  position: absolute;
+  right: 5px;
+}
+
+.fa.fa-search{
+  font-size: 1.5rem;
+}
+
+#loadMore {
+  padding-bottom: 30px;
+  padding-top: 30px;
+  text-align: center;
+  width: 100%;
+}
+
+#loadMore a {
+  background: #2F586F;
+  border-radius: 50px;
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+  display: inline-block;
+  padding: 15px 32px;
+  transition: all 0.25s ease-out;
+}
+
+.listing-name {
+  color: black;
+}
+
+/* Map section */
 #map-container {
   text-align: center;
-  height: 50%;
-  width: 100%;
-  padding: 50px 0px;
+  height: 500px;
+  padding: 2rem;
 }
 
 #map {

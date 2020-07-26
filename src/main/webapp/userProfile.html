@@ -3,34 +3,36 @@
     <head>
         <title></title> 
         <link rel = "stylesheet" href = "assets/css/profile-page.css">
+        <link rel="stylesheet" href="assets/css/global.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="https://kit.fontawesome.com/bf05d78857.js" crossorigin="anonymous"></script>
+        <script src="assets/js/userprofile.js"></script>
     </head>
-    <body>
+    <body onload="getUserInformation()">
         <script src="assets/js/navbar.js"></script>
         <div class="user-information">
             <div>
-                <img src = "images/stitchIcon.png" style = "height:140px; padding:10px;">
+                <img id="avatar" src="images/placeholder.jpg" />
             </div>
             <div>
-                <p style = "text-align: left; margin-block-start: 25px; margin-block-end: 10px; font-size: 20px;">
-                    username of User 
-                    &nbsp;&nbsp;
-                    <button class="edit-profile-button">Edit Profile</button>
-                </p>
                 <div style = "text-align: left;">
                     name of user?<br />
                     email of user?<br />
                     bio?<br />
                     number of favourite<br />
                 </div>
+                <button class="edit-profile-button">Edit Profile</button>
             </div>
+          </div>
+          <div>
+            <button class="edit-profile-button">Edit Profile</button>
+          </div>
         </div>
         <div class="user-preference">
-            <div>
+            <div id="favourites-business"> 
                 FAVOURITES
             </div>
-            <div>
-                PAST REVIEWS
-            </div>
         </div>
+        <script src="assets/js/footer.js"></script>
     </body>
 </html>
