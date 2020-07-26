@@ -10,8 +10,6 @@ async function populateProductDetails() {
   populateImageGallery(business.photoBlobstoreUrlList);
   populateBusinessWriteup(business);
   populateContactDetails(business);
-
-  
 }
 
 async function getBusinessData() {
