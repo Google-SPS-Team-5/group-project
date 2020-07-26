@@ -120,14 +120,21 @@
             maxlength="5000"
           ></textarea
           ><br />
-          <label for="star-rating">Rate (1-5): </label>
-            <i id="rating-1" class="fas fa-star gray-star" aria-hidden="true" style="cursor: pointer"></i>
-            <i id="rating-2" class="fas fa-star gray-star" aria-hidden="true" style="cursor: pointer"></i>
-            <i id="rating-3" class="fas fa-star gray-star" aria-hidden="true" style="cursor: pointer"></i>
-            <i id="rating-4" class="fas fa-star gray-star" aria-hidden="true" style="cursor: pointer"></i>
-            <i id="rating-5" class="fas fa-star gray-star" aria-hidden="true" style="cursor: pointer"></i>
-          <input id="star-rating" type="range" class="star-rating" name="star-rating" min="1" max="5" style="visibility: hidden">
-          <br /><br />
+          <div class="star-rating">
+          <fieldset>
+            <input type="radio" id="rating-1" aria-hidden="true" name="star-rating" value="5" required />
+            <label for="rating-1" title="Excellent">5 stars</label>
+            <input type="radio" id="rating-2" aria-hidden="true" name="star-rating" value="4" required />
+            <label for="rating-2" title="Good">4 stars</label>
+            <input type="radio" id="rating-3" aria-hidden="true" name="star-rating" value="3" required />
+            <label for="rating-3" title="Satisfactory">3 stars</label>
+            <input type="radio" id="rating-4" aria-hidden="true" name="star-rating" value="2" required />
+            <label for="rating-4" title="Good">2 stars</label>
+            <input type="radio" id="rating-5" aria-hidden="true" name="star-rating" value="1" required />
+            <label for="rating-5" title="Very Poor">1 star</label>
+          </fieldset>
+          </div>
+          <br />
           <button type="submit">Submit</button>
         </form>
       </div>
