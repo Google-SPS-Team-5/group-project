@@ -48,12 +48,12 @@
 }
 
 .name-and-date {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .rating {
-    align-self: center;
+  align-self: center;
 }
 
 /** Star rating input with hover effect */

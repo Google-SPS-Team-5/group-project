@@ -91,6 +91,24 @@
   color: #fce205;
 }
 
+.star {
+  display: inline-block;
+  position: relative;
+  font-size: 30px;
+  color: #ddd;
+}
+
+.star:after {
+  font-family: Font Awesome 5 Free;
+  content: "\f005";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 50%;
+  overflow: hidden;
+  color: #fce205;
+}
+
 mark {
   padding: 0.4rem;
   border-radius: 0.8rem;
