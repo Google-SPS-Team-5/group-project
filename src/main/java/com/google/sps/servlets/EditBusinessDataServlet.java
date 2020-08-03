@@ -116,8 +116,12 @@ public class EditBusinessDataServlet extends HttpServlet {
       String existingLogo = request.getParameter(BUSINESS_EXISTING_LOGO);
       List<String> logoUrlBlobList = getUploadedPicturesUrlsFromBlobstore(request, BUSINESS_LOGO);
       String logoUrl = prepareLogoUrl(existingLogo, logoUrlBlobList);
-
       String[] existingPicturesUrls = request.getParameter(BUSINESS_EXISTING_PICTURES).split(",");
+
+      if (existingPicturesUrls.length == 1 && (existingPicturesUrls[0] == "" || existingPicturesUrls[0] == null || existingPicturesUrls[0].isEmpty())) {
+        existingPicturesUrls = null;
+      }
+      
       List<String> newPicturesUrls = getUploadedPicturesUrlsFromBlobstore(request, BUSINESS_PICTURES);
       List<String> picturesUrls = preparePicturesUrls(existingPicturesUrls, newPicturesUrls);
 
