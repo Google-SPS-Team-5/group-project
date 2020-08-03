@@ -8,6 +8,7 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Text;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.images.ImagesService;
@@ -66,8 +67,7 @@ public class BusinessDataServlet extends HttpServlet {
       String businessLink = (String) entity.getProperty(BUSINESS_LINK);
       String menuLink = (String) entity.getProperty(BUSINESS_MENU_LINK);
       String logoUrl = (String) entity.getProperty(BUSINESS_LOGO);
-      String[] picturesUrlsArr = gson.fromJson((String) entity.getProperty(BUSINESS_PICTURES), String[].class);
-      List<String> picturesUrls = picturesUrlsArr == null ? new ArrayList<String>() : Arrays.asList(picturesUrlsArr);
+      List<String> picturesUrls = getPhotoUrlList(entity);
       float rating = ((Double) entity.getProperty(BUSINESS_RATING)).floatValue();
       String[] reviewsArr = gson.fromJson((String) entity.getProperty(BUSINESS_REVIEWS), String[].class);
       List<String> reviews = reviewsArr == null ? new ArrayList<String>() : Arrays.asList(reviewsArr);
@@ -162,12 +162,14 @@ public class BusinessDataServlet extends HttpServlet {
         // Handle all blobkeys
         List<String> urls = new ArrayList<String>();
 
+
+        ImagesService imagesService = ImagesServiceFactory.getImagesService();
+
         for (BlobKey blobKey : blobKeys) {
         // We could check the validity of the file here, e.g. to make sure it's an image file
         // https://stackoverflow.com/q/10779564/873165
 
         // Use ImagesService to get a URL that points to the uploaded file.
-        ImagesService imagesService = ImagesServiceFactory.getImagesService();
         ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
         String url = imagesService.getServingUrl(options);
 
@@ -198,6 +200,22 @@ public class BusinessDataServlet extends HttpServlet {
       data = parser.parse(business);
       id = ID;
     }
+  }
+
+  private List<String> getPhotoUrlList(Entity entity) {
+    String[] picturesUrlsArr;
+
+    Object uncastedPhotoList = entity.getProperty(BUSINESS_PICTURES);
+    System.out.println(uncastedPhotoList);
+    if (uncastedPhotoList instanceof Text) {
+      String castedPhotoListJson = ((Text) uncastedPhotoList).getValue();
+      picturesUrlsArr = gson.fromJson(castedPhotoListJson , String[].class);
+    } else {
+      picturesUrlsArr = gson.fromJson((String) uncastedPhotoList, String[].class);
+    }
+
+    List<String> picturesUrls = picturesUrlsArr == null ? new ArrayList<String>() : Arrays.asList(picturesUrlsArr);
+    return picturesUrls;
   }
 
 }

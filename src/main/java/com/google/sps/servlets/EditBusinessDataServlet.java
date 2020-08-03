@@ -11,6 +11,7 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Text;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.images.ImagesService;
@@ -43,6 +44,8 @@ public class EditBusinessDataServlet extends HttpServlet {
 
   Gson gson = new Gson();
   DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+  BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+  ImagesService imagesService = ImagesServiceFactory.getImagesService();
  
   /** Writes a JSON-ified of a specific from the Datastore. The key is taken from the URL parameter.
   */
@@ -51,7 +54,7 @@ public class EditBusinessDataServlet extends HttpServlet {
     try {
         Long businessId = Long.parseLong(request.getParameter("businessID"));
         Key businessKey = KeyFactory.createKey("Business", businessId);    
-        Entity businessEntity = getBusinessEntity(datastore, businessKey);
+        Entity businessEntity = getBusinessEntity(businessKey);
 
         // Get the input from the form
         String name = (String) businessEntity.getProperty(BUSINESS_NAME);
@@ -68,8 +71,7 @@ public class EditBusinessDataServlet extends HttpServlet {
         String businessLink = (String) businessEntity.getProperty(BUSINESS_LINK);
         String menuLink = (String) businessEntity.getProperty(BUSINESS_MENU_LINK);
         String logoUrl = (String) businessEntity.getProperty(BUSINESS_LOGO);
-        String[] picturesUrlsArr = gson.fromJson((String) businessEntity.getProperty(BUSINESS_PICTURES), String[].class);
-        List<String> picturesUrls = picturesUrlsArr == null ? new ArrayList<String>() : Arrays.asList(picturesUrlsArr);
+        List<String> picturesUrls = getPhotoUrlList(businessEntity);
         float rating = ((Double) businessEntity.getProperty(BUSINESS_RATING)).floatValue();
         String[] reviewsArr = gson.fromJson((String) businessEntity.getProperty(BUSINESS_REVIEWS), String[].class);
         List<String> reviews = reviewsArr == null ? new ArrayList<String>() : Arrays.asList(reviewsArr);
@@ -94,52 +96,52 @@ public class EditBusinessDataServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     try {
-    Long businessId = Long.parseLong(request.getParameter(BUSINESS_ID));
-    Key businessKey = KeyFactory.createKey("Business", businessId);
-     // Get the input from the form
-    String name = request.getParameter(BUSINESS_NAME);
-    String desc = request.getParameter(BUSINESS_DESC);
-    String[] categoriesArr = request.getParameterValues(BUSINESS_CATEGORIES);
-    List<String> categories = categoriesArr == null ? new ArrayList<String>() : Arrays.asList(categoriesArr);
-    String address = request.getParameter(BUSINESS_ADDRESS);
-    float addressLat = getFloatParameter(request, BUSINESS_ADDRESS_LAT);
-    float addressLng = getFloatParameter(request, BUSINESS_ADDRESS_LNG);
-    String contactDetails = request.getParameter(BUSINESS_CONTACT_INFO);
-    String orderDetails = request.getParameter(BUSINESS_ORDER_INFO);
-    float minPrice = getFloatParameter(request, BUSINESS_MIN_PRICE);
-    float maxPrice = getFloatParameter(request, BUSINESS_MAX_PRICE);
-    String businessLink = request.getParameter(BUSINESS_LINK);
-    String menuLink = request.getParameter(BUSINESS_MENU_LINK);
-    
-    String existingLogo = request.getParameter(BUSINESS_EXISTING_LOGO);
-    List<String> logoUrlBlobList = getUploadedPicturesUrlsFromBlobstore(request, BUSINESS_LOGO);
-    String logoUrl = prepareLogoUrl(existingLogo, logoUrlBlobList);
+      Long businessId = Long.parseLong(request.getParameter(BUSINESS_ID));
+      Key businessKey = KeyFactory.createKey("Business", businessId);
+      // Get the input from the form
+      String name = request.getParameter(BUSINESS_NAME);
+      String desc = request.getParameter(BUSINESS_DESC);
+      String[] categoriesArr = request.getParameterValues(BUSINESS_CATEGORIES);
+      List<String> categories = categoriesArr == null ? new ArrayList<String>() : Arrays.asList(categoriesArr);
+      String address = request.getParameter(BUSINESS_ADDRESS);
+      float addressLat = getFloatParameter(request, BUSINESS_ADDRESS_LAT);
+      float addressLng = getFloatParameter(request, BUSINESS_ADDRESS_LNG);
+      String contactDetails = request.getParameter(BUSINESS_CONTACT_INFO);
+      String orderDetails = request.getParameter(BUSINESS_ORDER_INFO);
+      float minPrice = getFloatParameter(request, BUSINESS_MIN_PRICE);
+      float maxPrice = getFloatParameter(request, BUSINESS_MAX_PRICE);
+      String businessLink = request.getParameter(BUSINESS_LINK);
+      String menuLink = request.getParameter(BUSINESS_MENU_LINK);
+      
+      String existingLogo = request.getParameter(BUSINESS_EXISTING_LOGO);
+      List<String> logoUrlBlobList = getUploadedPicturesUrlsFromBlobstore(request, BUSINESS_LOGO);
+      String logoUrl = prepareLogoUrl(existingLogo, logoUrlBlobList);
 
-    String[] existingPicturesUrls = request.getParameter(BUSINESS_EXISTING_PICTURES).split(",");
-    List<String> newPicturesUrls = getUploadedPicturesUrlsFromBlobstore(request, BUSINESS_PICTURES);
-    List<String> picturesUrls = preparePicturesUrls(existingPicturesUrls, newPicturesUrls);
+      String[] existingPicturesUrls = request.getParameter(BUSINESS_EXISTING_PICTURES).split(",");
+      List<String> newPicturesUrls = getUploadedPicturesUrlsFromBlobstore(request, BUSINESS_PICTURES);
+      List<String> picturesUrls = preparePicturesUrls(existingPicturesUrls, newPicturesUrls);
 
-    Entity businessEntity = getBusinessEntity(datastore, businessKey);
-    
-    businessEntity.setProperty(BUSINESS_NAME, name);
-    businessEntity.setProperty(BUSINESS_DESC, desc);
-    businessEntity.setProperty(BUSINESS_CATEGORIES, gson.toJson(categories));
-    businessEntity.setProperty(BUSINESS_ADDRESS, address);
-    businessEntity.setProperty(BUSINESS_ADDRESS_LAT, addressLat);
-    businessEntity.setProperty(BUSINESS_ADDRESS_LNG, addressLng);
-    businessEntity.setProperty(BUSINESS_CONTACT_INFO, contactDetails);
-    businessEntity.setProperty(BUSINESS_ORDER_INFO, orderDetails);
-    businessEntity.setProperty(BUSINESS_LINK, businessLink);
-    businessEntity.setProperty(BUSINESS_MENU_LINK, menuLink);
-    businessEntity.setProperty(BUSINESS_MIN_PRICE, minPrice);
-    businessEntity.setProperty(BUSINESS_MAX_PRICE, maxPrice);
-    businessEntity.setProperty(BUSINESS_LOGO, logoUrl);
-    businessEntity.setProperty(BUSINESS_PICTURES, gson.toJson(picturesUrls));
+      Entity businessEntity = getBusinessEntity(businessKey);
+      
+      businessEntity.setProperty(BUSINESS_NAME, name);
+      businessEntity.setProperty(BUSINESS_DESC, desc);
+      businessEntity.setProperty(BUSINESS_CATEGORIES, gson.toJson(categories));
+      businessEntity.setProperty(BUSINESS_ADDRESS, address);
+      businessEntity.setProperty(BUSINESS_ADDRESS_LAT, addressLat);
+      businessEntity.setProperty(BUSINESS_ADDRESS_LNG, addressLng);
+      businessEntity.setProperty(BUSINESS_CONTACT_INFO, contactDetails);
+      businessEntity.setProperty(BUSINESS_ORDER_INFO, orderDetails);
+      businessEntity.setProperty(BUSINESS_LINK, businessLink);
+      businessEntity.setProperty(BUSINESS_MENU_LINK, menuLink);
+      businessEntity.setProperty(BUSINESS_MIN_PRICE, minPrice);
+      businessEntity.setProperty(BUSINESS_MAX_PRICE, maxPrice);
+      businessEntity.setProperty(BUSINESS_LOGO, logoUrl);
+      businessEntity.setProperty(BUSINESS_PICTURES, new Text(gson.toJson(picturesUrls)));
 
-    storeBusinessEntity(datastore, businessEntity);
+      storeBusinessEntity(businessEntity);
 
-    // Redirect back to the product page.
-    response.sendRedirect("/index.html");
+      // Redirect back to the product page.
+      response.sendRedirect("/index.html");
     } catch (IOException err) {
       System.out.println(err);
     } catch (EntityNotFoundException err) {
@@ -147,13 +149,13 @@ public class EditBusinessDataServlet extends HttpServlet {
     } 
   }
 
-  private Entity getBusinessEntity(DatastoreService datastore, Key businessKey) throws EntityNotFoundException {
+  private Entity getBusinessEntity(Key businessKey) throws EntityNotFoundException {
     Entity businessEntity = datastore.get(businessKey);
     return businessEntity;
   }
 
 
-  private void storeBusinessEntity(DatastoreService datastore, Entity businessEntity) throws EntityNotFoundException {
+  private void storeBusinessEntity(Entity businessEntity) throws EntityNotFoundException {
     datastore.put(businessEntity);
   }
 
@@ -175,7 +177,7 @@ public class EditBusinessDataServlet extends HttpServlet {
       }
   }
   
-  /** Appends the newly uplaoded urls to the urls of existing images. 
+  /** Appends the newly uploaded urls to the urls of existing images. 
   */
   private List<String> preparePicturesUrls(String[] existingUrlsArr, List<String> newUrls) {
       if (existingUrlsArr == null || existingUrlsArr.length == 0) {
@@ -200,7 +202,7 @@ public class EditBusinessDataServlet extends HttpServlet {
   */
   private List<String> getUploadedPicturesUrlsFromBlobstore(HttpServletRequest request, String formInputElementName) throws ImagesServiceFailureException {
     try {
-        BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+        
         Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
         List<BlobKey> blobKeys = blobs.get(formInputElementName);
 
@@ -211,13 +213,14 @@ public class EditBusinessDataServlet extends HttpServlet {
 
         // Handle all blobkeys
         List<String> urls = new ArrayList<String>();
+        
 
         for (BlobKey blobKey : blobKeys) {
         // We could check the validity of the file here, e.g. to make sure it's an image file
         // https://stackoverflow.com/q/10779564/873165
 
         // Use ImagesService to get a URL that points to the uploaded file.
-        ImagesService imagesService = ImagesServiceFactory.getImagesService();
+        
         ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
         String url = imagesService.getServingUrl(options);
         // GCS's localhost preview is not actually on localhost,
@@ -245,6 +248,21 @@ public class EditBusinessDataServlet extends HttpServlet {
     } else {
       return Float.parseFloat(floatStr);
     }
+  }
+
+  private List<String> getPhotoUrlList(Entity entity) {
+    String[] picturesUrlsArr;
+
+    Object uncastedPhotoList = entity.getProperty(BUSINESS_PICTURES);
+    if (uncastedPhotoList instanceof Text) {
+      String castedPhotoListJson = ((Text) uncastedPhotoList).getValue();
+      picturesUrlsArr = gson.fromJson(castedPhotoListJson , String[].class);
+    } else {
+      picturesUrlsArr = gson.fromJson((String) uncastedPhotoList, String[].class);
+    }
+
+    List<String> picturesUrls = picturesUrlsArr == null ? new ArrayList<String>() : Arrays.asList(picturesUrlsArr);
+    return picturesUrls;
   }
 
 }
