@@ -173,19 +173,12 @@ function generateRating(business){
   }
   
   var starHTML = '';
-  let rating = business.aggregatedRating;
   for (let i=0; i<5; i++) {
-    if (rating >= 1.0) {
+    if (i+0.5<=business.aggregatedRating) {
       starHTML += '<i class="fas fa-star yellow-star"></i>';
-    } else if (rating > 0) {
-      starHTML += '<i class="star fa fa-star"></i>';
-      let styleElem = document.head.appendChild(document.createElement("style")); // hacky way to overwrite the star width
-      let percentage = (rating - Math.floor(rating))*100;
-      styleElem.innerHTML = `.star:after {width: ${percentage}%;}`;
     } else {
       starHTML += '<i class="fas fa-star gray-star"></i>';
     }
-    rating -= 1;
   }
   ratingContainer.innerHTML = parseFloat(business.aggregatedRating).toFixed(2) + " " + starHTML;
 }
