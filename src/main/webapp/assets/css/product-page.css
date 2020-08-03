@@ -99,12 +99,10 @@
 }
 
 .star:after {
-  font-family: Font Awesome 5 Free;
   content: "\f005";
   position: absolute;
-  left: 0;
+  left: 0;  
   top: 0;
-  width: 50%;
   overflow: hidden;
   color: #fce205;
 }
