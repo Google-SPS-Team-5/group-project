@@ -31,26 +31,31 @@ public class AuthenticationServlet extends HttpServlet {
     UserService userService = UserServiceFactory.getUserService();
 
     if (userService.isUserLoggedIn()) {
-      String userEmail = userService.getCurrentUser().getEmail();
       String urlToRedirectToAfterUserLogsOut = request.getHeader("referer");
       if (urlToRedirectToAfterUserLogsOut == "" || urlToRedirectToAfterUserLogsOut == null){
-        urlToRedirectToAfterUserLogsOut = "/";
+          urlToRedirectToAfterUserLogsOut = "/";
       }
-      String username = userService.getCurrentUser().getNickname();
       Boolean isAdmin = userService.isUserAdmin();
       String logoutUrl = userService.createLogoutURL(urlToRedirectToAfterUserLogsOut);
-
-      Entity user = CheckForUserProfile(userEmail, username);
-      String json = String.format(USER_JSON_DETAILS, userEmail, logoutUrl, isAdmin, username, Arrays.asList(gson.fromJson((String)user.getProperty(USER_FAVOURITES), String[].class)));
       
+      String userEmail = userService.getCurrentUser().getEmail();
+      String username = userService.getCurrentUser().getNickname();
+      Entity user = CheckForUserProfile(userEmail, username);
+      Boolean isBusinessOwner = false;
+      if ((String) user.getProperty(USER_BUSINESS_OWNERSHIP) != NONE) {
+          isBusinessOwner = true;
+      }
+
+      String json = String.format(USER_JSON_DETAILS, userEmail, logoutUrl, isAdmin, isBusinessOwner, username, 
+                                  Arrays.asList(gson.fromJson((String)user.getProperty(USER_FAVOURITES),
+                                  String[].class)));
       response.getWriter().println(json);
     } else {
       String urlToRedirectToAfterUserLogsIn = request.getHeader("referer");
       if (urlToRedirectToAfterUserLogsIn == "" || urlToRedirectToAfterUserLogsIn == null){
-        urlToRedirectToAfterUserLogsIn = "/";
+      urlToRedirectToAfterUserLogsIn = "/";
       }
       String loginUrl = userService.createLoginURL(urlToRedirectToAfterUserLogsIn);
-
       String json = String.format(USER_JSON_DETAILS, "", loginUrl, "", "", null);
       response.getWriter().println(json);
     }
@@ -64,6 +69,7 @@ public class AuthenticationServlet extends HttpServlet {
       userEntity = new Entity("User", userEmail);
       userEntity.setProperty(USER_NAME, username);
       userEntity.setProperty(USER_FAVOURITES, gson.toJson(Arrays.asList()));
+      userEntity.setProperty(USER_BUSINESS_OWNERSHIP, NONE);
       datastore.put(userEntity);
     }
 
