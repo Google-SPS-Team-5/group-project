@@ -23,7 +23,7 @@ public class AuthenticationServlet extends HttpServlet {
 
   Gson gson = new Gson();
   DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-  private final String USER_JSON_DETAILS = "{ \"userEmail\": \"%s\", \"url\": \"%s\", \"isAdmin\": \"%s\", \"username\": \"%s\", \"favourites\": \"%s\" }";
+  private final String USER_JSON_DETAILS = "{ \"userEmail\": \"%s\", \"url\": \"%s\", \"isAdmin\": \"%s\", \"isBusinessOwner\": \"%s\", \"username\": \"%s\", \"favourites\": \"%s\" }";
   
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -41,9 +41,10 @@ public class AuthenticationServlet extends HttpServlet {
       String userEmail = userService.getCurrentUser().getEmail();
       String username = userService.getCurrentUser().getNickname();
       Entity user = CheckForUserProfile(userEmail, username);
-      Boolean isBusinessOwner = false;
-      if ((String) user.getProperty(USER_BUSINESS_OWNERSHIP) != NONE) {
-          isBusinessOwner = true;
+      Boolean isBusinessOwner = true;
+      String businessOwnership = (String) user.getProperty(USER_BUSINESS_OWNERSHIP);
+      if (businessOwnership.equals(NONE)) {
+        isBusinessOwner = false;
       }
 
       String json = String.format(USER_JSON_DETAILS, userEmail, logoutUrl, isAdmin, isBusinessOwner, username, 
@@ -53,10 +54,11 @@ public class AuthenticationServlet extends HttpServlet {
     } else {
       String urlToRedirectToAfterUserLogsIn = request.getHeader("referer");
       if (urlToRedirectToAfterUserLogsIn == "" || urlToRedirectToAfterUserLogsIn == null){
-      urlToRedirectToAfterUserLogsIn = "/";
+        urlToRedirectToAfterUserLogsIn = "/";
       }
       String loginUrl = userService.createLoginURL(urlToRedirectToAfterUserLogsIn);
-      String json = String.format(USER_JSON_DETAILS, "", loginUrl, "", "", null);
+
+      String json = String.format(USER_JSON_DETAILS, "", loginUrl, "", "", "", null);
       response.getWriter().println(json);
     }
   }
