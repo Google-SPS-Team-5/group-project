@@ -186,6 +186,8 @@ function getPreviewLogoUrl() {
     }
     
     reader.readAsDataURL(logoUrl.files[0]);
+  } else if (document.getElementById("businessLogoPreview").src){
+    document.getElementById("businessLogo").src = document.getElementById("businessLogoPreview").src;
   }
 }
 
@@ -205,18 +207,27 @@ function buildPhotoDataUrlList() {
 
   //Reset gallery
   if (pictures.files && pictures.files[0]){
-    
 
+    document.getElementById("image-gallery").style.display = "block";
     for (let i = 1; i <= pictures.files.length; i++) {
       var reader = new FileReader();
-      document.getElementById("image-gallery").style.display = "block";
-
+      
       reader.onload = function (e) {
         addToImageGallery(e.target.result, i, pictures.files.length);
       }
 
       reader.readAsDataURL(pictures.files[i-1]);
     }
+
+  } else if (document.getElementById("picturesDiv").childElementCount > 0){
+
+    picturesUrls = document.getElementById("picturesDiv").getElementsByTagName("img");
+    document.getElementById("image-gallery").style.display = "block";
+    
+    for (i = 0; i < picturesUrls.length; i++) {
+      addToImageGallery(picturesUrls[i].src, i+1, picturesUrls.length);
+    }
+
   } else {
     document.getElementById("image-gallery").style.display = "none";
   }
