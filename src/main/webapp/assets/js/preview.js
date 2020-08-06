@@ -1,31 +1,32 @@
 function generatePreview() {
   const business = getPreviewBusinessData();
-
+  console.log(business);
   populateBusinessDescription(business);
-  populateImageGallery(business.photoBlobstoreUrlList);
+  // populateImageGallery(business.photoBlobstoreUrlList);
   populateBusinessWriteup(business);
   populateContactDetails(business);
 
   document.getElementById("product-page-content").style.display = "block";
 }
 
-async function getPreviewBusinessData() {
-  var jsonTemplate = `"{ name":${document.getElementById("name").value},
-                      "categories":${getPreviewCategories()},
-                      "minPrice":${document.getElementById("minPrice").value},
-                      "maxPrice":${document.getElementById("maxPrice").value},
-                      "addressLng":${document.getElementById("addressLng").value},
-                      "addressLat":${document.getElementById("addressLat").value},
-                      "address":${document.getElementById("address").value},
-                      "logoBlobstoreUrl":"",
-                      "photoBlobstoreUrlList":"",
-                      "description":${document.getElementById("desc").value},
-                      "menuUrl":${document.getElementById("menuLink").value},
-                      "orderInformation":${document.getElementById("orderDetails").value},
-                      "contactInformation":${document.getElementById("contactDetails").value},
-                      "websiteUrl":${document.getElementById("businessLink").value}}`;
+function getPreviewBusinessData() {
+  var jsonTemplate = `{ "name":"${document.getElementById("name").value}",
+                        "categories":[${getPreviewCategories()}],
+                        "minPrice":${document.getElementById("minPrice").value},
+                        "maxPrice":${document.getElementById("maxPrice").value},
+                        "addressLng":${document.getElementById("addressLng").value},
+                        "addressLat":${document.getElementById("addressLat").value},
+                        "address":"${document.getElementById("address").value}",
+                        "logoBlobstoreUrl":[],
+                        "photoBlobstoreUrlList":[],
+                        "description":"${document.getElementById("desc").value}",
+                        "menuUrl":"${document.getElementById("menuLink").value}",
+                        "orderInformation":"${document.getElementById("orderDetails").value}",
+                        "contactInformation":"${document.getElementById("contactDetails").value}",
+                        "websiteUrl":"${document.getElementById("businessLink").value}"
+                      }`;
 
-  return jsonTemplate;
+  return JSON.parse(jsonTemplate);
 }
 
 function populateBusinessDescription(business) {
@@ -34,7 +35,10 @@ function populateBusinessDescription(business) {
   document.getElementById("businessLogo").src = business.logoBlobstoreUrl;
 
   const categoryContainer = document.getElementById("businessCategories");
-  business.categories.forEach(category => categoryContainer.appendChild(createCategoryElement(category)));
+  if (business.categories) {
+    business.categories.forEach(category => categoryContainer.appendChild(createCategoryElement(category)));
+  }
+  
 
   const businessUrlElement = document.getElementById("businessUrl")
   if (business.websiteUrl){
@@ -42,8 +46,6 @@ function populateBusinessDescription(business) {
   } else {
     businessUrlElement.target = "";
   }
-  
-  generateRating(business);
 
   initBusinessMap(business);
 
@@ -90,7 +92,7 @@ function populateBusinessWriteup(business) {
   
 }
 
-function populateContactDetails() {
+function populateContactDetails(business) {
   document.getElementById("orderInfo").innerHTML = nullOrPlaceholderString(business.orderInformation, "<i>Sorry, this business doesn't have order information yet!</i>");
   var contactUrlElement = document.getElementById("contactUrl");
   if (business.contactUrl) {
@@ -160,34 +162,6 @@ function createEditBusinessLink(isAdmin) {
   }  
 }
 
-function generateRating(business){
-  const ratingContainer = document.getElementById("aggregateRating");
-
-  if (business.aggregatedRating == 404){
-    ratingContainer.style.fontSize = "14px";
-    ratingContainer.style.fontStyle = "italic"
-    ratingContainer.innerHTML = "No ratings yet";
-    return;
-  }
-  
-  var starHTML = '';
-  let rating = business.aggregatedRating;
-  for (let i=0; i<5; i++) {
-    if (rating >= 1.0) {
-      starHTML += '<i class="fas fa-star yellow-star"></i>';
-    } else if (rating > 0) {
-      starHTML += '<i class="star fa fa-star"></i>';
-      let styleElem = document.head.appendChild(document.createElement("style")); // hacky way to overwrite the star width
-      let percentage = (rating - Math.floor(rating))*100;
-      styleElem.innerHTML = `.star:after {width: ${percentage}%;}`;
-    } else {
-      starHTML += '<i class="fas fa-star gray-star"></i>';
-    }
-    rating -= 1;
-  }
-  ratingContainer.innerHTML = parseFloat(business.aggregatedRating).toFixed(2) + " " + starHTML;
-}
-
 function initBusinessMap(business) {
   const map = document.getElementById("map");
   if(business.addressLng !== 404 || business.addressLat !== 404){
@@ -212,7 +186,7 @@ function getPreviewCategories() {
   var selectedCategories = [];
   for (var option of document.getElementById('categories').options) {
     if (option.selected) {
-      selectedCategories.push(option.value);
+      selectedCategories.push("\""+option.value+"\"");
     }
   }
   return selectedCategories;
