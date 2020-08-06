@@ -1,6 +1,5 @@
 function generatePreview() {
   const business = getPreviewBusinessData();
-  console.log(business);
   populateBusinessDescription(business);
   populateBusinessWriteup(business);
   populateContactDetails(business);
@@ -197,9 +196,17 @@ function populatePreviewLogo(url) {
 function buildPhotoDataUrlList() {
   const pictures = document.getElementById("pictures");
 
+  const imagePreviewGallery = document.getElementById("image-thumbnail-gallery");
+  const modalGalleryContainer = document.getElementById("slides-container");
+  const modalGalleryImagePreviewContainer = document.getElementById("gallery-thumbnail-container");    
+  imagePreviewGallery.textContent = "";
+  modalGalleryContainer.textContent = "";
+  modalGalleryImagePreviewContainer.textContent = "";
+
   //Reset gallery
   if (pictures.files && pictures.files[0]){
     
+
     for (let i = 1; i <= pictures.files.length; i++) {
       var reader = new FileReader();
       document.getElementById("image-gallery").style.display = "block";
@@ -208,7 +215,9 @@ function buildPhotoDataUrlList() {
         addToImageGallery(e.target.result, i, pictures.files.length);
       }
 
-      reader.readAsDataURL(pictures.files[i]);
+      reader.readAsDataURL(pictures.files[i-1]);
     }
+  } else {
+    document.getElementById("image-gallery").style.display = "none";
   }
 }
