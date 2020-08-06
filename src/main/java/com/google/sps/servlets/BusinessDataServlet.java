@@ -209,7 +209,7 @@ public class BusinessDataServlet extends HttpServlet {
     System.out.println(uncastedPhotoList);
     if (uncastedPhotoList instanceof Text) {
       String castedPhotoListJson = ((Text) uncastedPhotoList).getValue();
-      picturesUrlsArr = gson.fromJson(castedPhotoListJson , String[].class);
+      picturesUrlsArr = gson.fromJson(castedPhotoListJson, String[].class);
     } else {
       picturesUrlsArr = gson.fromJson((String) uncastedPhotoList, String[].class);
     }
