@@ -31,7 +31,7 @@ async function initHomePage() {
   numProductsLoaded = Math.min(INITIAL_PRODUCT_LOAD, businesses.length);
   products = document.getElementsByClassName("product-listing-card");
   if (numProductsLoaded >= products.length) {
-    let constant = document.getElementById("loadMore").innerHTML = "";
+    document.getElementById("loadMore").innerHTML = "";
   } else {
     for (i = numProductsLoaded; i < products.length; i++) {
       products[i].style.display = "none";
@@ -39,13 +39,16 @@ async function initHomePage() {
   }
 }
 
+/**
+ * Show more products.
+ */
 function loadMoreProducts() {
   const newProductsToLoad = Math.min(numProductsLoaded + INITIAL_PRODUCT_LOAD, products.length);
   for (; numProductsLoaded < newProductsToLoad; numProductsLoaded++) {
     products[numProductsLoaded].style.display = "";
   }
   if (numProductsLoaded == products.length) {
-    let constant = document.getElementById("loadMore").innerHTML = "";
+    document.getElementById("loadMore").style.display = "none";
   }
 }
 
