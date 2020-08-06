@@ -5,11 +5,13 @@
     <title>Add New Business</title>
     <script src="assets/js/authentication.js"></script>
     <script src="assets/js/preview.js"></script>
+    <script src="assets/js/lightbox.js"></script>
     <link rel="stylesheet" href="assets/css/add.css" />
     <link rel="stylesheet" href="assets/css/forms.css" />
     <link rel="stylesheet" href="assets/css/global.css" />
     <link rel="stylesheet" href="assets/css/product-page.css" />
     <link rel="stylesheet" href="assets/css/reviews.css" />
+    <link rel="stylesheet" href="assets/css/lightbox.css" />
     <script src="https://kit.fontawesome.com/bf05d78857.js" crossorigin="anonymous" async></script>
     <link href="https://kit-free.fontawesome.com/releases/latest/css/free.min.css" media="all" rel="stylesheet">
   </head>
@@ -124,7 +126,7 @@
         <label id="logo-file-name"></label>
         <p>Pictures:</p>
         <label for="pictures" id="upload-button">Upload Pictures</label><br />
-        <input type="file" id="pictures" name="pictures" multiple/><br />
+        <input type="file" id="pictures" name="pictures" multiple /><br />
         <label id="pictures-file-names"></label>
         <div style="display: flex; justify-content: flex-end;">
           <button type="button" onclick="generatePreview();" style="margin-right: 1rem;">Preview</button>
@@ -178,7 +180,7 @@
             </iframe>
           </div>
         </div>
-      <div class="image-gallery page-content drop-shadow" style="overflow: overlay; margin-top: 30px; margin-bottom: 30px;">
+      <div class="image-gallery page-content drop-shadow" id="image-gallery" style="overflow: overlay; margin-top: 30px; margin-bottom: 30px; display: none;">
         <div id="image-thumbnail-gallery" class="lightbox-row">
         </div>
 

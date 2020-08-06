@@ -2,7 +2,6 @@ function generatePreview() {
   const business = getPreviewBusinessData();
   console.log(business);
   populateBusinessDescription(business);
-  // populateImageGallery(business.photoBlobstoreUrlList);
   populateBusinessWriteup(business);
   populateContactDetails(business);
 
@@ -17,8 +16,6 @@ function getPreviewBusinessData() {
                         "addressLng":${document.getElementById("addressLng").value},
                         "addressLat":${document.getElementById("addressLat").value},
                         "address":"${document.getElementById("address").value}",
-                        "logoBlobstoreUrl":[],
-                        "photoBlobstoreUrlList":[],
                         "description":"${document.getElementById("desc").value}",
                         "menuUrl":"${document.getElementById("menuLink").value}",
                         "orderInformation":"${document.getElementById("orderDetails").value}",
@@ -26,16 +23,21 @@ function getPreviewBusinessData() {
                         "websiteUrl":"${document.getElementById("businessLink").value}"
                       }`;
 
+  //Form data fetched asynchronously, so not included in json
+  getPreviewLogoUrl();
+  buildPhotoDataUrlList();
+
   return JSON.parse(jsonTemplate);
 }
 
 function populateBusinessDescription(business) {
-  Array.from(document.getElementsByClassName('businessName')).forEach(element => element.innerHTML += business.name);
-
-  document.getElementById("businessLogo").src = business.logoBlobstoreUrl;
+  Array.from(document.getElementsByClassName('businessName')).forEach(element => element.innerHTML = business.name);
 
   const categoryContainer = document.getElementById("businessCategories");
-  if (business.categories) {
+  if (business.categories)
+  {
+    var clone = categoryContainer.cloneNode(false);
+    categoryContainer.parentNode.replaceChild(clone, categoryContainer);
     business.categories.forEach(category => categoryContainer.appendChild(createCategoryElement(category)));
   }
   
@@ -51,32 +53,14 @@ function populateBusinessDescription(business) {
 
 }
 
-function populateImageGallery(photoUrlList) {
-  const urlListLength = photoUrlList.length;
+function addToImageGallery(photoUrl, imageIndex, listLength) {
   const imagePreviewGallery = document.getElementById("image-thumbnail-gallery");
-  if (urlListLength == 1) {
-    if (photoUrlList[0] == ""){
-      Array.from(document.getElementsByClassName('image-gallery')).forEach(element => element.style.display = "none");
-      return;
-    }
-  }
-
-  if (urlListLength == 0){
-    Array.from(document.getElementsByClassName('image-gallery')).forEach(element => element.style.display = "none");
-    return;
-  }
-  
   const modalGalleryContainer = document.getElementById("slides-container");
   const modalGalleryImagePreviewContainer = document.getElementById("gallery-thumbnail-container");
 
-  var imageIndex;
-  
-  for (imageIndex = 1; imageIndex <= urlListLength; imageIndex++) {
-    const url = photoUrlList[imageIndex-1];
-    imagePreviewGallery.appendChild(createThumbnailImageElement(url, imageIndex));
-    modalGalleryContainer.appendChild(createGalleryImageElement(url, imageIndex, urlListLength));
-    modalGalleryImagePreviewContainer.appendChild(createGalleryImagePreviewElement(url, imageIndex));
-  }  
+  imagePreviewGallery.appendChild(createThumbnailImageElement(photoUrl, imageIndex));
+  modalGalleryContainer.appendChild(createGalleryImageElement(photoUrl, imageIndex, listLength));
+  modalGalleryImagePreviewContainer.appendChild(createGalleryImagePreviewElement(photoUrl, imageIndex));
 }
 
 function populateBusinessWriteup(business) {
@@ -190,4 +174,41 @@ function getPreviewCategories() {
     }
   }
   return selectedCategories;
+}
+
+function getPreviewLogoUrl() {
+  const logoUrl = document.getElementById("logo");
+  var logoDataUrl;
+  if (logoUrl.files && logoUrl.files[0]){
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+      populatePreviewLogo(e.target.result);
+    }
+    
+    reader.readAsDataURL(logoUrl.files[0]);
+  }
+}
+
+function populatePreviewLogo(url) {
+  document.getElementById("businessLogo").src = url;
+}
+
+function buildPhotoDataUrlList() {
+  const pictures = document.getElementById("pictures");
+
+  //Reset gallery
+  if (pictures.files && pictures.files[0]){
+    
+    for (let i = 1; i <= pictures.files.length; i++) {
+      var reader = new FileReader();
+      document.getElementById("image-gallery").style.display = "block";
+
+      reader.onload = function (e) {
+        addToImageGallery(e.target.result, i, pictures.files.length);
+      }
+
+      reader.readAsDataURL(pictures.files[i]);
+    }
+  }
 }
