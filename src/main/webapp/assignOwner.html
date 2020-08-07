@@ -18,11 +18,11 @@
         <p>You are being redirected to the home page...</p>
     </div>
     <div id="form-container" style="visibility: hidden; margin: 5rem">
-      <form id="assign-owner-form" method="POST" enctype="multipart/form-data">
+      <form id="assign-owner-form" method="POST" action="/assign-business-ownership">
         <label for="businessID">Business ID:</label><br />
-        <input type="text" id="business-id-field" name="businessID" required/><br />
+        <input type="text" id="businessID" name="businessID" required/><br />
         <label for="email">User ID/email:</label><br />
-        <input type="text" id="user-id-field" name="email" required/><br />
+        <input type="text" id="email" name="email" required/><br />
     
         <div style="display: flex; justify-content: flex-end;">
           <button type="submit" value="Submit">Assign owner</button>
@@ -30,5 +30,6 @@
       </form>
     </div>
     <script src="assets/js/footer.js"></script>
+    <script src="assets/js/assignOwner.js"></script>
   </body>
 </html>

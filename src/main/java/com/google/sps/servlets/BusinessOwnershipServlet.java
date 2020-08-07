@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 /** TODO: Handle checking of business ID validity, and what happens to business ownership when a business is deleted. **/
 /** Servlet that assigns business ownership to users. */
 @WebServlet("/assign-business-ownership")
-public class EditBusinessDataServlet extends HttpServlet {
+public class BusinessOwnershipServlet extends HttpServlet {
 
   Gson gson = new Gson();
   DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -29,9 +29,9 @@ public class EditBusinessDataServlet extends HttpServlet {
     try {
       // Get input from the form
       String businessID = request.getParameter(BUSINESS_ID);
-      Long userID = Long.parseLong(request.getParameter(USER_EMAIL));
+      String userID = request.getParameter(USER_EMAIL);
       Key userKey = KeyFactory.createKey("User", userID);
-      Entity userEntity = getBusinessEntity(datastore, userKey);
+      Entity userEntity = datastore.get(userKey);
       
       // Assign business ownership property.
       userEntity.setProperty(USER_BUSINESS_OWNERSHIP, businessID);
