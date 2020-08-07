@@ -13,7 +13,7 @@ async function isLoggedin() {
     const userJson = await response.json();
     var navBarContainer = document.getElementById("authentication");
     if (userJson.userEmail) {
-        navBarContainer.innerHTML = navBarUserLoggedIn(userJson.username, userJson.url, userJson.isAdmin, userJson.isBusinessOwner);
+        navBarContainer.innerHTML = navBarUserLoggedIn(userJson.username, userJson.url, userJson.isAdmin, userJson.isBusinessOwner, userJson.businessOwnership);
     } else {
         navBarContainer.innerHTML = navBarUserLoggedOut(userJson.url);
     }
@@ -26,7 +26,7 @@ async function isLoggedin() {
  * If user is admin, navbar contains Add New Business.
  * If user is business owner, navbar contains Edit Your Business.
  */
-function navBarUserLoggedIn(userEmail, logoutUrl, isAdmin, isBusinessOwner) {
+function navBarUserLoggedIn(userEmail, logoutUrl, isAdmin, isBusinessOwner, ownedBusinessId) {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
   const businessId = urlParams.get("businessID");
@@ -36,9 +36,9 @@ function navBarUserLoggedIn(userEmail, logoutUrl, isAdmin, isBusinessOwner) {
       <a href="add.html" class="nav-link">Add New Business</a>
       <a href="#" class="nav-link">${userEmail}</a>
       <a href="${logoutUrl}" class="nav-link">Log Out</a>`;
-  } else if (isBusinessOwner === "true") {
+  } else if (isBusinessOwner === "true") { // Generate Edit Your Business button
       return `
-      <a href="#" class="nav-link">Edit Your Business</a>
+      <a href=\`edit.html?businessID=${ownedBusinessId}\` class="nav-link">Edit Your Business</a>
       <a href="#" class="nav-link">${userEmail}</a>
       <a href="${logoutUrl}" class="nav-link">Log Out</a>`
   } else {

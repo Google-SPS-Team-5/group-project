@@ -23,7 +23,13 @@ public class AuthenticationServlet extends HttpServlet {
 
   Gson gson = new Gson();
   DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-  private final String USER_JSON_DETAILS = "{ \"userEmail\": \"%s\", \"url\": \"%s\", \"isAdmin\": \"%s\", \"isBusinessOwner\": \"%s\", \"username\": \"%s\", \"favourites\": \"%s\" }";
+  private final String USER_JSON_DETAILS = "{ \"userEmail\": \"%s\", "
+                                         + "\"url\": \"%s\","
+                                         + "\"isAdmin\": \"%s\", "
+                                         + "\"isBusinessOwner\": \"%s\", "
+                                         + "\"businessOwnership\": \"%s\", "
+                                         + "\"username\": \"%s\", "
+                                         + "\"favourites\": \"%s\" }";
   
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -47,7 +53,7 @@ public class AuthenticationServlet extends HttpServlet {
         isBusinessOwner = false;
       }
 
-      String json = String.format(USER_JSON_DETAILS, userEmail, logoutUrl, isAdmin, isBusinessOwner, username, 
+      String json = String.format(USER_JSON_DETAILS, userEmail, logoutUrl, isAdmin, isBusinessOwner, businessOwnership, username, 
                                   Arrays.asList(gson.fromJson((String)user.getProperty(USER_FAVOURITES),
                                   String[].class)));
       response.getWriter().println(json);
@@ -58,7 +64,7 @@ public class AuthenticationServlet extends HttpServlet {
       }
       String loginUrl = userService.createLoginURL(urlToRedirectToAfterUserLogsIn);
 
-      String json = String.format(USER_JSON_DETAILS, "", loginUrl, "", "", "", null);
+      String json = String.format(USER_JSON_DETAILS, "", loginUrl, "", "", "", "", null);
       response.getWriter().println(json);
     }
   }
