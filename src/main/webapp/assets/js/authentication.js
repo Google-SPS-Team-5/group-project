@@ -39,7 +39,7 @@ function navBarUserLoggedIn(userEmail, logoutUrl, isAdmin, isBusinessOwner, owne
       <a href="${logoutUrl}" class="nav-link">Log Out</a>`;
   } else if (isBusinessOwner === "true") { // Generate Edit Your Business button
       return `
-      <a href=\`edit.html?businessID=${ownedBusinessId}\` class="nav-link">Edit Your Business</a>
+      <a href="edit.html?businessID=${ownedBusinessId}" class="nav-link">Edit Your Business</a>
       <a href="#" class="nav-link">${userEmail}</a>
       <a href="${logoutUrl}" class="nav-link">Log Out</a>`
   } else {
