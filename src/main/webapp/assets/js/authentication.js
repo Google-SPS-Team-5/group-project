@@ -34,6 +34,7 @@ function navBarUserLoggedIn(userEmail, logoutUrl, isAdmin, isBusinessOwner, owne
   if (isAdmin === "true") {
       return `
       <a href="add.html" class="nav-link">Add New Business</a>
+      <a href="assignOwner.html" class="nav-link">Assign Business Ownership</a>
       <a href="#" class="nav-link">${userEmail}</a>
       <a href="${logoutUrl}" class="nav-link">Log Out</a>`;
   } else if (isBusinessOwner === "true") { // Generate Edit Your Business button
