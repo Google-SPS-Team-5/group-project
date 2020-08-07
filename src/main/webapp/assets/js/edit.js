@@ -3,9 +3,13 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 async function showFormOrRedirectOut() {
-    const response = await fetch("/authentication");
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+
+    const response = await fetch(`/authentication?businessID=${urlParams.get("businessID")}`);
     const userJson = await response.json();
-    if (userJson.isAdmin == "true") {
+    // Display form only if user is admin or owns the business
+    if (userJson.isAdmin == "true" || userJson.isVerifiedOwner == "true") {
         fetchBlobstoreUrl();
         populateForm();
         document.getElementById("page-title").style.display = "block";

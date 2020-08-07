@@ -28,6 +28,7 @@ public class AuthenticationServlet extends HttpServlet {
                                          + "\"isAdmin\": \"%s\", "
                                          + "\"isBusinessOwner\": \"%s\", "
                                          + "\"businessOwnership\": \"%s\", "
+                                         + "\"isVerifiedOwner\": \"%s\", "
                                          + "\"username\": \"%s\", "
                                          + "\"favourites\": \"%s\" }";
   
@@ -46,15 +47,20 @@ public class AuthenticationServlet extends HttpServlet {
       
       String userEmail = userService.getCurrentUser().getEmail();
       String username = userService.getCurrentUser().getNickname();
-      Entity user = CheckForUserProfile(userEmail, username);
+      Entity userEntity = CheckForUserProfile(userEmail, username);
       Boolean isBusinessOwner = true;
-      String businessOwnership = (String) user.getProperty(USER_BUSINESS_OWNERSHIP);
+      Boolean isVerifiedOwner = false;
+      String businessOwnership = (String) userEntity.getProperty(USER_BUSINESS_OWNERSHIP);
+      String businessID = request.getParameter(BUSINESS_ID);
       if (businessOwnership.equals(NONE)) {
         isBusinessOwner = false;
+      } else if (businessOwnership.equals(businessID)) {
+        isVerifiedOwner = true;
       }
 
-      String json = String.format(USER_JSON_DETAILS, userEmail, logoutUrl, isAdmin, isBusinessOwner, businessOwnership, username, 
-                                  Arrays.asList(gson.fromJson((String)user.getProperty(USER_FAVOURITES),
+      String json = String.format(USER_JSON_DETAILS, userEmail, logoutUrl, 
+                                  isAdmin, isBusinessOwner, businessOwnership, isVerifiedOwner, username, 
+                                  Arrays.asList(gson.fromJson((String)userEntity.getProperty(USER_FAVOURITES),
                                   String[].class)));
       response.getWriter().println(json);
     } else {
@@ -64,7 +70,7 @@ public class AuthenticationServlet extends HttpServlet {
       }
       String loginUrl = userService.createLoginURL(urlToRedirectToAfterUserLogsIn);
 
-      String json = String.format(USER_JSON_DETAILS, "", loginUrl, "", "", "", "", null);
+      String json = String.format(USER_JSON_DETAILS, "", loginUrl, "", "", "", "", "", null);
       response.getWriter().println(json);
     }
   }
