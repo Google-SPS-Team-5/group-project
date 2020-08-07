@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Assign Business Ownership</title>
+    <script src="assets/js/authentication.js"></script>
+    <link rel="stylesheet" href="assets/css/add.css" />
+    <link rel="stylesheet" href="assets/css/forms.css" />
+    <link rel="stylesheet" href="assets/css/global.css" />
+  </head>
+  <body>
+    <script src="assets/js/navbar.js"></script>
+
+    <h1 id="page-title" style="margin: 2rem 5rem 2rem 5rem; display: none;">Assign Business Ownership</h1>
+
+    <div id="error-message" style="display: none">
+        <h1>Sorry, you do not have permission to view this page!</h1>
+        <p>You are being redirected to the home page...</p>
+    </div>
+    <div id="form-container" style="visibility: hidden; margin: 5rem">
+      <form id="assign-owner-form" method="POST" enctype="multipart/form-data">
+        <label for="business-id">Business ID:</label><br />
+        <input type="text" id="business-id-field" name="business-id" required/><br />
+        <label for="user-id">User ID/email:</label><br />
+        <input type="text" id="user-id-field" name="user-id" required/><br />
+    
+        <div style="display: flex; justify-content: flex-end;">
+          <button type="submit" value="Submit">Assign owner</button>
+        </div>
+      </form>
+    </div>
+    <script src="assets/js/footer.js"></script>
+  </body>
+</html>
