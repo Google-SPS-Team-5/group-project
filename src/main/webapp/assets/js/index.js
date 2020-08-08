@@ -31,7 +31,7 @@ async function initHomePage() {
   numProductsLoaded = Math.min(INITIAL_PRODUCT_LOAD, businesses.length);
   products = document.getElementsByClassName("product-listing-card");
   if (numProductsLoaded >= products.length) {
-    let constant = document.getElementById("loadMore").innerHTML = "";
+    document.getElementById("loadMore").innerHTML = "";
   } else {
     for (i = numProductsLoaded; i < products.length; i++) {
       products[i].style.display = "none";
@@ -39,13 +39,16 @@ async function initHomePage() {
   }
 }
 
+/**
+ * Show more products.
+ */
 function loadMoreProducts() {
   const newProductsToLoad = Math.min(numProductsLoaded + INITIAL_PRODUCT_LOAD, products.length);
   for (; numProductsLoaded < newProductsToLoad; numProductsLoaded++) {
     products[numProductsLoaded].style.display = "";
   }
   if (numProductsLoaded == products.length) {
-    let constant = document.getElementById("loadMore").innerHTML = "";
+    document.getElementById("loadMore").style.display = "none";
   }
 }
 
@@ -98,20 +101,39 @@ function filterCategory(category) {
   document.getElementById(`filter-btn-${category}`).className += " active";
 
   // filter for products
-  let products = document.getElementsByClassName("product-listing-card");
+  let fullProducts = document.getElementsByClassName("product-listing-card");
+  var productsToLoad = [];
 
-  for (let i = 0; i < products.length; i++) {
+  for (let i = 0; i < fullProducts.length; i++) {
     let existingCategories = [];
-    categoryPills = products[i].getElementsByClassName('category-pill');
+    categoryPills = fullProducts[i].getElementsByClassName('category-pill');
     for (let i = 0; i < categoryPills.length; i++) {
       existingCategories.push(categoryPills[i].innerHTML);
     }
+    // only show listings within the category
     if (existingCategories.includes(categorySelected) || categorySelected == "All") {
-      products[i].style.display = "";
+      productsToLoad.push(fullProducts[i]);
     } else {
-      products[i].style.display = "none";
+      fullProducts[i].style.display = "none";
     }
   }
+
+  // show initial products and hide the others
+  numProductsLoaded = 0;
+  for (let i = 0; i < productsToLoad.length; i++) {
+    if (numProductsLoaded < INITIAL_PRODUCT_LOAD) {
+      productsToLoad[i].style.display = "";
+      numProductsLoaded++;
+    } else {
+      productsToLoad[i].style.display = "none";
+    }
+  }
+
+  // show load more button
+  if (numProductsLoaded < productsToLoad.length) {
+    document.getElementById("loadMore").style.display = "";
+  }
+  products = productsToLoad;
 }
 
 /** Shows map tab and hide products
