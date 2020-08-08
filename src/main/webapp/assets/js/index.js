@@ -102,7 +102,7 @@ function filterCategory(category) {
 
   // filter for products
   let fullProducts = document.getElementsByClassName("product-listing-card");
-  var productsToLoad = []
+  var productsToLoad = [];
 
   for (let i = 0; i < fullProducts.length; i++) {
     let existingCategories = [];
@@ -112,7 +112,7 @@ function filterCategory(category) {
     }
     // only show listings within the category
     if (existingCategories.includes(categorySelected) || categorySelected == "All") {
-      productsToLoad.push(fullProducts[i])
+      productsToLoad.push(fullProducts[i]);
     } else {
       fullProducts[i].style.display = "none";
     }
@@ -133,7 +133,7 @@ function filterCategory(category) {
   if (numProductsLoaded < productsToLoad.length) {
     document.getElementById("loadMore").style.display = "";
   }
-  products = productsToLoad
+  products = productsToLoad;
 }
 
 /** Shows map tab and hide products
