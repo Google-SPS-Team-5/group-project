@@ -64,8 +64,10 @@ function populateImages(logoUrl, picturesUrls) {
     logoImg.src = logoUrl;
     logoImg.style.margin = "10px";
     logoImg.height = "150";
+    logoImg.id = "businessLogoPreview";
     var logoDiv = document.getElementById("logoDiv");
     logoDiv.appendChild(logoImg);
+    
 
     // show the existing pictures
     var picturesDiv = document.getElementById("picturesDiv");

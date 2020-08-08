@@ -4,9 +4,16 @@
     <meta charset="UTF-8" />
     <title>Edit Business</title>
     <script src="assets/js/authentication.js"></script>
+    <script src="assets/js/preview.js"></script>
+    <script src="assets/js/lightbox.js"></script>
     <link rel="stylesheet" href="assets/css/add.css" />
     <link rel="stylesheet" href="assets/css/forms.css" />
     <link rel="stylesheet" href="assets/css/global.css" />
+    <link rel="stylesheet" href="assets/css/product-page.css" />
+    <link rel="stylesheet" href="assets/css/reviews.css" />
+    <link rel="stylesheet" href="assets/css/lightbox.css" />
+    <script src="https://kit.fontawesome.com/bf05d78857.js" crossorigin="anonymous" async></script>
+    <link href="https://kit-free.fontawesome.com/releases/latest/css/free.min.css" media="all" rel="stylesheet">
   </head>
   <body>
     <script src="assets/js/navbar.js"></script>
@@ -127,6 +134,7 @@
         <input type="file" id="pictures" name="pictures" multiple/><br />
         <label id="pictures-file-names"></label>
         <div style="display: flex; justify-content: flex-end;">
+          <button type="button" onclick="generatePreview();" style="margin-right: 1rem;">Preview</button>
           <button type="submit" value="Submit">Edit</button>
         </div>
       </form>
@@ -136,6 +144,99 @@
           <button id="delete-button" type="submit" onclick="return confirm('Are you sure?')" value="Submit">Delete</button>
         </div>
       </form>
+      <div id="product-page-content" style="display: none;">
+        <div class="business-description page-content">
+          <div id="business-header" class="drop-shadow">
+            <div id="business-logo-container" style="position: relative">
+              <a id="businessUrl" target="_blank" style="display: flex;justify-content: center; align-items: center; width: 90%; height: 90%">
+                <img id="businessLogo"/>
+              </a>
+            </div>
+            <div>
+              <div style="display:flex;">
+                <div class="businessName" style="padding: 10px 8px"></div>
+              </div>
+              <div id="businessCategories" style="display: inline-block"></div>
+              <div id="aggregateRating" style="position:absolute; bottom:10px;">
+                5.00
+                <i class="fas fa-star yellow-star"></i>
+                <i class="fas fa-star yellow-star"></i>
+                <i class="fas fa-star yellow-star"></i>
+                <i class="fas fa-star yellow-star"></i>
+                <i class="fas fa-star yellow-star"></i>
+              </div>
+            </div>
+            <div id="fav">
+              <form id="fav-form" method="POST">
+                <label class="fav-checkbox">
+                  <input type="checkbox" id="did_favourite" name="did_favourite""/>
+                  <i class="fas fa-heart pink checked"></i>
+                  <i class="far fa-heart gray unchecked"></i>
+                  <span class="checked pink">Favourited</span>
+                  <span class="unchecked gray">Favourite</span>
+                </label>
+                <input id="form-email" type="email" id="email" name="email" style="display: none">
+                <input id="form-businessID" type="businessID" id="businessID" name="businessID" style="display: none">
+              </form>     
+            </div>
+          </div>
+          <div id="map-container" style="height: 100%; width: 100%;">
+            <iframe
+                id="map"
+                width=100%
+                height=100%
+                style="box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);"
+                frameborder="0" style="border:0"
+                allowfullscreen>
+            </iframe>
+          </div>
+        </div>
+      <div class="image-gallery page-content drop-shadow" id="image-gallery" style="overflow: overlay; margin-top: 30px; margin-bottom: 30px; display: none;">
+        <div id="image-thumbnail-gallery" class="lightbox-row">
+        </div>
+
+        <div id="myModal" class="modal">
+          <span class="close cursor" onclick="closeModal()">&times;</span>
+          <div class="modal-content">
+            <div id="slides-container" style="text-align: center;"">
+            </div>
+
+            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+            <div class="caption-container">
+              <p id="caption"></p>
+            </div>
+            
+            <div id="gallery-thumbnail-container" style="display: flex; justify-content: space-between;">
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="business-writeup page-content">
+        <div class="drop-shadow" style="overflow: overlay">
+          <h2 class="businessName">About </h2>
+          <p id="businessDescr">
+          </p>
+          <p id="menuContainer">
+            View the menu <a target="_blank" id="menuUrl">here</a>.
+          </p>
+        </div>
+        <div class="drop-shadow">
+          <h2>Order Information</h2>
+          <p id="orderInfo">
+          <div id="contactDetailsContainer">
+            <h3>Contact Details:</h3>
+            <p>
+              <a target="_blank" id="contactUrl">
+                Contact link
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+      </div>
     </div>
     <script src="assets/js/footer.js"></script>
     <script src="assets/js/edit.js"></script>

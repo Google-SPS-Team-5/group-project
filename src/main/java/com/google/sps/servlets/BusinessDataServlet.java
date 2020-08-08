@@ -206,7 +206,6 @@ public class BusinessDataServlet extends HttpServlet {
     String[] picturesUrlsArr;
 
     Object uncastedPhotoList = entity.getProperty(BUSINESS_PICTURES);
-    System.out.println(uncastedPhotoList);
     if (uncastedPhotoList instanceof Text) {
       String castedPhotoListJson = ((Text) uncastedPhotoList).getValue();
       picturesUrlsArr = gson.fromJson(castedPhotoListJson, String[].class);
