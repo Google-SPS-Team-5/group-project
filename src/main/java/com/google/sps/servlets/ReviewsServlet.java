@@ -48,7 +48,7 @@ public class ReviewsServlet extends HttpServlet {
       DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
       String dateTime = dateTimeObj.format(format);
 
-      // Get username, using email to retrieve user entity. Uncomment when storing of users is done.
+      // Get username, using email to retrieve user entity.
       UserService userService = UserServiceFactory.getUserService();
       String username = "";
       String userEmail = userService.getCurrentUser().getEmail();

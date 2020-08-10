@@ -36,4 +36,6 @@ public final class Constants {
   public static final String USER_EMAIL = "email";
   public static final String USER_FAVOURITES = "favourites";
   public static final String USER_DID_FAVOURITE = "did_favourite";
+  public static final String USER_BUSINESS_OWNERSHIP = "businessOwnership";
+  public static final String NONE = "404";
 }
